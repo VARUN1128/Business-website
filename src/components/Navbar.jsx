@@ -1,270 +1,251 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { NavLink } from 'react-router-dom';
 import styled from 'styled-components';
 import { Bars3Icon, XMarkIcon } from '@heroicons/react/24/outline';
+import mainLogo from '../assets/main_logo1.png';
 
-// Import your logo image from the assets folder
-import mainLogo from '../assets/main_logo.png';
-
-// --- Styled Components Definitions ---
-
-const media = {
-  md: `@media (min-width: 768px)`,
-};
+const breakpointMd = '@media (min-width: 768px)';
 
 const NavHeader = styled.header`
-  background-color: #fff;
-  width: 100%;
-  border-bottom: 1px solid #e5e7eb;
-  box-shadow: 0 1px 2px 0 rgb(0 0 0 / 0.05);
   position: sticky;
   top: 0;
-  z-index: 50;
+  width: 100%;
+  z-index: 100;
+  backdrop-filter: blur(22px);
+  background: rgba(4, 7, 26, 0.85);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+  box-shadow: 0 12px 40px rgba(2, 6, 23, 0.45);
 `;
 
 const NavContainer = styled.nav`
-  max-width: 80rem;
+  width: min(1200px, 100%);
   margin: 0 auto;
+  padding: 0.65rem clamp(1rem, 4vw, 2.5rem);
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 0.75rem 1.5rem;
+  gap: 1rem;
 `;
 
-// Logo component now wraps an image
-const LogoLink = styled(NavLink)`
+const Brand = styled(NavLink)`
   display: flex;
   align-items: center;
+  gap: 0.9rem;
+  min-width: 0;
 `;
 
-const LogoImage = styled.img`
-  height: 2.5rem; /* 40px */
-  width: auto;
-`;
+const LogoBadge = styled.div`
+  width: 54px;
+  height: 54px;
+  border-radius: 18px;
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  background: rgba(255, 255, 255, 0.05);
+  display: grid;
+  place-items: center;
+  overflow: hidden;
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.08);
 
-// A new container to group all items on the right
-const RightNavContainer = styled.div`
-  display: flex;
-  align-items: center;
-  gap: 2rem;
-`;
-
-const MenuToggleButton = styled.button`
-  display: block;
-  background: none;
-  border: none;
-  cursor: pointer;
-  padding: 0.5rem;
-  color: #374151;
-
-  ${media.md} {
-    display: none;
-  }
-
-  svg {
-    width: 1.75rem;
-    height: 1.75rem;
+  img {
+    width: 92%;
+    height: auto;
+    object-fit: contain;
   }
 `;
 
-const NavLinksList = styled.ul`
-  display: none; /* Hidden on mobile */
-  align-items: center;
-  gap: 2rem;
+const BrandInfo = styled.div`
+  display: flex;
+  flex-direction: column;
+  line-height: 1.1;
+`;
+
+const CompanyName = styled.span`
+  font-size: 1.2rem;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  background: linear-gradient(120deg, #fcd34d, #f97316, #60a5fa);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+`;
+
+const CompanyTagline = styled.span`
+  font-size: 0.95rem;
+  color: var(--text-muted);
+  font-weight: 500;
+`;
+
+const DesktopLinks = styled.ul`
+  display: none;
   list-style: none;
-  padding: 0;
   margin: 0;
+  padding: 0;
+  gap: 2rem;
+  align-items: center;
 
-  ${media.md} {
+  ${breakpointMd} {
     display: flex;
   }
 `;
 
 const StyledNavLink = styled(NavLink)`
-  color: #374151;
-  padding: 0.5rem 0.25rem;
-  font-weight: 500;
-  text-decoration: none;
-  transition: color 0.2s ease-in-out;
   position: relative;
-  white-space: nowrap; /* Prevents links from wrapping */
+  color: var(--text-secondary);
+  font-weight: 500;
+  transition: color 0.2s ease;
+  padding: 0.35rem 0;
 
   &:hover {
-    color: #EA580C;
+    color: white;
   }
 
   &.active {
-    color: #f97316;
-    &::after {
-      content: '';
-      position: absolute;
-      bottom: -4px;
-      left: 0;
-      right: 0;
-      height: 2px;
-      background-color: #2563eb;
-    }
+    color: white;
+  }
+
+  &.active::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    bottom: -0.3rem;
+    width: 100%;
+    height: 2px;
+    border-radius: 999px;
+    background: linear-gradient(90deg, var(--accent), var(--accent-2));
   }
 `;
 
-const ButtonContainer = styled.div`
-  display: none; /* Hidden on mobile */
-  align-items: center;
-  gap: 1rem;
-
-  ${media.md} {
-    display: flex;
-  }
-`;
-
-const ExploreButton = styled(NavLink)`
-  border: 1px solid #d1d5db;
-  border-radius: 0.25rem;
-  padding: 0.5rem 1.25rem;
-  color: #374151;
-  font-weight: 500;
-  background-color: #fff;
-  text-decoration: none;
-  transition: background-color 0.2s ease-in-out;
-  white-space: nowrap;
-
-  &:hover {
-    background-color: #f9fafb;
-  }
-`;
-
-const ApplyButton = styled(NavLink)`
-  background-color: #F97316;
-  border-radius: 0.25rem;
-  padding: 0.5rem 1.25rem;
+const MenuToggle = styled.button`
+  display: inline-flex;
+  padding: 0.55rem;
+  border-radius: 999px;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  background: rgba(255, 255, 255, 0.05);
   color: white;
-  font-weight: 500;
-  text-decoration: none;
-  transition: background-color 0.2s ease-in-out;
-  white-space: nowrap;
+  cursor: pointer;
+  transition: background 0.2s ease, transform 0.2s ease;
 
   &:hover {
-    background-color: #EA580C;
+    background: rgba(255, 255, 255, 0.12);
   }
-`;
 
-const MobileMenu = styled.div`
-  display: flex;
-  flex-direction: column;
-  padding: 1rem 1.5rem;
-  border-top: 1px solid #e5e7eb;
-  background-color: #f9fafb;
+  svg {
+    width: 1.45rem;
+    height: 1.45rem;
+  }
 
-  ${media.md} {
+  ${breakpointMd} {
     display: none;
   }
 `;
 
-const MobileNavLinksList = styled.ul`
-  display: flex;
-  flex-direction: column;
-  gap: 0.5rem;
+const MobileMenu = styled.div`
+  position: fixed;
+  inset: auto 0 0 0;
+  background: rgba(5, 9, 28, 0.98);
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+  padding: 1.75rem clamp(1rem, 6vw, 2rem) 2.5rem;
+  transform: translateY(${props => (props.open ? '0%' : '100%')});
+  transition: transform 0.35s ease;
+  box-shadow: 0 -20px 50px rgba(2, 6, 23, 0.75);
+  z-index: 120;
+
+  ${breakpointMd} {
+    display: none;
+  }
+`;
+
+const MobileLinks = styled.ul`
   list-style: none;
+  margin: 0 0 1.5rem;
   padding: 0;
-  margin-bottom: 1rem;
-`;
-
-const MobileStyledNavLink = styled(StyledNavLink)`
-  padding: 0.75rem 0;
-  width: 100%;
-  border-bottom: 1px solid #e5e7eb;
-  &:last-child {
-    border-bottom: none;
-  }
-  &.active::after {
-    bottom: -1px;
-    height: 1px;
-  }
-`;
-
-const MobileButtonContainer = styled.div`
   display: flex;
   flex-direction: column;
-  gap: 0.75rem;
+  gap: 0.8rem;
 `;
 
-const MobileExploreButton = styled(ExploreButton)`
-  width: 100%;
-  text-align: center;
+const MobileLink = styled(NavLink)`
+  font-size: 1.05rem;
+  font-weight: 600;
+  color: var(--text-secondary);
+  padding: 0.85rem 0;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+
+  &.active {
+    color: white;
+  }
 `;
 
-const MobileApplyButton = styled(ApplyButton)`
-  width: 100%;
-  text-align: center;
+const MenuBackdrop = styled.button`
+  position: fixed;
+  inset: 0;
+  background: rgba(3, 6, 23, 0.65);
+  border: none;
+  padding: 0;
+  margin: 0;
+  opacity: ${props => (props.open ? 1 : 0)};
+  pointer-events: ${props => (props.open ? 'auto' : 'none')};
+  transition: opacity 0.25s ease;
+  z-index: 110;
 `;
-
-
-// --- The Navbar Component ---
 
 export default function Navbar() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
-  // Updated navigation links order
+  useEffect(() => {
+    document.body.style.overflow = isMobileMenuOpen ? 'hidden' : '';
+    return () => {
+      document.body.style.overflow = '';
+    };
+  }, [isMobileMenuOpen]);
+
   const navLinks = [
-    { to: "/", label: "Home" },
-    { to: "/about", label: "About" },
-    { to: "/services", label: "Services" },
-    { to: "/careers", label: "Careers" },
-    { to: "/gallery", label: "The Gallery of Greatness" },
-    { to: "/contact", label: "Contact" }
+    { to: '/', label: 'Home' },
+    { to: '/about', label: 'About' },
+    { to: '/services', label: 'Services' },
+    { to: '/careers', label: 'Careers' },
+    { to: '/contact', label: 'Contact' },
   ];
 
-  const handleMobileLinkClick = () => {
-    setIsMobileMenuOpen(false);
-  };
+  const closeMenu = () => setIsMobileMenuOpen(false);
 
   return (
     <NavHeader>
       <NavContainer>
-        <LogoLink to="/">
-          <LogoImage src={mainLogo} alt="Stars Management Logo" />
-        </LogoLink>
+        <Brand to="/">
+          <LogoBadge>
+            <img src={mainLogo} alt="G Business Support logo" />
+          </LogoBadge>
+          <BrandInfo>
+            <CompanyName>G Business Support</CompanyName>
+            <CompanyTagline>Marketing · Tech · Staffing</CompanyTagline>
+          </BrandInfo>
+        </Brand>
 
-        {/* This container groups everything on the right side for desktop */}
-        <RightNavContainer>
-          <NavLinksList>
-            {navLinks.map(({ to, label }) => (
-              <li key={label}>
-                <StyledNavLink to={to}>{label}</StyledNavLink>
-              </li>
-            ))}
-          </NavLinksList>
+        <DesktopLinks>
+          {navLinks.map(({ to, label }) => (
+            <li key={label}>
+              <StyledNavLink to={to}>{label}</StyledNavLink>
+            </li>
+          ))}
+        </DesktopLinks>
 
-          <ButtonContainer>
-            {/* <ExploreButton to="/services">Explore</ExploreButton> */}
-            <ApplyButton to="/careers">Apply</ApplyButton>
-          </ButtonContainer>
-        </RightNavContainer>
-
-        {/* Hamburger button remains separate for mobile layout */}
-        <MenuToggleButton onClick={() => setIsMobileMenuOpen((prev) => !prev)}>
+        <MenuToggle onClick={() => setIsMobileMenuOpen(prev => !prev)} aria-label="Toggle navigation menu">
           {isMobileMenuOpen ? <XMarkIcon /> : <Bars3Icon />}
-        </MenuToggleButton>
+        </MenuToggle>
       </NavContainer>
 
-      {/* Mobile Menu (conditionally rendered) */}
-      {isMobileMenuOpen && (
-        <MobileMenu>
-          <MobileNavLinksList>
-            {navLinks.map(({ to, label }) => (
-              <li key={label}>
-                <MobileStyledNavLink to={to} onClick={handleMobileLinkClick}>
-                  {label}
-                </MobileStyledNavLink>
-              </li>
-            ))}
-          </MobileNavLinksList>
-          <MobileButtonContainer>
-            <MobileExploreButton to="/services" onClick={handleMobileLinkClick}>Explore</MobileExploreButton>
-            <MobileApplyButton to="/careers" onClick={handleMobileLinkClick}>Apply</MobileApplyButton>
-          </MobileButtonContainer>
-        </MobileMenu>
-      )}
+      <MenuBackdrop open={isMobileMenuOpen} onClick={closeMenu} aria-label="Close menu backdrop" />
+      <MobileMenu open={isMobileMenuOpen} aria-hidden={!isMobileMenuOpen}>
+        <MobileLinks>
+          {navLinks.map(({ to, label }) => (
+            <li key={label}>
+              <MobileLink to={to} onClick={closeMenu}>
+                {label}
+              </MobileLink>
+            </li>
+          ))}
+        </MobileLinks>
+      </MobileMenu>
     </NavHeader>
   );
 }

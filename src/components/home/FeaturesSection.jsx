@@ -1,93 +1,104 @@
 import React from 'react';
-import styled, { keyframes } from 'styled-components';
+import styled from 'styled-components';
 
-// Import the image you want to use for this section.
-// Make sure to adjust the path to your actual image file.
-import teamImage from '../../assets/career_map.jpg'; 
+// --- Styled Components ---
 
-const media = { md: `@media (min-width: 768px)` };
-
-// 1. Define the keyframes for the zoom-out animation
-const zoomOut = keyframes`
-  from {
-    transform: scale(1.1);
-    opacity: 0;
-  }
-  to {
-    transform: scale(1);
-    opacity: 1;
-  }
-`;
-
-// --- Styled Components (Updated) ---
-
-const Section = styled.section`
-  max-width: 80rem;
-  margin: 0 auto;
-  padding: 4rem 1.5rem;
+const ServicesWrapper = styled.section`
+  padding: 80px 20px;
+  background-color: #f8f9fa;
   text-align: center;
 `;
 
-const SectionSubheading = styled.h2`
-  font-size: 1rem;
-  font-weight: 600;
-  margin-bottom: 0.5rem;
-  color: #2563eb; /* Added color for emphasis */
+const SectionTitle = styled.h2`
+  font-size: 2.5rem;
+  font-weight: 700;
+  color: #212529;
+  margin-bottom: 50px;
 `;
 
-const SectionHeading = styled.h3`
-  font-size: 1.875rem; /* Increased size slightly */
-  font-weight: 700;
-  margin-bottom: 1rem;
-  line-height: 1.3;
-  ${media.md} {
-    font-size: 2.25rem;
+const ServicesGrid = styled.div`
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 30px;
+  max-width: 1200px;
+  margin: 0 auto;
+`;
+
+const ServiceCard = styled.div`
+  background: #ffffff;
+  border-radius: 16px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.05);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+
+  &:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 12px 32px rgba(0, 0, 0, 0.1);
   }
 `;
 
-const CenteredParagraph = styled.p`
-  color: #374151;
-  max-width: 48rem;
-  margin: 0 auto 3rem auto; /* Added more bottom margin */
-  line-height: 1.7;
-`;
-
-// 2. Create a container for the new image to control its appearance
-const ImageContainer = styled.div`
-  max-width: 60rem;
-  margin: 0 auto;
-  border-radius: 0.75rem; /* Soft rounded corners */
-  overflow: hidden; /* Essential for the zoom effect to look clean */
-  box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.1);
-`;
-
-// 3. Create the animated image component
-const AnimatedImage = styled.img`
+const CardImage = styled.img`
   width: 100%;
-  height: auto;
+  height: 220px;
+  object-fit: cover;
   display: block;
-  animation: ${zoomOut} 1.2s ease-out forwards;
 `;
 
+const CardContent = styled.div`
+  padding: 24px;
+  flex-grow: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+`;
 
-// --- Main Component (Updated) ---
+const CardTitle = styled.h3`
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: #343a40;
+  margin: 0;
+`;
 
-export default function FeaturesSection() {
+// --- Component ---
+
+// Service data can be easily updated here
+const servicesData = [
+  {
+    title: 'Google Ads',
+    imageUrl: '..\assets\Banking.png', // Replace with your image path
+  },
+  {
+    title: 'Google My Business',
+    imageUrl: 'https://i.imgur.com/dYR22mF.png', // Replace with your image path
+  },
+  {
+    title: 'Social Media Marketing',
+    imageUrl: 'https://i.imgur.com/0z5pVEb.png', // Replace with your image path
+  },
+  {
+    title: 'Banking and Insurance',
+    imageUrl: 'https://i.imgur.com/fplWkFw.png', // Replace with your image path
+  },
+];
+
+const CoreServices = () => {
   return (
-    <Section>
-      <SectionSubheading>A LAUNCHPAD FOR YOUR CAREER</SectionSubheading>
-      <SectionHeading>
-        Your Journey to Leadership Starts Here
-      </SectionHeading>
-      <CenteredParagraph>
-        At Stars Management, we do more than offer jobs—we build careers. We provide ambitious graduates with a proven platform for success, combining structured mentorship with real-world, hands-on experience to transform your potential into leadership.
-      </CenteredParagraph>
-      
-      {/* 4. Removed the CardGrid and replaced it with the single animated image */}
-      <ImageContainer>
-        <AnimatedImage src={teamImage} alt="Stars Management Team" />
-      </ImageContainer>
-
-    </Section>
+    <ServicesWrapper>
+      <SectionTitle>Our Core Services</SectionTitle>
+      <ServicesGrid>
+        {servicesData.map((service, index) => (
+          <ServiceCard key={index}>
+            <CardImage src={service.imageUrl} alt={service.title} />
+            <CardContent>
+              <CardTitle>{service.title}</CardTitle>
+            </CardContent>
+          </ServiceCard>
+        ))}
+      </ServicesGrid>
+    </ServicesWrapper>
   );
-}
+};
+
+export default CoreServices;

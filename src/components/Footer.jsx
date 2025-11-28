@@ -2,122 +2,206 @@
 
 import React from 'react';
 import styled from 'styled-components';
-// Importing the specific icons we need
-import { FaLinkedin, FaFacebookSquare, FaInstagramSquare, FaWhatsappSquare } from 'react-icons/fa';
+import mainLogo from '../assets/main_logo1.png';
 
-// --- Styled Components Definitions ---
-
-// Responsive breakpoint
-const media = {
-  sm: `@media (min-width: 640px)`,
-};
-
-// The main <footer> wrapper
-const FooterContainer = styled.footer`
-  background-color: #fff;
-  color: #1f2937; /* A dark gray for text, more modern than pure black */
-  padding: 1.5rem 0;
-  box-shadow: inset 0 2px 4px 0 rgb(0 0 0 / 0.05); /* Equivalent to shadow-inner */
-  margin-top: auto; /* Pushes footer to the bottom in a flex layout */
+const FooterShell = styled.footer`
+  background: rgba(3, 6, 23, 0.9);
+  padding: clamp(3rem, 6vw, 4.5rem) clamp(1.5rem, 4vw, 3rem) 2rem;
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+  margin-top: clamp(3rem, 8vw, 6rem);
+  position: relative;
+  overflow: hidden;
 `;
 
-// The inner <div> to handle max-width and flex layout
-const FooterContent = styled.div`
-  max-width: 80rem; /* max-w-7xl */
+const Glow = styled.div`
+  position: absolute;
+  inset: auto auto -8rem -6rem;
+  width: 28rem;
+  height: 28rem;
+  border-radius: 50%;
+  background: rgba(124, 58, 237, 0.25);
+  filter: blur(120px);
+  pointer-events: none;
+`;
+
+const FooterGrid = styled.div`
+  position: relative;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: clamp(1.5rem, 4vw, 3rem);
+  width: min(1200px, 100%);
   margin: 0 auto;
-  padding: 0 1rem; /* px-4 */
-  display: flex;
-  flex-direction: column; /* Stack items on mobile */
-  align-items: center;
-  gap: 1rem; /* Space between items on mobile */
+  z-index: 2;
+`;
 
-  ${media.sm} {
-    flex-direction: row; /* Side-by-side on larger screens */
-    justify-content: space-between; /* Pushes items to opposite ends */
+const BrandCard = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+`;
+
+const LogoBadge = styled.div`
+  width: 56px;
+  height: 56px;
+  border-radius: 18px;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  background: rgba(255, 255, 255, 0.04);
+  display: grid;
+  place-items: center;
+  overflow: hidden;
+
+  img {
+    width: 90%;
+    height: auto;
+    object-fit: contain;
   }
 `;
 
-// The copyright text paragraph
-const CopyrightText = styled.p`
-  font-size: 0.875rem; /* text-sm */
+const BrandTitle = styled.h4`
   margin: 0;
-  text-align: center;
-
-  ${media.sm} {
-    text-align: left;
-  }
-
-  span {
-    font-weight: 600; /* font-semibold */
-  }
+  font-size: 1.3rem;
+  font-weight: 700;
 `;
 
-// A container for the social media icons
-const SocialIconsContainer = styled.div`
+const BrandCopy = styled.p`
+  margin: 0;
+  color: var(--text-muted);
+  max-width: 320px;
+  line-height: 1.7;
+`;
+
+const FooterHeading = styled.h5`
+  margin: 0 0 1rem;
+  font-size: 0.9rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--accent-2);
+`;
+
+const LinkList = styled.ul`
+  list-style: none;
+  margin: 0;
+  padding: 0;
   display: flex;
-  align-items: center;
-  gap: 1.25rem; /* space-x-5 */
+  flex-direction: column;
+  gap: 0.6rem;
 `;
 
-// An individual icon link
-const SocialIconLink = styled.a`
-  font-size: 1.75rem; /* text-2xl, makes icons larger */
-  transition: transform 0.3s ease, opacity 0.3s ease;
-  color: #3b5998; /* Default color, though icons will have their own */
+const FooterLink = styled.a`
+  color: var(--text-secondary);
+  font-weight: 500;
+  transition: color 0.2s ease;
 
   &:hover {
-    transform: translateY(-4px); /* The "nice animation" */
-    opacity: 0.85;
+    color: white;
   }
 `;
 
-// --- The Footer Component ---
+const ContactList = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 0.8rem;
+  color: var(--text-secondary);
+
+  strong {
+    color: white;
+  }
+`;
+
+const Divider = styled.div`
+  width: min(1200px, 100%);
+  margin: clamp(2rem, 4vw, 3rem) auto 1.5rem;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+`;
+
+const FooterBottom = styled.div`
+  width: min(1200px, 100%);
+  margin: 0 auto;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 1rem;
+  color: var(--text-muted);
+  font-size: 0.9rem;
+  position: relative;
+  z-index: 2;
+`;
+
+const InlineLinks = styled.div`
+  display: flex;
+  gap: 1rem;
+  flex-wrap: wrap;
+`;
+
+const MetaText = styled.span`
+  color: var(--text-muted);
+  font-weight: 500;
+`;
 
 export default function Footer() {
-  const socialLinks = [
-    {
-      href: 'https://www.linkedin.com/company/108102731/admin/dashboard/', // Replace with your LinkedIn URL
-      icon: <FaLinkedin color="#0077B5" />,
-      label: 'LinkedIn',
-    },
-    {
-      href: 'https://www.facebook.com/starsmgnt', // Replace with your Facebook URL
-      icon: <FaFacebookSquare color="#1877F2" />,
-      label: 'Facebook',
-    },
-    {
-      href: 'https://www.instagram.com/stars_management2015?igsh=bW5yZmFhd2ZuY3V1', // Replace with your Instagram URL
-      icon: <FaInstagramSquare color="#E4405F" />,
-      label: 'Instagram',
-    },
-    {
-      href: 'https://wa.me/91907888084', // Replace with your WhatsApp URL
-      icon: <FaWhatsappSquare color="#25D366" />,
-      label: 'WhatsApp',
-    },
+  const navLinks = [
+    { href: '/', label: 'Home' },
+    { href: '/about', label: 'About' },
+    { href: '/services', label: 'Services' },
+    { href: '/careers', label: 'Careers' },
+    { href: '/contact', label: 'Contact' },
   ];
 
   return (
-    <FooterContainer>
-      <FooterContent>
-        <CopyrightText>
-          © {new Date().getFullYear()} <span>Stars Management</span>. All rights reserved.
-        </CopyrightText>
+    <FooterShell>
+      <Glow />
+      <FooterGrid>
+        <BrandCard>
+          <LogoBadge>
+            <img src={mainLogo} alt="G Business Support logo" loading="lazy" />
+          </LogoBadge>
+          <BrandTitle>G Business Support</BrandTitle>
+          <BrandCopy>
+            Powering marketing, technology, and staffing for growth-focused businesses with a single, dependable partner.
+          </BrandCopy>
+        </BrandCard>
 
-        <SocialIconsContainer>
-          {socialLinks.map((link) => (
-            <SocialIconLink
-              key={link.label}
-              href={link.href}
-              target="_blank"
-              rel="noopener noreferrer"
-              aria-label={link.label}
-            >
-              {link.icon}
-            </SocialIconLink>
-          ))}
-        </SocialIconsContainer>
-      </FooterContent>
-    </FooterContainer>
+        <div>
+          <FooterHeading>Navigate</FooterHeading>
+          <LinkList>
+            {navLinks.map(link => (
+              <li key={link.label}>
+                <FooterLink href={link.href}>{link.label}</FooterLink>
+              </li>
+            ))}
+          </LinkList>
+        </div>
+
+        <div>
+          <FooterHeading>Reach Us</FooterHeading>
+          <ContactList>
+            <p>
+              <strong>Address:</strong><br />
+              Richmond Circle, 301, 3rd Floor, Andree Capitol Building Behind Axis Bank, Doule Road, Kengal Hanumanthaiah Rd, Shanti Nagar, Bengaluru, Karnataka 560027
+            </p>
+            <p>
+              <strong>Phone:</strong> <FooterLink href="tel:+919071861881">+91 9071861881</FooterLink>
+            </p>
+            <p>
+              <strong>Email:</strong> <FooterLink href="mailto:hrdlegacy@gmail.com">hrdlegacy@gmail.com</FooterLink>
+            </p>
+            <p>
+              <strong>WhatsApp:</strong> <FooterLink href="https://wa.me/918310312791" target="_blank" rel="noopener noreferrer">Chat Now</FooterLink>
+            </p>
+          </ContactList>
+        </div>
+      </FooterGrid>
+
+      <Divider />
+
+      <FooterBottom>
+        <span>© {new Date().getFullYear()} G Business Support. All rights reserved.</span>
+        <InlineLinks>
+          <MetaText>Privacy-first operations</MetaText>
+          <MetaText>Transparent terms</MetaText>
+        </InlineLinks>
+      </FooterBottom>
+    </FooterShell>
   );
 }

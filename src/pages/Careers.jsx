@@ -1,357 +1,416 @@
-import React from "react";
-import { useNavigate } from "react-router-dom";
+import React, { useEffect } from 'react';
+import styled, { keyframes } from 'styled-components';
+import AOS from 'aos';
+import 'aos/dist/aos.css';
 
-// Promotion level images
-import associateImg from "../assets/1.jpg";
-import hrdImg from "../assets/2.jpg";
-import eclImg from "../assets/3.jpg";
-import assistantmanagerImg from "../assets/4.jpg";
-import sbuheadImg from "../assets/5.jpg";
+// --- IMPORT YOUR IMAGES HERE ---
+// Certificate Images
+import cert1 from '../assets/c1.png';
+import cert2 from '../assets/c2.png';
+import cert3 from '../assets/c3.png';
+import cert4 from '../assets/c4.png';
+import cert5 from '../assets/c5.png';
 
-// Certificate images
-import cert1Img from "../assets/c1.jpg";
-import cert2Img from "../assets/c3.jpg";
-import cert3Img from "../assets/c4.jpg";
+// Gallery Images
+import t1 from '../assets/t1.jpg';
+import t2 from '../assets/t2.jpg';
+import t3 from '../assets/t3.jpg';
+import t4 from '../assets/t4.jpg';
+import t5 from '../assets/t5.jpg';
+import t6 from '../assets/t6.jpg';
+import t7 from '../assets/t7.jpg';
+import t8 from '../assets/t8.jpeg';
+import t9 from '../assets/t9.jpg';
+import t10 from '../assets/t10.jpg';
 
-const promotionLevels = [
-  {
-    name: "BUSINESS ASSOCIATE",
-    img: associateImg,
-  },
-  {
-    name: "HRD TRAINER",
-    img: hrdImg,
-  },
-  {
-    name: "EXECUTIVE CREW LEADER",
-    img: eclImg,
-  },
-  {
-    name: "ASSISTANT MANAGER",
-    img: assistantmanagerImg,
-  },
-  {
-    name: "SBU HEAD",
-    img: sbuheadImg,
-  },
-];
+// --- Keyframes for Animations ---
+const scrollGallery = keyframes`
+  from { transform: translateX(0); }
+  to { transform: translateX(-50%); }
+`;
 
-// Updated certificates array
-const certificates = [cert1Img, cert2Img, cert3Img];
+// --- Styled Components ---
 
-export default function Career() {
-  const navigate = useNavigate();
+const PageWrapper = styled.main`
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: clamp(2rem, 5vw, 3.5rem);
+  padding: clamp(2rem, 5vw, 4rem) clamp(1.5rem, 5vw, 3rem);
+`;
 
-  function handleGallery() {
-    navigate("/gallery");
+const Section = styled.section`
+  width: min(1100px, 100%);
+  margin: 0 auto;
+  text-align: center;
+  padding: clamp(1.75rem, 4vw, 3.25rem);
+  border-radius: 30px;
+  background: rgba(8, 12, 33, 0.88);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  box-shadow: var(--shadow-md);
+`;
+
+const SectionTitle = styled.h2`
+  font-size: clamp(2rem, 3.5vw, 2.8rem);
+  font-weight: 700;
+  margin-bottom: 1rem;
+  color: #f8fafc;
+`;
+
+const SectionParagraph = styled.p`
+  font-size: 1rem;
+  line-height: 1.75;
+  color: var(--text-muted);
+  max-width: 720px;
+  margin: 0 auto 2rem auto;
+`;
+
+// --- Job Listing Styles ---
+const ListContainer = styled.div`
+  text-align: left;
+  margin: 2rem auto;
+  max-width: 640px;
+
+  h3 {
+    font-size: 1.2rem;
+    color: #f8fafc;
+    margin-bottom: 1rem;
+  }
+`;
+
+const StyledList = styled.ul`
+  list-style: none;
+  padding: 0;
+  margin: 0 0 2.5rem 0;
+`;
+
+const ListItem = styled.li`
+  font-size: 1rem;
+  margin-bottom: 0.65rem;
+  padding-left: 1.8rem;
+  position: relative;
+  color: var(--text-secondary);
+
+  &::before {
+    content: "✔";
+    color: #22d3ee;
+    position: absolute;
+    left: 0;
+    font-weight: 600;
+  }
+`;
+
+const ApplyButton = styled.a`
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  background: linear-gradient(120deg, #6366f1, #8b5cf6, #ec4899);
+  color: white;
+  padding: 0.85rem 2.5rem;
+  border-radius: 999px;
+  font-size: 1rem;
+  font-weight: 600;
+  text-decoration: none;
+  box-shadow: 0 20px 40px rgba(99, 102, 241, 0.35);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+
+  &:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 30px 60px rgba(236, 72, 153, 0.35);
+  }
+`;
+
+// --- UPDATED: Promotion/Growth Section Styles ---
+const PromotionSection = styled(Section)`
+  width: min(1200px, 100%);
+`;
+
+const IntroParagraph = styled.p`
+  font-size: 1rem;
+  color: var(--text-muted);
+  line-height: 1.75;
+  max-width: 900px;
+  margin: 2rem auto 3rem auto;
+  text-align: left;
+`;
+
+const PromotionContainer = styled.div`
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 2rem;
+  background-color: rgba(15, 23, 42, 0.6);
+  border-radius: 22px;
+  padding: clamp(1.5rem, 4vw, 2.5rem);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+
+  @media (min-width: 768px) {
+    grid-template-columns: 1fr 1fr;
+    text-align: left;
+  }
+`;
+
+const OpportunityList = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+`;
+
+const OpportunityItem = styled.div`
+  display: flex;
+  align-items: flex-start;
+  gap: 1rem;
+  color: var(--text-secondary);
+
+  span {
+    font-size: 1.5rem;
   }
 
+  h4 {
+    font-size: 1.05rem;
+    font-weight: 700;
+    margin: 0 0 0.25rem 0;
+    color: #f8fafc;
+  }
+
+  p {
+    font-size: 0.95rem;
+    line-height: 1.6;
+    color: var(--text-muted);
+    margin: 0;
+  }
+`;
+
+const PromotionLevels = styled.div`
+  h4 {
+    font-size: 1.1rem;
+    margin-bottom: 1.5rem;
+    color: var(--accent-3);
+    font-weight: 700;
+    text-align: center;
+  }
+`;
+
+const PromotionList = styled.ul`
+  list-style: none;
+  padding: 0;
+  margin: 0;
+
+  li {
+    padding: 0.9rem 0.5rem;
+    background-color: rgba(15, 23, 42, 0.75);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    margin-bottom: 0.75rem;
+    border-radius: 10px;
+    font-weight: 600;
+    color: #f8fafc;
+    text-align: center;
+  }
+`;
+
+// --- Certificates & Gallery Styles ---
+// --- UPDATED: Certificates & Gallery Styles ---
+
+const GallerySection = styled(Section)`
+  overflow: hidden;
+`;
+
+// NEW: Create a wrapper for each certificate image
+// NEW: Create a wrapper for each certificate image
+const CertificateImageWrapper = styled.div`
+  width: 100%;
+  padding: 0.5rem;
+  background-color: rgba(15, 23, 42, 0.85);
+  border-radius: 16px;
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  box-shadow: 0 10px 30px rgba(2, 6, 23, 0.45);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  &:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 18px 40px rgba(8, 13, 32, 0.55);
+  }
+
+  img {
+    width: 100%;
+    height: auto;
+    object-fit: contain;
+  }
+
+  @media (min-width: 768px) {
+    width: 220px;
+    height: 160px;
+  }
+`;
+
+/*
+  CertificatesGallery:
+  - Mobile (<768px): vertical list using 1-column grid
+  - Desktop (>=768px): horizontal scroll track (your original behavior)
+*/
+const CertificatesGallery = styled.div`
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1rem;
+  padding: 1rem 0;
+
+  > ${CertificateImageWrapper} {
+    margin: 0;
+  }
+
+  @media (min-width: 768px) {
+    display: flex;
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    gap: 1.5rem;
+    padding: 1rem 0;
+
+    &::-webkit-scrollbar {
+      height: 6px;
+    }
+    &::-webkit-scrollbar-thumb {
+      background: rgba(255, 255, 255, 0.2);
+      border-radius: 4px;
+    }
+  }
+`;
+// The rest of your styled-components...
+
+const Scroller = styled.div`
+  width: 100%;
+  overflow: hidden;
+  -webkit-mask: linear-gradient(90deg, transparent, white 10%, white 90%, transparent);
+  mask: linear-gradient(90deg, transparent, white 10%, white 90%, transparent);
+`;
+
+const ScrollerTrack = styled.div`
+  display: flex;
+  width: max-content;
+  gap: 1.5rem;
+  animation: ${scrollGallery} 40s linear infinite;
+
+  img {
+    height: 180px;
+    width: 300px;
+    object-fit: cover;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+  }
+`;
+
+// --- Data ---
+const benefits = [
+  'Learn on real projects with live clients',
+  'Get Certificates, LORs & Paid Opportunities',
+  'Flexible hours & remote-friendly work culture'
+];
+const jobs = [
+  'Google Business Consultant',
+  'Digital Ad Executives (Meta & Google Ads)',
+  'SEO & Content Specialists',
+  'Web Developers (HTML/CSS/WordPress)',
+  'Telecalling & Client Coordination',
+  'Creative Designers (Canva, Photoshop)'
+];
+const promotions = [
+  'BUSINESS ASSOCIATE',
+  'HRD TRAINER',
+  'EXECUTIVE CREW LEADER',
+  'ASSISTANT MANAGER',
+  'SBU HEAD'
+];
+const opportunities = [
+    { icon: '🌟', title: 'Opportunity', text: 'At Stars Management, we create real opportunities for young graduates and postgraduates to step into leadership roles. With direct exposure to business and client interaction, every individual gets the chance to lead, learn, and grow.' },
+    { icon: '💼', title: 'Experience', text: 'Gain real-world experience from day one. From sales and marketing to presentations and client handling — we prepare you for success with hands-on learning in a fast-paced environment.' },
+    { icon: '💰', title: 'Money', text: 'Your income has no limits. We follow a performance-based system where your effort directly impacts your earnings. The more you give, the more you grow.' },
+    { icon: '📈', title: 'Growth', text: 'With a clear, fast-track promotion structure, we transform fresh talent into future leaders. Your career progression is in your hands.' }
+];
+
+const certificates = [ cert1, cert2, cert3, cert4, cert5 ];
+const galleryImages = [ t1, t2, t3, t4, t5, t6, t7, t8, t9, t10 ];
+const duplicatedGallery = [...galleryImages, ...galleryImages];
+
+// --- Main Component ---
+const CareersPage = () => {
+  useEffect(() => {
+    AOS.init({ duration: 800, once: true });
+  }, []);
+
   return (
-    <div style={{ maxWidth: 1100, margin: "0 auto", padding: 32 }}>
-      {/* ... (rest of the component remains the same) ... */}
-      <h1
-        style={{
-          textAlign: "center",
-          fontSize: 34,
-          fontWeight: 700,
-          color: "#2464e5",
-          marginBottom: 13,
-        }}
-      >
-        Why Join Our Team
-      </h1>
-      <p
-        style={{
-          textAlign: "center",
-          fontSize: 18,
-          color: "#333",
-          marginBottom: 33,
-          maxWidth: 700,
-          marginLeft: "auto",
-          marginRight: "auto",
-        }}
-      >
-        Join us to gain real-world experience, build leadership skills, and grow
-        into an entrepreneur. At Stars Management, we don’t just create
-        employees—we create future business owners. Get instant exposure to
-        ownership responsibilities and start your journey as a business-minded
-        professional from day one.
-      </p>
+    <PageWrapper>
+      <Section>
+        <SectionTitle data-aos="fade-up">Join Our Team</SectionTitle>
+        <SectionParagraph data-aos="fade-up" data-aos-delay="100">
+          Looking to grow your career with hands-on experience in digital marketing, design, or development? G Business Support offers flexible, remote-friendly roles for interns, associates, and freelancers.
+        </SectionParagraph>
 
-      {/* Career Section */}
-      <h2
-        style={{
-          textAlign: "center",
-          color: "#2655ec",
-          fontSize: 25,
-          fontWeight: 700,
-          marginBottom: 30,
-        }}
-      >
-        Career
-      </h2>
-      <div
-        style={{
-          display: "flex",
-          gap: 32,
-          justifyContent: "center",
-          alignItems: "stretch",
-          flexWrap: "wrap",
-        }}
-      >
-        {/* Left Card */}
-        <div
-          style={{
-            flex: 1,
-            minWidth: 310,
-            background: "#fff",
-            borderRadius: 10,
-            boxShadow: "0 4px 24px rgba(0,0,0,0.09)",
-            padding: 24,
-            fontSize: 15.5,
-            lineHeight: 1.7,
-            color: "#555",
-            maxWidth: 450,
-          }}
-        >
-          <div style={{ marginBottom: "1.5rem" }}>
-            <h4
-              style={{
-                fontWeight: "bold",
-                color: "#333",
-                marginBottom: "0.5rem",
-              }}
-            >
-              🌟 Opportunity
-            </h4>
-            <p>
-              At Stars Management, we create real opportunities for young
-              graduates and postgraduates to step into leadership roles. With
-              direct exposure to business and client interaction, every
-              individual gets the chance to lead, learn, and grow.
-            </p>
-          </div>
-          <div style={{ marginBottom: "1.5rem" }}>
-            <h4
-              style={{
-                fontWeight: "bold",
-                color: "#333",
-                marginBottom: "0.5rem",
-              }}
-            >
-              💼 Experience
-            </h4>
-            <p>
-              Gain real-world experience from day one. From sales and marketing
-              to presentations and client handling — we prepare you for success
-              with hands-on learning in a fast-paced environment.
-            </p>
-          </div>
-          <div style={{ marginBottom: "1.5rem" }}>
-            <h4
-              style={{
-                fontWeight: "bold",
-                color: "#333",
-                marginBottom: "0.5rem",
-              }}
-            >
-              💰 Money
-            </h4>
-            <p>
-              Your income has no limits. We follow a performance-based system
-              where your effort directly impacts your earnings. The more you
-              give, the more you grow.
-            </p>
-          </div>
-          <div>
-            <h4
-              style={{
-                fontWeight: "bold",
-                color: "#333",
-                marginBottom: "0.5rem",
-              }}
-            >
-              📈 Growth
-            </h4>
-            <p>
-              With a clear, fast-track promotion structure, we transform fresh
-              talent into leaders and future business owners. At Stars
-              Management, your growth is in your hands.
-            </p>
-          </div>
+        <ListContainer data-aos="fade-up" data-aos-delay="200">
+          <StyledList>
+            {benefits.map(item => <ListItem key={item}>{item}</ListItem>)}
+          </StyledList>
+          <h3>Currently Hiring:</h3>
+          <StyledList>
+            {jobs.map(job => <ListItem key={job}>{job}</ListItem>)}
+          </StyledList>
+        </ListContainer>
+
+        <div data-aos="zoom-in" data-aos-delay="300">
+          <ApplyButton href="https://forms.gle/3rmkgRLDLkxPEhuU9" target="_blank" rel="noopener noreferrer">Apply Now</ApplyButton>
         </div>
+      </Section>
 
-        {/* Right Card: Promotions */}
-        <div
-          style={{
-            flex: 1,
-            minWidth: 310,
-            background: "#fff",
-            borderRadius: 10,
-            boxShadow: "0 4px 24px rgba(0,0,0,0.09)",
-            padding: 24,
-            display: "flex",
-            flexDirection: "column",
-            alignItems: "center",
-            maxWidth: 350,
-          }}
-        >
-          <div
-            style={{
-              color: "#ff9800",
-              fontWeight: 700,
-              marginBottom: 16,
-              fontSize: 17,
-            }}
-          >
-            *Five Levels of Promotions*
-          </div>
-          <div style={{ width: "100%" }}>
-            {promotionLevels.map((level) => (
-              <div
-                key={level.name}
-                style={{
-                  margin: "10px 0",
-                  textAlign: "center",
-                  fontWeight: 600,
-                }}
-              >
-                <a
-                  href={level.img}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  style={{
-                    color: "#222",
-                    textDecoration: "none",
-                    border: "1.5px solid #e5e7eb",
-                    background: "#f6f6fa",
-                    borderRadius: 7,
-                    display: "block",
-                    padding: "8px 0",
-                    transition: "box-shadow 0.16s",
-                    boxShadow: "0 2px 8px rgba(0,0,0,0.04)",
-                  }}
-                  onMouseOver={(e) =>
-                    (e.currentTarget.style.boxShadow =
-                      "0 2px 14px rgba(70,70,150,0.10)")
-                  }
-                  onMouseOut={(e) =>
-                    (e.currentTarget.style.boxShadow =
-                      "0 2px 8px rgba(0,0,0,0.04)")
-                  }
-                >
-                  {level.name}
-                </a>
-              </div>
+      <PromotionSection data-aos="fade-up">
+        <SectionTitle>Career</SectionTitle>
+        <IntroParagraph>
+            At G Business Support, we offer exceptional career growth opportunities backed by strong brand exposure. As market demands and consumer spending evolve, there’s a rising need for skilled professionals who can drive targeted brand visibility. Our unique business model empowers individuals to unlock their true potential. With structured promotions based on performance and achievement, we support your journey through regular training and skill development. Join our ambitious and fast-growing team.
+        </IntroParagraph>
+        <PromotionContainer>
+          <OpportunityList>
+            {opportunities.map((item, index) => (
+              <OpportunityItem key={index} data-aos="fade-right" data-aos-delay={index * 100}>
+                <span>{item.icon}</span>
+                <div>
+                  <h4>{item.title}</h4>
+                  <p>{item.text}</p>
+                </div>
+              </OpportunityItem>
             ))}
-          </div>
-        </div>
-      </div>
+          </OpportunityList>
+          <PromotionLevels data-aos="fade-left">
+            <h4>*Five Levels of Promotions*</h4>
+            <PromotionList>
+              {promotions.map(level => <li key={level}>{level}</li>)}
+            </PromotionList>
+          </PromotionLevels>
+        </PromotionContainer>
+      </PromotionSection>
 
-      {/* Buttons area */}
-      <div
-        style={{
-          textAlign: "center",
-          marginTop: 38,
-          display: "flex",
-          justifyContent: "center",
-          gap: 20,
-        }}
-      >
-        <a
-          href="https://docs.google.com/forms/d/e/1FAIpQLSfcgoXfMxGrtTfnfj3xrE7umFMqA2p4MtXvaM4-4_Lsze7r3w/viewform"
-          target="_blank"
-          rel="noopener noreferrer"
-          style={{
-            display: "inline-block",
-            padding: "14px 38px",
-            background: "linear-gradient(90deg,#087bea,#01c7c2)",
-            color: "#fff",
-            fontWeight: 700,
-            borderRadius: 6,
-            border: "none",
-            textDecoration: "none",
-            fontSize: 18,
-            boxShadow: "0 4px 16px rgba(0,90,190,0.10)",
-          }}
-        >
-          Apply
-        </a>
-        <button
-          onClick={handleGallery}
-          style={{
-            display: "inline-block",
-            padding: "14px 38px",
-            background: "linear-gradient(90deg,#ffb900,#ffd95e)",
-            color: "#222",
-            fontWeight: 700,
-            borderRadius: 6,
-            border: "none",
-            fontSize: 18,
-            boxShadow: "0 4px 16px rgba(250,190,0,0.10)",
-            cursor: "pointer",
-          }}
-        >
-          Gallery
-        </button>
-      </div>
-
-      {/* --- UPDATED Certificates section --- */}
-      <div style={{ marginTop: 60 }}>
-        {/* Headline - UPDATED */}
-        <div
-          style={{
-            textAlign: "center", // Changed from "left" to "center"
-            fontWeight: 700,
-            fontSize: 22,
-            color: "#1c305e",
-            marginBottom: 20, // Increased bottom margin for better spacing
-            letterSpacing: 0.1,
-          }}
-        >
-          Certifications:
-        </div>
-        {/* Image Row - UPDATED */}
-        <div
-          style={{
-            display: "flex",
-            gap: 20,
-            justifyContent: "center", // Changed from "start" to "center"
-            alignItems: "center",
-            overflowX: "auto", // Keeps horizontal scroll if needed on small screens
-            padding: "0 8px",
-          }}
-        >
-          {certificates.map((img, idx) => (
-            <div
-              key={idx}
-              style={{
-                background: "#fff",
-                borderRadius: 10,
-                boxShadow: "0 2px 12px rgba(40,40,80,0.10)",
-                overflow: "hidden",
-                width: 250,
-                minWidth: 128,
-                height: 200,
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "center",
-              }}
-            >
-              <img
-                src={img}
-                alt={`Certificate ${idx + 1}`}
-                style={{
-                  width: "100%",
-                  height: "100%",
-                  objectFit: "cover",
-                  borderRadius: 8,
-                }}
-              />
-            </div>
+      <GallerySection data-aos="fade-up">
+        <SectionTitle>Certificates</SectionTitle>
+        <CertificatesGallery>
+          {certificates.map((cert, index) => (
+            // UPDATED: Wrap the img in the new component
+            <CertificateImageWrapper key={index} data-aos="zoom-in" data-aos-delay={index * 50}>
+              <img src={cert} alt={`Certificate ${index + 1}`} />
+            </CertificateImageWrapper>
           ))}
-        </div>
-      </div>
-    </div>
+        </CertificatesGallery>
+      </GallerySection>
+
+      <GallerySection data-aos="fade-up">
+        <SectionTitle>Gallery</SectionTitle>
+        <Scroller>
+          <ScrollerTrack>
+            {duplicatedGallery.map((img, index) => (
+              <img key={index} src={img} alt={`Gallery image ${index + 1}`} />
+            ))}
+          </ScrollerTrack>
+        </Scroller>
+      </GallerySection>
+    </PageWrapper>
   );
-}
+};
+
+export default CareersPage;
