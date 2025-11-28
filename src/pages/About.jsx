@@ -57,6 +57,10 @@ const ValuesGrid = styled.div`
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
   gap: 1rem;
+
+  @media (min-width: 900px) {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
 `;
 
 const ValueCard = styled.div`

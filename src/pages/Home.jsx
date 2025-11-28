@@ -189,6 +189,14 @@ const ServiceGrid = styled.div`
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
   gap: clamp(1.5rem, 3vw, 2.5rem);
+
+  @media (max-width: 640px) {
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  }
+
+  @media (min-width: 1024px) {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
 `;
 
 const ServiceCard = styled.button`
@@ -245,6 +253,10 @@ const VideoGrid = styled.div`
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
   gap: clamp(1.5rem, 3vw, 2.5rem);
+
+  @media (min-width: 1024px) {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
 `;
 
 const VideoCard = styled.button`
@@ -281,8 +293,12 @@ const VideoCard = styled.button`
 
 const ChooseGrid = styled.div`
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
   gap: 1.5rem;
+
+  @media (min-width: 1024px) {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
 `;
 
 const ChooseCard = styled.div`
@@ -318,8 +334,12 @@ const ContactSection = styled.section`
 
 const ContactGrid = styled.div`
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  grid-template-columns: minmax(0, 1fr);
   gap: clamp(1.5rem, 4vw, 2.5rem);
+
+  @media (min-width: 720px) {
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  }
 `;
 
 const MapCard = styled.div`

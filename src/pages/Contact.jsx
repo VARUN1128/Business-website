@@ -32,8 +32,12 @@ const Subtitle = styled.p`
 
 const ContentGrid = styled.div`
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  grid-template-columns: minmax(0, 1fr);
   gap: clamp(1.5rem, 4vw, 2.5rem);
+
+  @media (min-width: 720px) {
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  }
 `;
 
 const FormWrapper = styled.form`

@@ -60,6 +60,14 @@ const ServiceGrid = styled.div`
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
   gap: clamp(1.5rem, 3vw, 2.5rem);
+
+  @media (max-width: 640px) {
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  }
+
+  @media (min-width: 1024px) {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
 `;
 
 const ServiceCard = styled.div`
@@ -92,8 +100,12 @@ const ServiceCard = styled.div`
 
 const MediaGrid = styled.div`
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
   gap: clamp(1.5rem, 3vw, 2.5rem);
+
+  @media (min-width: 1200px) {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
 `;
 
 const MediaCard = styled.a`
@@ -117,10 +129,13 @@ const MediaCard = styled.a`
 `;
 
 const SquareGrid = styled.div`
-  display: flex;
-  flex-wrap: wrap;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
   gap: 1.5rem;
-  justify-content: center;
+
+  @media (max-width: 540px) {
+    grid-template-columns: minmax(0, 1fr);
+  }
 `;
 
 const SquareCard = styled.div`
@@ -141,8 +156,12 @@ const SquareCard = styled.div`
 
 const TourGrid = styled.div`
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
   gap: clamp(1.5rem, 3vw, 2.5rem);
+
+  @media (max-width: 600px) {
+    grid-template-columns: minmax(0, 1fr);
+  }
 `;
 
 const TourFrame = styled.div`
