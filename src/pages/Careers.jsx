@@ -24,6 +24,14 @@ import t7 from '../assets/t7.jpg';
 import t8 from '../assets/t8.jpeg';
 import t9 from '../assets/t9.jpg';
 import t10 from '../assets/t10.jpg';
+import g1 from '../assets/g1.jpg';
+import g2 from '../assets/g2.jpg';
+import g3 from '../assets/g3.jpg';
+import g4 from '../assets/g4.jpg';
+import g5 from '../assets/g5.jpg';
+import g6 from '../assets/g6.jpg';
+import g7 from '../assets/g7.jpg';
+import g8 from '../assets/g8.jpg';
 
 // --- Keyframes for Animations ---
 const scrollGallery = keyframes`
@@ -330,14 +338,14 @@ const promotions = [
   'SBU HEAD'
 ];
 const opportunities = [
-    { icon: '🌟', title: 'Opportunity', text: 'At Stars Management, we create real opportunities for young graduates and postgraduates to step into leadership roles. With direct exposure to business and client interaction, every individual gets the chance to lead, learn, and grow.' },
+    { icon: '🌟', title: 'Opportunity', text: 'At G Business Support, we create real opportunities for young graduates and postgraduates to step into leadership roles. With direct exposure to business and client interaction, every individual gets the chance to lead, learn, and grow.' },
     { icon: '💼', title: 'Experience', text: 'Gain real-world experience from day one. From sales and marketing to presentations and client handling — we prepare you for success with hands-on learning in a fast-paced environment.' },
     { icon: '💰', title: 'Money', text: 'Your income has no limits. We follow a performance-based system where your effort directly impacts your earnings. The more you give, the more you grow.' },
     { icon: '📈', title: 'Growth', text: 'With a clear, fast-track promotion structure, we transform fresh talent into future leaders. Your career progression is in your hands.' }
 ];
 
 const certificates = [ cert1, cert2, cert3, cert4, cert5 ];
-const galleryImages = [ t1, t2, t3, t4, t5, t6, t7, t8, t9, t10 ];
+const galleryImages = [ t1, t2, t3, t4, t5, t6, t7, t8, t9, t10, g1, g2, g3, g4, g5, g6, g7, g8 ];
 const duplicatedGallery = [...galleryImages, ...galleryImages];
 
 // --- Draggable Scroller Component ---

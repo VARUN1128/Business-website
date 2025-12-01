@@ -2,7 +2,7 @@
 
 import React from 'react';
 import styled from 'styled-components';
-import mainLogo from '../../assets/main_logo.png'; // Assuming navbar path is correct
+import mainLogo from '../../assets/legacy logo.jpg';
 
 // --- Styled Components Definitions ---
 

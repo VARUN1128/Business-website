@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { NavLink } from 'react-router-dom';
 import styled from 'styled-components';
 import { Bars3Icon, XMarkIcon } from '@heroicons/react/24/outline';
-import mainLogo from '../assets/main_logo1.png';
+import mainLogo from '../assets/legacy logo.jpg';
 
 const breakpointMd = '@media (min-width: 768px)';
 
