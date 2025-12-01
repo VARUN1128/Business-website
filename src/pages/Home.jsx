@@ -605,6 +605,10 @@ const VideoCard = styled.button`
     display: block;
   }
 
+  @keyframes spin {
+    to { transform: rotate(360deg); }
+  }
+
   h3 {
     margin: 0;
     padding: clamp(1rem, 2vw, 1.25rem) clamp(1rem, 2.5vw, 1.5rem);
@@ -954,6 +958,72 @@ const videoServicesData = [
   { video: staffingVideo, title: 'Outsourced Staffing' },
 ];
 
+// Lazy Video Component with Intersection Observer
+const LazyVideo = ({ src, ...props }) => {
+  const [shouldLoad, setShouldLoad] = useState(false);
+  const [isLoaded, setIsLoaded] = useState(false);
+  const videoRef = useRef(null);
+  const containerRef = useRef(null);
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            setShouldLoad(true);
+            observer.disconnect();
+          }
+        });
+      },
+      { rootMargin: '50px' } // Start loading 50px before entering viewport
+    );
+
+    if (containerRef.current) {
+      observer.observe(containerRef.current);
+    }
+
+    return () => observer.disconnect();
+  }, []);
+
+  return (
+    <div ref={containerRef} style={{ position: 'relative', width: '100%', aspectRatio: '16/9' }}>
+      {!isLoaded && (
+        <div
+          style={{
+            position: 'absolute',
+            inset: 0,
+            background: '#f8fafc',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            borderRadius: 'inherit',
+          }}
+        >
+          <div
+            style={{
+              width: '40px',
+              height: '40px',
+              border: '3px solid #e2e8f0',
+              borderTopColor: '#6366f1',
+              borderRadius: '50%',
+              animation: 'spin 0.8s linear infinite',
+            }}
+          />
+        </div>
+      )}
+      {shouldLoad && (
+        <video
+          ref={videoRef}
+          src={src}
+          {...props}
+          onLoadedData={() => setIsLoaded(true)}
+          preload="metadata"
+        />
+      )}
+    </div>
+  );
+};
+
 export default function Home() {
   const [isQueryOpen, setIsQueryOpen] = useState(false);
   const [defaultService, setDefaultService] = useState('');
@@ -970,7 +1040,17 @@ export default function Home() {
   return (
     <PageWrapper>
       <HeroSection>
-        <HeroVideo autoPlay loop muted playsInline>
+        <HeroVideo 
+          autoPlay 
+          loop 
+          muted 
+          playsInline
+          preload="auto"
+          onLoadedData={(e) => {
+            // Ensure video plays after loading
+            e.target.play().catch(() => {});
+          }}
+        >
           <source src={heroVideo} type="video/mp4" />
           Your browser does not support the video tag.
         </HeroVideo>
@@ -1048,7 +1128,19 @@ export default function Home() {
               data-aos-delay={index * 100}
               onClick={() => openQuery(service.title)}
             >
-              <video src={service.video} autoPlay muted loop playsInline />
+              <LazyVideo 
+                src={service.video} 
+                autoPlay 
+                muted 
+                loop 
+                playsInline
+                style={{
+                  width: '100%',
+                  aspectRatio: '16 / 9',
+                  objectFit: 'cover',
+                  display: 'block',
+                }}
+              />
               <h3>{service.title}</h3>
             </VideoCard>
           ))}

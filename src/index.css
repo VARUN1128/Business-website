@@ -166,6 +166,10 @@ button, input, textarea, select {
   transform: translateY(20px);
 }
 
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
 @keyframes fadeUp {
   to {
     opacity: 1;
