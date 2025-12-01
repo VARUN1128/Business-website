@@ -39,12 +39,12 @@ const ActionButton = styled.a`
   transition: all 0.3s cubic-bezier(0.68, -0.55, 0.27, 1.55); /* Added a bouncy transition */
   
   /* Animate based on the open state */
-  opacity: ${props => (props.isOpen ? 1 : 0)};
-  transform: ${props => (props.isOpen ? 'translateY(0) scale(1)' : 'translateY(20px) scale(0.5)')};
-  visibility: ${props => (props.isOpen ? 'visible' : 'hidden')};
+  opacity: ${props => (props.$isOpen ? 1 : 0)};
+  transform: ${props => (props.$isOpen ? 'translateY(0) scale(1)' : 'translateY(20px) scale(0.5)')};
+  visibility: ${props => (props.$isOpen ? 'visible' : 'hidden')};
   
   &:hover {
-    transform: ${props => (props.isOpen ? 'scale(1.1)' : 'translateY(20px) scale(0.5)')};
+    transform: ${props => (props.$isOpen ? 'scale(1.1)' : 'translateY(20px) scale(0.5)')};
     box-shadow: 0 6px 16px rgba(0, 0, 0, 0.3);
   }
 
@@ -90,13 +90,13 @@ const IconWrapper = styled.div`
   }
 
   .main-icon {
-    opacity: ${props => (props.isOpen ? 0 : 1)};
-    transform: ${props => (props.isOpen ? 'rotate(-90deg) scale(0)' : 'rotate(0) scale(1)')};
+    opacity: ${props => (props.$isOpen ? 0 : 1)};
+    transform: ${props => (props.$isOpen ? 'rotate(-90deg) scale(0)' : 'rotate(0) scale(1)')};
   }
   
   .close-icon {
-    opacity: ${props => (props.isOpen ? 1 : 0)};
-    transform: ${props => (props.isOpen ? 'rotate(0) scale(1)' : 'rotate(90deg) scale(0)')};
+    opacity: ${props => (props.$isOpen ? 1 : 0)};
+    transform: ${props => (props.$isOpen ? 'rotate(0) scale(1)' : 'rotate(90deg) scale(0)')};
   }
 `;
 
@@ -117,7 +117,7 @@ export default function FloatingActionMenu() {
           target="_blank"
           rel="noopener noreferrer"
           color="#25D366" // WhatsApp Green
-          isOpen={isOpen}
+          $isOpen={isOpen}
           title="Chat on WhatsApp"
         >
           <FaWhatsapp />
@@ -126,7 +126,7 @@ export default function FloatingActionMenu() {
         <ActionButton
           href={`tel:${phoneNumber}`}
           color="#34B7F1" // Call blue
-          isOpen={isOpen}
+          $isOpen={isOpen}
           title="Call Us"
         >
           <FaPhoneAlt />
@@ -134,7 +134,7 @@ export default function FloatingActionMenu() {
       </ActionButtonsWrapper>
 
       <MainButton onClick={toggleMenu} title={isOpen ? "Close Menu" : "Contact Us"}>
-        <IconWrapper isOpen={isOpen}>
+        <IconWrapper $isOpen={isOpen}>
           <IoChatbubbleEllipses className="main-icon" />
           <IoClose className="close-icon" />
         </IconWrapper>

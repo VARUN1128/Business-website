@@ -131,13 +131,13 @@ const ServiceRow = styled.div`
 const HorizontalConnector = styled.div`
   position: absolute;
   height: 3px;
-  width: ${props => props.width || '100%'};
+  width: ${props => props.$width || '100%'};
   background: linear-gradient(90deg, 
     rgba(99, 102, 241, 0.1) 0%, 
     rgba(99, 102, 241, 0.3) 50%, 
     rgba(99, 102, 241, 0.1) 100%
   );
-  top: ${props => props.top || '-2rem'};
+  top: ${props => props.$top || '-2rem'};
   left: 50%;
   transform: translateX(-50%);
   z-index: 1;
@@ -147,7 +147,7 @@ const HorizontalConnector = styled.div`
     content: '';
     position: absolute;
     width: 3px;
-    height: ${props => props.branchHeight || '2rem'};
+    height: ${props => props.$branchHeight || '2rem'};
     background: linear-gradient(180deg, rgba(99, 102, 241, 0.3), transparent);
     top: 0;
   }
@@ -407,7 +407,7 @@ const ServicesPage = () => {
           
           <TreeBranch>
             <ServiceRow>
-              <HorizontalConnector top="-2.5rem" width="90%" branchHeight="2.5rem" />
+              <HorizontalConnector $top="-2.5rem" $width="90%" $branchHeight="2.5rem" />
               {services.slice(0, 4).map((service, index) => (
                 <ServiceCard 
                   key={service.title} 
@@ -422,7 +422,7 @@ const ServicesPage = () => {
             </ServiceRow>
             
             <ServiceRow>
-              <HorizontalConnector top="-2.5rem" width="90%" branchHeight="2.5rem" />
+              <HorizontalConnector $top="-2.5rem" $width="90%" $branchHeight="2.5rem" />
               {services.slice(4).map((service, index) => (
                 <ServiceCard 
                   key={service.title} 

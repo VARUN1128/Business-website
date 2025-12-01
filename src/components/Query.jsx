@@ -9,8 +9,8 @@ const Backdrop = styled.div`
   inset: 0;
   background: rgba(0, 0, 0, 0.4);
   backdrop-filter: blur(2px);
-  opacity: ${props => (props.isOpen ? 1 : 0)};
-  pointer-events: ${props => (props.isOpen ? 'auto' : 'none')};
+  opacity: ${props => (props.$isOpen ? 1 : 0)};
+  pointer-events: ${props => (props.$isOpen ? 'auto' : 'none')};
   transition: opacity 220ms ease-in-out;
   z-index: 1000;
 `;
@@ -33,8 +33,8 @@ const ModalCard = styled.div`
   background: #ffffff;
   border-radius: 16px;
   box-shadow: 0 20px 60px rgba(15, 23, 42, 0.25);
-  transform: ${props => (props.isOpen ? 'scale(1)' : 'scale(0.94)')};
-  opacity: ${props => (props.isOpen ? 1 : 0)};
+  transform: ${props => (props.$isOpen ? 'scale(1)' : 'scale(0.94)')};
+  opacity: ${props => (props.$isOpen ? 1 : 0)};
   transition: transform 240ms ease, opacity 240ms ease;
   border: 1px solid #e5e7eb;
 `;
@@ -216,9 +216,9 @@ export default function Query({
 
   return (
     <>
-      <Backdrop isOpen={isOpen} onClick={onClose} />
+      <Backdrop $isOpen={isOpen} onClick={onClose} />
       <ModalContainer>
-        <ModalCard isOpen={isOpen} onClick={stop} aria-modal="true" role="dialog">
+        <ModalCard $isOpen={isOpen} onClick={stop} aria-modal="true" role="dialog">
           <Header>
             <Title>Quick Query</Title>
             <CloseBtn onClick={onClose} aria-label="Close">

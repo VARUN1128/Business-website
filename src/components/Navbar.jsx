@@ -141,14 +141,21 @@ const MenuToggle = styled.button`
 
 const MobileMenu = styled.div`
   position: fixed;
-  inset: auto 0 0 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
   background: #ffffff;
   border-top: 1px solid rgba(0, 0, 0, 0.08);
   padding: 1.75rem clamp(1rem, 6vw, 2rem) 2.5rem;
-  transform: translateY(${props => (props.open ? '0%' : '100%')});
-  transition: transform 0.35s ease;
+  transform: translateY(${props => (props.$open ? '0%' : '100%')});
   box-shadow: 0 -10px 40px rgba(0, 0, 0, 0.15);
   z-index: 120;
+  max-height: 80vh;
+  overflow-y: auto;
+  visibility: ${props => (props.$open ? 'visible' : 'hidden')};
+  pointer-events: ${props => (props.$open ? 'auto' : 'none')};
+  opacity: ${props => (props.$open ? 1 : 0)};
+  transition: transform 0.35s ease, opacity 0.35s ease, visibility 0.35s ease;
 
   ${breakpointMd} {
     display: none;
@@ -183,8 +190,8 @@ const MenuBackdrop = styled.button`
   border: none;
   padding: 0;
   margin: 0;
-  opacity: ${props => (props.open ? 1 : 0)};
-  pointer-events: ${props => (props.open ? 'auto' : 'none')};
+  opacity: ${props => (props.$open ? 1 : 0)};
+  pointer-events: ${props => (props.$open ? 'auto' : 'none')};
   transition: opacity 0.25s ease;
   z-index: 110;
 `;
@@ -193,9 +200,21 @@ export default function Navbar() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
   useEffect(() => {
-    document.body.style.overflow = isMobileMenuOpen ? 'hidden' : '';
-    return () => {
+    if (isMobileMenuOpen) {
+      // Prevent body scroll when menu is open
+      document.body.style.overflow = 'hidden';
+      document.documentElement.style.overflow = 'hidden';
+    } else {
+      // Immediately restore scroll when menu is closed
       document.body.style.overflow = '';
+      document.documentElement.style.overflow = '';
+    }
+    
+    // Cleanup function that always runs
+    return () => {
+      // Ensure scroll is restored on cleanup
+      document.body.style.overflow = '';
+      document.documentElement.style.overflow = '';
     };
   }, [isMobileMenuOpen]);
 
@@ -235,8 +254,8 @@ export default function Navbar() {
         </MenuToggle>
       </NavContainer>
 
-      <MenuBackdrop open={isMobileMenuOpen} onClick={closeMenu} aria-label="Close menu backdrop" />
-      <MobileMenu open={isMobileMenuOpen} aria-hidden={!isMobileMenuOpen}>
+      <MenuBackdrop $open={isMobileMenuOpen} onClick={closeMenu} aria-label="Close menu backdrop" />
+      <MobileMenu $open={isMobileMenuOpen} aria-hidden={!isMobileMenuOpen}>
         <MobileLinks>
           {navLinks.map(({ to, label }) => (
             <li key={label}>
