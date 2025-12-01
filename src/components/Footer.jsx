@@ -305,7 +305,6 @@ export default function Footer() {
               </LogoBadge>
               <BrandInfo>
                 <BrandTitle>G Business Support</BrandTitle>
-                <BrandTagline>Marketing · Tech · Staffing</BrandTagline>
               </BrandInfo>
             </LogoContainer>
             <BrandDescription>

@@ -979,7 +979,7 @@ export default function Home() {
 
         <HeroGrid>
           <HeroContent data-aos="fade-up">
-            <HeroBadge>Trusted Delivery Partner</HeroBadge>
+            <HeroBadge>Trusted Growth Partner</HeroBadge>
             <HeroTitle>Powering Growth for Businesses in a Digital-First World</HeroTitle>
             <HeroParagraph>
               Smarter Advertising. Seamless Support. One team to manage your marketing, development, and backend needs.
@@ -1116,7 +1116,7 @@ export default function Home() {
               <strong>Email:</strong> <a href="mailto:hrdlegacy@gmail.com">hrdlegacy@gmail.com</a>
             </p>
             <p>
-              <strong>WhatsApp:</strong> <a href="https://wa.me/918310312791" target="_blank" rel="noopener noreferrer">Chat Now</a>
+              <strong>WhatsApp:</strong> <a href="https://wa.me/919071861881" target="_blank" rel="noopener noreferrer">Chat Now</a>
             </p>
           </ContactCard>
         </ContactGrid>
@@ -1126,7 +1126,7 @@ export default function Home() {
         isOpen={isQueryOpen}
         onClose={() => setIsQueryOpen(false)}
         defaultService={defaultService}
-        waNumber="918920229784"
+        waNumber="919071861881"
       />
     </PageWrapper>
   );

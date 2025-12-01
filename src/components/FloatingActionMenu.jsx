@@ -126,7 +126,7 @@ export default function FloatingActionMenu() {
   const [isOpen, setIsOpen] = useState(false);
   const toggleMenu = () => setIsOpen(!isOpen);
 
-  const whatsAppNumber = '919071861881';
+  const whatsAppNumber = '919071861881'; // WhatsApp format: country code + number
   const phoneNumber = '919071861881';
 
   return (

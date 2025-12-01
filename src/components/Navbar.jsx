@@ -333,10 +333,9 @@ export default function Navbar() {
             <LogoBadge>
               <img src={mainLogo} alt="G Business Support logo" />
             </LogoBadge>
-            <BrandInfo>
-              <CompanyName>G Business Support</CompanyName>
-              <CompanyTagline>Marketing · Tech · Staffing</CompanyTagline>
-            </BrandInfo>
+                  <BrandInfo>
+                    <CompanyName>G Business Support</CompanyName>
+                  </BrandInfo>
           </Brand>
 
           {/* Desktop Navigation - Hidden on mobile */}

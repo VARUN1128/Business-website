@@ -562,7 +562,7 @@ const ContactPage = () => {
               </IconWrapper>
               <ContactInfo>
                 <ContactLabel>WhatsApp</ContactLabel>
-                <ContactValue href="https://wa.me/918310312791" target="_blank" rel="noopener noreferrer">
+                <ContactValue href="https://wa.me/919071861881" target="_blank" rel="noopener noreferrer">
                   Chat Now →
                 </ContactValue>
               </ContactInfo>
