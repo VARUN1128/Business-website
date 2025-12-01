@@ -2,7 +2,7 @@
 
 import React from 'react';
 import styled from 'styled-components';
-import mainLogo from '../../assets/legacy logo.jpg';
+import mainLogo from '../../assets/main_logo1.png';
 
 // --- Styled Components Definitions ---
 

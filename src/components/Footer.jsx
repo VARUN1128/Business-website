@@ -3,7 +3,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
-import mainLogo from '../assets/legacy logo.jpg';
+import mainLogo from '../assets/main_logo1.png';
 
 const FooterShell = styled.footer`
   background: linear-gradient(to bottom, #ffffff 0%, #f8fafc 100%);
