@@ -10,6 +10,7 @@ import gaImg from '../assets/GA.png';
 import gmbImg from '../assets/GMB.png';
 import smmImg from '../assets/SMM.png';
 import bankingImg from '../assets/Banking.png';
+import telecomImg from '../assets/call.jpeg';
 import digitalVideo from '../assets/digital.mp4';
 import webVideo from '../assets/web.mp4';
 import backendVideo from '../assets/backend.mp4';
@@ -472,28 +473,16 @@ const AboutLink = styled(Link)`
 
 const ServiceGrid = styled.div`
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+  grid-template-columns: repeat(2, 1fr);
+  grid-template-rows: auto auto auto;
   gap: clamp(1rem, 2.5vw, 2.5rem);
+  max-width: 600px;
+  margin: 0 auto;
 
   @media (max-width: 480px) {
     grid-template-columns: repeat(2, 1fr);
     gap: 0.75rem;
-  }
-
-  @media (min-width: 640px) {
-    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-  }
-
-  @media (min-width: 1024px) {
-    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-  }
-
-  @media (max-width: 640px) {
-    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-  }
-
-  @media (min-width: 1024px) {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
+    max-width: 100%;
   }
 `;
 
@@ -502,12 +491,19 @@ const ServiceCard = styled.button`
   border: 1px solid rgba(0, 0, 0, 0.08);
   border-radius: clamp(18px, 3vw, 22px);
   padding: clamp(1rem, 2vw, 1.25rem);
-  text-align: left;
+  text-align: center;
   cursor: pointer;
   color: var(--text-primary);
   transition: transform 0.25s ease, border-color 0.25s ease;
   display: flex;
   flex-direction: column;
+  align-items: center;
+  
+  ${props => props.$isCenter && `
+    grid-column: 1 / -1;
+    justify-self: center;
+    max-width: 280px;
+  `}
   gap: clamp(0.75rem, 1.5vw, 1rem);
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
 
@@ -536,6 +532,8 @@ const ServiceCard = styled.button`
     font-weight: 600;
     font-size: clamp(0.9rem, 2vw, 1.1rem);
     line-height: 1.3;
+    text-align: center;
+    width: 100%;
 
     @media (max-width: 480px) {
       font-size: clamp(0.8rem, 3vw, 0.95rem);
@@ -851,10 +849,11 @@ const ContactCard = styled.div`
 `;
 
 const coreServicesData = [
-  { img: gaImg, tag: 'Google Ads' },
-  { img: gmbImg, tag: 'Google My Business' },
-  { img: smmImg, tag: 'Social Media Marketing' },
-  { img: bankingImg, tag: 'Banking and Insurance' },
+  { img: gmbImg, tag: 'Google My Business', gridPosition: 'top-left' },
+  { img: smmImg, tag: 'Social Media Marketing', gridPosition: 'top-right' },
+  { img: gaImg, tag: 'Google Ads', gridPosition: 'center' },
+  { img: bankingImg, tag: 'Banking and Insurance', gridPosition: 'bottom-left' },
+  { img: telecomImg, tag: 'Telecom', gridPosition: 'bottom-right' },
 ];
 
 const chooseUsData = [
@@ -1022,6 +1021,7 @@ export default function Home() {
           {coreServicesData.map((service, index) => (
             <ServiceCard
               key={service.tag}
+              $isCenter={service.gridPosition === 'center'}
               data-aos="zoom-in"
               data-aos-delay={index * 80}
               onClick={() => openQuery(service.tag)}
