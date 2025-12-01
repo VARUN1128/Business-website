@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { NavLink } from 'react-router-dom';
 import styled from 'styled-components';
 import { Bars3Icon, XMarkIcon } from '@heroicons/react/24/outline';
@@ -79,11 +79,165 @@ const DesktopLinks = styled.ul`
   list-style: none;
   margin: 0;
   padding: 0;
-  gap: 2rem;
+  gap: clamp(1rem, 3vw, 2rem);
   align-items: center;
+  flex-wrap: wrap;
 
   ${breakpointMd} {
     display: flex;
+  }
+`;
+
+// Hamburger Menu Toggle Button
+const MenuToggle = styled.button`
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.5rem;
+  border-radius: 8px;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  background: #ffffff;
+  color: var(--text-primary);
+  cursor: pointer;
+  transition: all 0.2s ease;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+
+  &:hover {
+    background: #f8fafc;
+    transform: scale(1.05);
+  }
+
+  &:focus {
+    outline: 2px solid var(--accent);
+    outline-offset: 2px;
+  }
+
+  svg {
+    width: 1.5rem;
+    height: 1.5rem;
+  }
+
+  ${breakpointMd} {
+    display: none;
+  }
+`;
+
+// Backdrop overlay when menu is open
+const MenuBackdrop = styled.div`
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.5);
+  backdrop-filter: blur(4px);
+  z-index: 998;
+  opacity: ${props => (props.$isOpen ? 1 : 0)};
+  visibility: ${props => (props.$isOpen ? 'visible' : 'hidden')};
+  transition: opacity 0.3s ease, visibility 0.3s ease;
+  pointer-events: ${props => (props.$isOpen ? 'auto' : 'none')};
+`;
+
+// Mobile Menu Container - Slides in from right
+const MobileMenu = styled.nav`
+  position: fixed;
+  top: 0;
+  right: 0;
+  width: min(320px, 85vw);
+  height: 100vh;
+  background: #ffffff;
+  box-shadow: -4px 0 24px rgba(0, 0, 0, 0.15);
+  z-index: 999;
+  transform: translateX(${props => (props.$isOpen ? '0' : '100%')});
+  transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+
+  ${breakpointMd} {
+    display: none;
+  }
+`;
+
+// Mobile Menu Header with close button
+const MobileMenuHeader = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1.5rem 1.25rem;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+  background: #f8fafc;
+`;
+
+const MobileMenuTitle = styled.h2`
+  margin: 0;
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: var(--text-primary);
+`;
+
+const CloseButton = styled.button`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  border-radius: 8px;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  background: #ffffff;
+  color: var(--text-primary);
+  cursor: pointer;
+  transition: all 0.2s ease;
+
+  &:hover {
+    background: #e2e8f0;
+    transform: scale(1.1);
+  }
+
+  &:focus {
+    outline: 2px solid var(--accent);
+    outline-offset: 2px;
+  }
+
+  svg {
+    width: 1.25rem;
+    height: 1.25rem;
+  }
+`;
+
+// Mobile Navigation Links
+const MobileLinks = styled.ul`
+  list-style: none;
+  margin: 0;
+  padding: 1rem 0;
+  display: flex;
+  flex-direction: column;
+`;
+
+const MobileLink = styled(NavLink)`
+  display: block;
+  padding: 1rem 1.5rem;
+  font-size: 1.05rem;
+  font-weight: 600;
+  color: var(--text-secondary);
+  text-decoration: none;
+  transition: all 0.2s ease;
+  border-left: 3px solid transparent;
+
+  &:hover {
+    background: #f8fafc;
+    color: var(--text-primary);
+    border-left-color: var(--accent);
+    padding-left: 1.75rem;
+  }
+
+  &.active {
+    color: var(--text-primary);
+    background: rgba(99, 102, 241, 0.08);
+    border-left-color: var(--accent);
+    font-weight: 700;
+  }
+
+  &:focus {
+    outline: 2px solid var(--accent);
+    outline-offset: -2px;
   }
 `;
 
@@ -114,153 +268,11 @@ const StyledNavLink = styled(NavLink)`
   }
 `;
 
-const MenuToggle = styled.button`
-  display: inline-flex;
-  padding: 0.55rem;
-  border-radius: 999px;
-  border: 1px solid rgba(0, 0, 0, 0.1);
-  background: #ffffff;
-  color: var(--text-primary);
-  cursor: pointer;
-  transition: background 0.2s ease, transform 0.2s ease;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
-
-  &:hover {
-    background: #f8fafc;
-  }
-
-  svg {
-    width: 1.45rem;
-    height: 1.45rem;
-  }
-
-  ${breakpointMd} {
-    display: none;
-  }
-`;
-
-const MobileMenu = styled.div`
-  position: fixed;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  background: #ffffff;
-  border-top: 1px solid rgba(0, 0, 0, 0.08);
-  padding: 1.75rem clamp(1rem, 6vw, 2rem) 2.5rem;
-  box-shadow: 0 -10px 40px rgba(0, 0, 0, 0.15);
-  z-index: 1000;
-  height: 50vh;
-  max-height: 50vh;
-  overflow-y: auto;
-  transform: translateY(${props => (props.$open ? '0' : '100%')});
-  opacity: ${props => (props.$open ? 1 : 0)};
-  pointer-events: ${props => (props.$open ? 'auto' : 'none')};
-  transition: transform 0.35s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.35s ease;
-  border-radius: 24px 24px 0 0;
-  will-change: transform;
-
-  ${breakpointMd} {
-    display: none;
-  }
-`;
-
-const MobileMenuHeader = styled.div`
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  margin-bottom: 1.5rem;
-  padding-bottom: 1rem;
-  border-bottom: 1px solid rgba(0, 0, 0, 0.08);
-`;
-
-const MobileMenuTitle = styled.h3`
-  margin: 0;
-  font-size: 1.25rem;
-  font-weight: 700;
-  color: var(--text-primary);
-`;
-
-const CloseButton = styled.button`
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 36px;
-  height: 36px;
-  border-radius: 50%;
-  border: 1px solid rgba(0, 0, 0, 0.1);
-  background: #f8fafc;
-  color: var(--text-primary);
-  cursor: pointer;
-  transition: all 0.2s ease;
-
-  &:hover {
-    background: #e2e8f0;
-    transform: scale(1.1);
-  }
-
-  svg {
-    width: 1.25rem;
-    height: 1.25rem;
-  }
-`;
-
-const MobileLinks = styled.ul`
-  list-style: none;
-  margin: 0;
-  padding: 0;
-  display: flex;
-  flex-direction: column;
-  gap: 0.5rem;
-`;
-
-const MobileLink = styled(NavLink)`
-  font-size: 1.05rem;
-  font-weight: 600;
-  color: var(--text-secondary);
-  padding: 0.85rem 0;
-  border-bottom: 1px solid rgba(0, 0, 0, 0.05);
-
-  &.active {
-    color: var(--text-primary);
-  }
-`;
-
-const MenuBackdrop = styled.button`
-  position: fixed;
-  inset: 0;
-  background: rgba(0, 0, 0, 0.4);
-  border: none;
-  padding: 0;
-  margin: 0;
-  opacity: ${props => (props.$open ? 1 : 0)};
-  pointer-events: ${props => (props.$open ? 'auto' : 'none')};
-  transition: opacity 0.25s ease;
-  z-index: 999;
-  visibility: ${props => (props.$open ? 'visible' : 'hidden')};
-`;
-
 export default function Navbar() {
-  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  // State to manage mobile menu open/close
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
 
-  useEffect(() => {
-    if (isMobileMenuOpen) {
-      // Prevent body scroll when menu is open
-      document.body.style.overflow = 'hidden';
-      document.documentElement.style.overflow = 'hidden';
-    } else {
-      // Immediately restore scroll when menu is closed
-      document.body.style.overflow = '';
-      document.documentElement.style.overflow = '';
-    }
-    
-    // Cleanup function that always runs
-    return () => {
-      // Ensure scroll is restored on cleanup
-      document.body.style.overflow = '';
-      document.documentElement.style.overflow = '';
-    };
-  }, [isMobileMenuOpen]);
-
+  // Navigation links array
   const navLinks = [
     { to: '/', label: 'Home' },
     { to: '/about', label: 'About' },
@@ -269,52 +281,122 @@ export default function Navbar() {
     { to: '/contact', label: 'Contact' },
   ];
 
-  const closeMenu = () => setIsMobileMenuOpen(false);
+  // Prevent body scroll when menu is open
+  useEffect(() => {
+    if (isMenuOpen) {
+      document.body.style.overflow = 'hidden';
+      document.documentElement.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = '';
+      document.documentElement.style.overflow = '';
+    }
+
+    // Cleanup on unmount
+    return () => {
+      document.body.style.overflow = '';
+      document.documentElement.style.overflow = '';
+    };
+  }, [isMenuOpen]);
+
+  // Close menu when clicking on a link
+  const handleLinkClick = () => {
+    setIsMenuOpen(false);
+  };
+
+  // Close menu when clicking backdrop
+  const handleBackdropClick = () => {
+    setIsMenuOpen(false);
+  };
+
+  // Toggle menu
+  const toggleMenu = () => {
+    setIsMenuOpen(prev => !prev);
+  };
+
+  // Close menu on Escape key
+  useEffect(() => {
+    const handleEscape = (e) => {
+      if (e.key === 'Escape' && isMenuOpen) {
+        setIsMenuOpen(false);
+      }
+    };
+
+    document.addEventListener('keydown', handleEscape);
+    return () => document.removeEventListener('keydown', handleEscape);
+  }, [isMenuOpen]);
 
   return (
-    <NavHeader>
-      <NavContainer>
-        <Brand to="/">
-          <LogoBadge>
-            <img src={mainLogo} alt="G Business Support logo" />
-          </LogoBadge>
-          <BrandInfo>
-            <CompanyName>G Business Support</CompanyName>
-            <CompanyTagline>Marketing · Tech · Staffing</CompanyTagline>
-          </BrandInfo>
-        </Brand>
+    <>
+      <NavHeader>
+        <NavContainer>
+          <Brand to="/">
+            <LogoBadge>
+              <img src={mainLogo} alt="G Business Support logo" />
+            </LogoBadge>
+            <BrandInfo>
+              <CompanyName>G Business Support</CompanyName>
+              <CompanyTagline>Marketing · Tech · Staffing</CompanyTagline>
+            </BrandInfo>
+          </Brand>
 
-        <DesktopLinks>
-          {navLinks.map(({ to, label }) => (
-            <li key={label}>
-              <StyledNavLink to={to}>{label}</StyledNavLink>
-            </li>
-          ))}
-        </DesktopLinks>
+          {/* Desktop Navigation - Hidden on mobile */}
+          <DesktopLinks>
+            {navLinks.map(({ to, label }) => (
+              <li key={label}>
+                <StyledNavLink to={to}>{label}</StyledNavLink>
+              </li>
+            ))}
+          </DesktopLinks>
 
-        <MenuToggle onClick={() => setIsMobileMenuOpen(prev => !prev)} aria-label="Toggle navigation menu">
-          {isMobileMenuOpen ? <XMarkIcon /> : <Bars3Icon />}
-        </MenuToggle>
-      </NavContainer>
+          {/* Hamburger Menu Toggle - Visible only on mobile */}
+          <MenuToggle
+            onClick={toggleMenu}
+            aria-label={isMenuOpen ? 'Close menu' : 'Open menu'}
+            aria-expanded={isMenuOpen}
+            aria-controls="mobile-menu"
+          >
+            {isMenuOpen ? <XMarkIcon /> : <Bars3Icon />}
+          </MenuToggle>
+        </NavContainer>
+      </NavHeader>
 
-      <MenuBackdrop $open={isMobileMenuOpen} onClick={closeMenu} aria-label="Close menu backdrop" />
-      <MobileMenu $open={isMobileMenuOpen} aria-hidden={!isMobileMenuOpen}>
+      {/* Backdrop Overlay */}
+      <MenuBackdrop
+        $isOpen={isMenuOpen}
+        onClick={handleBackdropClick}
+        aria-hidden={!isMenuOpen}
+      />
+
+      {/* Mobile Menu - Slides in from right */}
+      <MobileMenu
+        id="mobile-menu"
+        $isOpen={isMenuOpen}
+        aria-label="Mobile navigation"
+        aria-hidden={!isMenuOpen}
+      >
         <MobileMenuHeader>
           <MobileMenuTitle>Menu</MobileMenuTitle>
-          <CloseButton onClick={closeMenu} aria-label="Close menu">
+          <CloseButton
+            onClick={handleLinkClick}
+            aria-label="Close menu"
+          >
             <XMarkIcon />
           </CloseButton>
         </MobileMenuHeader>
+
         <MobileLinks>
           {navLinks.map(({ to, label }) => (
             <li key={label}>
-              <MobileLink to={to} onClick={closeMenu}>
+              <MobileLink
+                to={to}
+                onClick={handleLinkClick}
+              >
                 {label}
               </MobileLink>
             </li>
           ))}
         </MobileLinks>
       </MobileMenu>
-    </NavHeader>
+    </>
   );
 }
