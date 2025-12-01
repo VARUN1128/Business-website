@@ -111,17 +111,20 @@ const TreeBranch = styled.div`
 const ServiceRow = styled.div`
   position: relative;
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-  gap: clamp(2rem, 4vw, 3rem);
+  grid-template-columns: repeat(4, 1fr);
+  gap: clamp(1.5rem, 3vw, 2.5rem);
   width: 100%;
+  max-width: 1400px;
+  margin: 0 auto;
   z-index: 2;
 
-  @media (max-width: 1024px) {
+  @media (max-width: 1200px) {
     grid-template-columns: repeat(2, 1fr);
   }
 
   @media (max-width: 640px) {
     grid-template-columns: 1fr;
+    gap: 2rem;
   }
 `;
 
@@ -360,11 +363,14 @@ const SliderImage = styled.img`
 `;
 
 const services = [
+  { icon: 'https://img.icons8.com/?size=100&id=7Xdye3V7xiD1&format=png&color=ffffff', title: 'Google Ads', desc: 'Maximize your ROI with targeted Google Ads campaigns. We optimize your ad spend, improve click-through rates, and drive qualified leads to your business.' },
+  { icon: 'https://img.icons8.com/?size=100&id=A2QHRB6UBpA6&format=png&color=ffffff', title: 'Google My Business', desc: 'Boost your local visibility and attract nearby customers. We optimize your GMB profile, manage reviews, and improve your local search rankings.' },
+  { icon: 'https://img.icons8.com/?size=100&id=7Xdye3V7xiD1&format=png&color=ffffff', title: 'Social Media Marketing', desc: 'Engage your audience across Facebook, Instagram, LinkedIn, and more. We create compelling content, manage communities, and drive social conversions.' },
+  { icon: 'https://img.icons8.com/?size=100&id=A2QHRB6UBpA6&format=png&color=ffffff', title: 'Banking and Insurance', desc: 'Specialized digital marketing solutions for banking and insurance sectors. Compliance-focused campaigns that build trust and drive customer acquisition.' },
   { icon: 'https://img.icons8.com/?size=100&id=7Xdye3V7xiD1&format=png&color=ffffff', title: 'Digital Marketing', desc: 'Run effective campaigns on Google, Facebook, and Instagram with detailed performance tracking and optimization.' },
   { icon: 'https://img.icons8.com/?size=100&id=A2QHRB6UBpA6&format=png&color=ffffff', title: 'Web Development', desc: 'We build clean, fast, and responsive websites — custom-coded or WordPress-based — tailored to your brand.' },
   { icon: 'https://img.icons8.com/?size=100&id=Zh3EQfzwFUbT&format=png&color=ffffff', title: 'Backend Solutions', desc: 'Automate your workflows and manage client data securely with lightweight CRM tools and backend integrations.' },
-  { icon: 'https://img.icons8.com/?size=100&id=LRA7sc7gTMQu&format=png&color=ffffff', title: 'Staffing Services', desc: 'Get trained associates, interns, and project teams to support marketing, operations, or development tasks.' },
-  { icon: 'https://img.icons8.com/?size=100&id=j73wEfY74Z0f&format=png&color=ffffff', title: 'Consulting', desc: 'Need help with planning or launching your business digitally? We offer flexible consulting and tech setup services.' },
+  { icon: 'https://img.icons8.com/?size=100&id=LRA7sc7gTMQu&format=png&color=ffffff', title: 'Outsourced Staffing', desc: 'Get trained associates, interns, and project teams to support marketing, operations, or development tasks.' },
 ];
 
 const websites = [
@@ -401,12 +407,12 @@ const ServicesPage = () => {
           
           <TreeBranch>
             <ServiceRow>
-              <HorizontalConnector top="-2.5rem" width="85%" branchHeight="2.5rem" />
-              {services.slice(0, 3).map((service, index) => (
+              <HorizontalConnector top="-2.5rem" width="90%" branchHeight="2.5rem" />
+              {services.slice(0, 4).map((service, index) => (
                 <ServiceCard 
                   key={service.title} 
                   data-aos="fade-up" 
-                  data-aos-delay={index * 120}
+                  data-aos-delay={index * 100}
                 >
                   <img src={service.icon} alt={`${service.title} Icon`} loading="lazy" />
                   <h3>{service.title}</h3>
@@ -416,12 +422,12 @@ const ServicesPage = () => {
             </ServiceRow>
             
             <ServiceRow>
-              <HorizontalConnector top="-2.5rem" width="60%" branchHeight="2.5rem" />
-              {services.slice(3).map((service, index) => (
+              <HorizontalConnector top="-2.5rem" width="90%" branchHeight="2.5rem" />
+              {services.slice(4).map((service, index) => (
                 <ServiceCard 
                   key={service.title} 
                   data-aos="fade-up" 
-                  data-aos-delay={(index + 3) * 120}
+                  data-aos-delay={(index + 4) * 100}
                 >
                   <img src={service.icon} alt={`${service.title} Icon`} loading="lazy" />
                   <h3>{service.title}</h3>

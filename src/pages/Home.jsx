@@ -231,6 +231,79 @@ const SectionLead = styled.p`
   margin: 0 auto;
   max-width: 640px;
   color: var(--text-muted);
+
+  strong {
+    color: var(--text-primary);
+    font-weight: 700;
+  }
+`;
+
+const AboutCard = styled.div`
+  margin-top: clamp(2rem, 4vw, 3rem);
+  padding: clamp(2.5rem, 5vw, 4rem) clamp(2rem, 4vw, 3rem);
+  background: linear-gradient(135deg, #ffffff 0%, #f8fafc 100%);
+  border-radius: 32px;
+  border: 1px solid rgba(0, 0, 0, 0.06);
+  box-shadow: 0 15px 50px rgba(0, 0, 0, 0.08);
+  position: relative;
+  overflow: hidden;
+  max-width: 900px;
+  margin-left: auto;
+  margin-right: auto;
+
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 4px;
+    background: linear-gradient(90deg, #6366f1, #8b5cf6, #ec4899);
+    border-radius: 32px 32px 0 0;
+  }
+`;
+
+const AboutContent = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+  text-align: center;
+
+  @media (min-width: 768px) {
+    flex-direction: row;
+    align-items: center;
+    text-align: left;
+    gap: 3rem;
+  }
+`;
+
+const AboutText = styled.p`
+  margin: 0;
+  color: var(--text-secondary);
+  line-height: 1.8;
+  font-size: clamp(1rem, 1.3vw, 1.1rem);
+  flex: 1;
+`;
+
+const AboutLink = styled(Link)`
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.85rem 2rem;
+  border-radius: 999px;
+  background: linear-gradient(120deg, #6366f1, #a855f7, #ec4899);
+  color: white;
+  font-weight: 600;
+  text-decoration: none;
+  box-shadow: 0 10px 30px rgba(99, 102, 241, 0.3);
+  transition: all 0.3s ease;
+  white-space: nowrap;
+
+  &:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 15px 40px rgba(236, 72, 153, 0.4);
+    background: linear-gradient(120deg, #818cf8, #a855f7, #f472b6);
+  }
 `;
 
 const ServiceGrid = styled.div`
@@ -690,6 +763,24 @@ export default function Home() {
           </HeroContent>
         </HeroGrid>
       </HeroSection>
+
+      <Section>
+        <SectionHeader>
+          <div className="eyebrow">Who We Are</div>
+          <SectionTitle>Full-Stack Growth Partner</SectionTitle>
+          <SectionLead>
+            <strong>G Business Support</strong> is a full-stack digital marketing and operations agency dedicated to helping startups, SMEs and Corporates to scale with precision. We craft data-driven campaigns, build modern websites, and provide smart staffing solutions — empowering businesses to grow faster, smarter, and more efficiently.
+          </SectionLead>
+        </SectionHeader>
+        <AboutCard data-aos="fade-up">
+          <AboutContent>
+            <AboutText>
+              From launching ad campaigns to managing backend workflows, our mission is to support digital-first businesses with scalable and streamlined solutions. We're not just a vendor — we're your extended growth team.
+            </AboutText>
+            <AboutLink to="/about">Learn More About Us →</AboutLink>
+          </AboutContent>
+        </AboutCard>
+      </Section>
 
       <Section>
         <SectionHeader>
