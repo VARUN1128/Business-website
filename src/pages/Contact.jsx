@@ -3,6 +3,8 @@ import styled from 'styled-components';
 import AOS from 'aos';
 import 'aos/dist/aos.css';
 import { FaMapMarkerAlt, FaPhoneAlt, FaEnvelope, FaWhatsapp } from 'react-icons/fa';
+import SEO from '../components/SEO';
+import StructuredData from '../components/StructuredData';
 
 const PageWrapper = styled.main`
   width: 100%;
@@ -423,7 +425,14 @@ const ContactPage = () => {
   };
 
   return (
-    <PageWrapper>
+    <>
+      <SEO 
+        title="Contact Us | G Business Support - Get in Touch in Bangalore"
+        description="Contact G Business Support in Bangalore. Visit us at Richmond Circle or reach out via phone, email, or WhatsApp. We're here to help grow your business with digital marketing and web development services."
+        keywords="contact g business support, digital marketing agency contact bangalore, web development company contact, business support services bangalore"
+      />
+      <StructuredData type="contact" />
+      <PageWrapper>
       <Section>
         <Header data-aos="fade-up">
           <Eyebrow>Contact Us</Eyebrow>
@@ -570,7 +579,8 @@ const ContactPage = () => {
           </ContactCard>
         </ContentGrid>
       </Section>
-    </PageWrapper>
+      </PageWrapper>
+    </>
   );
 };
 

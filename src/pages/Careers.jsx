@@ -2,6 +2,8 @@ import React, { useEffect, useRef, useState } from 'react';
 import styled, { keyframes } from 'styled-components';
 import AOS from 'aos';
 import 'aos/dist/aos.css';
+import SEO from '../components/SEO';
+import StructuredData from '../components/StructuredData';
 
 // --- IMPORT YOUR IMAGES HERE ---
 // Certificate Images
@@ -427,7 +429,14 @@ const CareersPage = () => {
   }, []);
 
   return (
-    <PageWrapper>
+    <>
+      <SEO 
+        title="Careers | Join G Business Support - Digital Marketing & Web Development Jobs"
+        description="Join G Business Support team in Bangalore. Explore career opportunities in digital marketing, web development, backend solutions, and business operations. Grow your career with us."
+        keywords="careers g business support, digital marketing jobs bangalore, web development jobs, marketing careers, business support jobs bangalore"
+      />
+      <StructuredData type="careers" />
+      <PageWrapper>
       <Section>
         <SectionTitle data-aos="fade-up">Join Our Team</SectionTitle>
         <SectionParagraph data-aos="fade-up" data-aos-delay="100">
@@ -495,7 +504,8 @@ const CareersPage = () => {
           ))}
         </DraggableScroller>
       </GallerySection>
-    </PageWrapper>
+      </PageWrapper>
+    </>
   );
 };
 

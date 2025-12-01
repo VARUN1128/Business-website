@@ -2,6 +2,8 @@ import React, { useEffect, useRef, useState } from 'react';
 import styled, { keyframes } from 'styled-components';
 import AOS from 'aos';
 import 'aos/dist/aos.css';
+import SEO from '../components/SEO';
+import StructuredData from '../components/StructuredData';
 
 import p1 from '../assets/p1.jpg';
 import p2 from '../assets/p2.jpeg';
@@ -330,7 +332,14 @@ const AboutContent = () => {
   }, []);
 
   return (
-    <Page>
+    <>
+      <SEO 
+        title="About Us | G Business Support - Full-Stack Growth Partner in Bangalore"
+        description="Learn about G Business Support, a full-stack digital marketing and operations agency in Bangalore. We help startups, SMEs, and corporates scale with data-driven campaigns, modern websites, and smart staffing solutions."
+        keywords="about g business support, digital marketing agency bangalore, web development company, business growth partner, marketing team bangalore"
+      />
+      <StructuredData type="about" />
+      <Page>
       <HeroCard data-aos="fade-up">
         <div className="eyebrow">Who We Are</div>
         <Title>Full-Stack Growth Partner</Title>
@@ -365,7 +374,8 @@ const AboutContent = () => {
           </DraggableScroller>
         </GalleryWrapper>
       </PartnerSection>
-    </Page>
+      </Page>
+    </>
   );
 };
 

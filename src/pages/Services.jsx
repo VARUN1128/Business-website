@@ -2,6 +2,8 @@ import React, { useEffect } from 'react';
 import styled, { keyframes } from 'styled-components';
 import AOS from 'aos';
 import 'aos/dist/aos.css';
+import SEO from '../components/SEO';
+import StructuredData from '../components/StructuredData';
 
 import web1 from '../assets/web1.png';
 import web2 from '../assets/web2.png';
@@ -444,7 +446,14 @@ const ServicesPage = () => {
   }, []);
 
   return (
-    <Page>
+    <>
+      <SEO 
+        title="Our Services | G Business Support - Digital Marketing, Web Development & More"
+        description="Comprehensive digital marketing and web development services by G Business Support. Google Ads, Social Media Marketing, Web Development, Backend Solutions, Staffing, Banking & Insurance, and Telecom services in Bangalore."
+        keywords="digital marketing services, web development services, google ads management, social media marketing services, backend solutions, staffing services, banking insurance services, telecom services bangalore"
+      />
+      <StructuredData type="services" />
+      <Page>
       <Section>
         <TreeContainer>
           <RootNode data-aos="fade-down">
@@ -562,7 +571,8 @@ const ServicesPage = () => {
           </SliderTrack>
         </SliderWrapper>
       </Section>
-    </Page>
+      </Page>
+    </>
   );
 };
 

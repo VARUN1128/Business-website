@@ -331,7 +331,12 @@ export default function Navbar() {
         <NavContainer>
           <Brand to="/">
             <LogoBadge>
-              <img src={mainLogo} alt="G Business Support logo" />
+              <img 
+                src={mainLogo} 
+                alt="G Business Support - Digital Marketing and Web Development Company Logo" 
+                width="54" 
+                height="54"
+              />
             </LogoBadge>
                   <BrandInfo>
                     <CompanyName>G Business Support</CompanyName>

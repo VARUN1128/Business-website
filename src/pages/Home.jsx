@@ -5,6 +5,8 @@ import AOS from 'aos';
 import 'aos/dist/aos.css';
 
 import Query from '../components/Query';
+import SEO from '../components/SEO';
+import StructuredData from '../components/StructuredData';
 import heroVideo from '../assets/gbs.mp4';
 import gaImg from '../assets/GA.png';
 import gmbImg from '../assets/GMB.png';
@@ -1038,8 +1040,15 @@ export default function Home() {
   };
 
   return (
-    <PageWrapper>
-      <HeroSection>
+    <>
+      <SEO 
+        title="G Business Support | Digital Marketing & Web Development Services in Bangalore"
+        description="G Business Support is a full-stack digital marketing and operations agency in Bangalore. Expert services in Google Ads, Social Media Marketing, Web Development, Backend Solutions, Staffing, Banking & Insurance, and Telecom services."
+        keywords="digital marketing bangalore, web development services, google ads management, social media marketing bangalore, web design company, backend solutions, staffing services, business growth consultant, SEO services bangalore, digital marketing agency, web development company bangalore"
+      />
+      <StructuredData type="home" />
+      <PageWrapper>
+        <HeroSection>
         <HeroVideo 
           autoPlay 
           loop 
@@ -1090,7 +1099,7 @@ export default function Home() {
         </AboutCard>
       </Section>
 
-      <Section>
+      <Section aria-label="Our Core Services">
         <SectionHeader>
           <div className="eyebrow">Capabilities</div>
           <SectionTitle>Our Core Services</SectionTitle>
@@ -1106,14 +1115,20 @@ export default function Home() {
               data-aos-delay={index * 80}
               onClick={() => openQuery(service.tag)}
             >
-              <img src={service.img} alt={service.tag} loading="lazy" />
+              <img 
+                src={service.img} 
+                alt={`${service.tag} service by G Business Support - Professional ${service.tag.toLowerCase()} solutions in Bangalore`} 
+                loading="lazy" 
+                width="200" 
+                height="200"
+              />
               <span>{service.tag}</span>
             </ServiceCard>
           ))}
         </ServiceGrid>
       </Section>
 
-      <Section>
+      <Section aria-label="Integrated Delivery Pods">
         <SectionHeader>
           <div className="eyebrow">Workflows</div>
           <SectionTitle>Integrated Delivery Pods</SectionTitle>
@@ -1147,7 +1162,7 @@ export default function Home() {
         </VideoGrid>
       </Section>
 
-      <Section>
+      <Section aria-label="Why Choose Us">
         <SectionHeader>
           <div className="eyebrow">Why Choose Us</div>
           <SectionTitle>One Partner. Full Accountability.</SectionTitle>
@@ -1175,12 +1190,19 @@ export default function Home() {
         </SectionHeader>
         <DraggablePartnerScroller>
           {duplicatedPartnerLogos.map((logo, index) => (
-            <img src={logo} alt={`Partner ${index + 1}`} key={index} loading="lazy" />
+            <img 
+              src={logo} 
+              alt={`Trusted partner and client of G Business Support - Digital marketing and web development services`} 
+              key={index} 
+              loading="lazy" 
+              width="150" 
+              height="80"
+            />
           ))}
         </DraggablePartnerScroller>
       </PartnerSection>
 
-      <ContactSection>
+      <ContactSection aria-label="Contact Information">
         <SectionHeader>
           <div className="eyebrow">Visit or Write</div>
           <SectionTitle>Made in Bengaluru. Delivering Everywhere.</SectionTitle>
@@ -1220,6 +1242,7 @@ export default function Home() {
         defaultService={defaultService}
         waNumber="919071861881"
       />
-    </PageWrapper>
+      </PageWrapper>
+    </>
   );
 }

@@ -1,4 +1,5 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Playfair+Display:wght@600;700&family=Space+Grotesk:wght@500&display=swap');
+/* Font-display: swap ensures text remains visible during font load for better performance */
 
 :root {
   color-scheme: light;
