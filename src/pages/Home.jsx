@@ -109,16 +109,29 @@ const HeroParagraph = styled.p`
 
 const HeroActions = styled.div`
   display: flex;
-  flex-wrap: wrap;
-  gap: 1rem;
+  flex-wrap: nowrap;
+  gap: clamp(0.4rem, 1.5vw, 0.8rem);
+  width: 100%;
+  justify-content: center;
+
+  @media (max-width: 640px) {
+    gap: 0.4rem;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+
+  @media (max-width: 480px) {
+    gap: 0.35rem;
+  }
 `;
 
 const ActionButton = styled(Link)`
   text-decoration: none;
   border-radius: 999px;
-  padding: 0.85rem 1.8rem;
+  padding: clamp(0.65rem, 1.8vw, 0.85rem) clamp(0.6rem, 2vw, 1.2rem);
   font-weight: 600;
-  letter-spacing: 0.01em;
+  font-size: clamp(0.7rem, 1.6vw, 0.9rem);
+  letter-spacing: 0;
   border: 1px solid transparent;
   transition: transform 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
   color: ${props => (props.$variant === 'secondary' ? '#0f172a' : '#fff')};
@@ -131,6 +144,28 @@ const ActionButton = styled(Link)`
     props.$variant === 'secondary'
       ? '0 2px 8px rgba(0, 0, 0, 0.06)'
       : '0 20px 45px rgba(99, 102, 241, 0.35)'};
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  flex: 1 1 auto;
+  min-width: 0;
+  text-align: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  line-height: 1.2;
+
+  @media (max-width: 640px) {
+    flex: 1 1 calc(33.333% - 0.27rem);
+    max-width: calc(33.333% - 0.27rem);
+    padding: 0.65rem 0.5rem;
+    font-size: 0.7rem;
+  }
+
+  @media (max-width: 480px) {
+    padding: 0.6rem 0.4rem;
+    font-size: 0.65rem;
+  }
 
   &:hover {
     transform: translateY(-2px);
@@ -147,13 +182,13 @@ const ActionButton = styled(Link)`
 
 const ActionButtonAsButton = styled.button`
   border-radius: 999px;
-  padding: 0.85rem 1.8rem;
+  padding: clamp(0.65rem, 1.8vw, 0.85rem) clamp(0.6rem, 2vw, 1.2rem);
   font-weight: 600;
-  letter-spacing: 0.01em;
+  font-size: clamp(0.7rem, 1.6vw, 0.9rem);
+  letter-spacing: 0;
   border: 1px solid transparent;
   transition: transform 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
   cursor: pointer;
-  font-size: inherit;
   font-family: inherit;
   color: ${props => (props.$variant === 'secondary' ? '#0f172a' : '#fff')};
   background: ${props =>
@@ -165,6 +200,28 @@ const ActionButtonAsButton = styled.button`
     props.$variant === 'secondary'
       ? '0 2px 8px rgba(0, 0, 0, 0.06)'
       : '0 20px 45px rgba(99, 102, 241, 0.35)'};
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  flex: 1 1 auto;
+  min-width: 0;
+  text-align: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  line-height: 1.2;
+
+  @media (max-width: 640px) {
+    flex: 1 1 calc(33.333% - 0.27rem);
+    max-width: calc(33.333% - 0.27rem);
+    padding: 0.65rem 0.5rem;
+    font-size: 0.7rem;
+  }
+
+  @media (max-width: 480px) {
+    padding: 0.6rem 0.4rem;
+    font-size: 0.65rem;
+  }
 
   &:hover {
     transform: translateY(-2px);

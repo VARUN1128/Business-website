@@ -147,28 +147,70 @@ const MobileMenu = styled.div`
   background: #ffffff;
   border-top: 1px solid rgba(0, 0, 0, 0.08);
   padding: 1.75rem clamp(1rem, 6vw, 2rem) 2.5rem;
-  transform: translateY(${props => (props.$open ? '0%' : '100%')});
   box-shadow: 0 -10px 40px rgba(0, 0, 0, 0.15);
-  z-index: 120;
-  max-height: 80vh;
+  z-index: 1000;
+  height: 50vh;
+  max-height: 50vh;
   overflow-y: auto;
-  visibility: ${props => (props.$open ? 'visible' : 'hidden')};
-  pointer-events: ${props => (props.$open ? 'auto' : 'none')};
+  transform: translateY(${props => (props.$open ? '0' : '100%')});
   opacity: ${props => (props.$open ? 1 : 0)};
-  transition: transform 0.35s ease, opacity 0.35s ease, visibility 0.35s ease;
+  pointer-events: ${props => (props.$open ? 'auto' : 'none')};
+  transition: transform 0.35s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.35s ease;
+  border-radius: 24px 24px 0 0;
+  will-change: transform;
 
   ${breakpointMd} {
     display: none;
   }
 `;
 
+const MobileMenuHeader = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 1.5rem;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+`;
+
+const MobileMenuTitle = styled.h3`
+  margin: 0;
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: var(--text-primary);
+`;
+
+const CloseButton = styled.button`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  background: #f8fafc;
+  color: var(--text-primary);
+  cursor: pointer;
+  transition: all 0.2s ease;
+
+  &:hover {
+    background: #e2e8f0;
+    transform: scale(1.1);
+  }
+
+  svg {
+    width: 1.25rem;
+    height: 1.25rem;
+  }
+`;
+
 const MobileLinks = styled.ul`
   list-style: none;
-  margin: 0 0 1.5rem;
+  margin: 0;
   padding: 0;
   display: flex;
   flex-direction: column;
-  gap: 0.8rem;
+  gap: 0.5rem;
 `;
 
 const MobileLink = styled(NavLink)`
@@ -193,7 +235,8 @@ const MenuBackdrop = styled.button`
   opacity: ${props => (props.$open ? 1 : 0)};
   pointer-events: ${props => (props.$open ? 'auto' : 'none')};
   transition: opacity 0.25s ease;
-  z-index: 110;
+  z-index: 999;
+  visibility: ${props => (props.$open ? 'visible' : 'hidden')};
 `;
 
 export default function Navbar() {
@@ -256,6 +299,12 @@ export default function Navbar() {
 
       <MenuBackdrop $open={isMobileMenuOpen} onClick={closeMenu} aria-label="Close menu backdrop" />
       <MobileMenu $open={isMobileMenuOpen} aria-hidden={!isMobileMenuOpen}>
+        <MobileMenuHeader>
+          <MobileMenuTitle>Menu</MobileMenuTitle>
+          <CloseButton onClick={closeMenu} aria-label="Close menu">
+            <XMarkIcon />
+          </CloseButton>
+        </MobileMenuHeader>
         <MobileLinks>
           {navLinks.map(({ to, label }) => (
             <li key={label}>
