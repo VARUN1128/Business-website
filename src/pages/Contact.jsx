@@ -6,8 +6,12 @@ import { FaMapMarkerAlt, FaPhoneAlt, FaEnvelope, FaWhatsapp } from 'react-icons/
 
 const PageWrapper = styled.main`
   width: 100%;
-  padding: clamp(3rem, 6vw, 5rem) clamp(1.5rem, 4vw, 3rem);
+  padding: clamp(2rem, 5vw, 5rem) clamp(1rem, 3vw, 3rem);
   background: linear-gradient(to bottom, #ffffff 0%, #f8fafc 100%);
+
+  @media (max-width: 480px) {
+    padding: 1.5rem 0.75rem;
+  }
 `;
 
 const Section = styled.section`
@@ -34,18 +38,27 @@ const Eyebrow = styled.div`
 `;
 
 const Title = styled.h1`
-  font-size: clamp(2.5rem, 5vw, 3.5rem);
-  margin: 0 0 1rem;
+  font-size: clamp(2rem, 6vw, 3.5rem);
+  margin: 0 0 clamp(0.75rem, 1.5vw, 1rem);
   font-weight: 700;
   line-height: 1.2;
   color: var(--text-primary);
+
+  @media (max-width: 480px) {
+    font-size: clamp(1.75rem, 7vw, 2.25rem);
+  }
 `;
 
 const Subtitle = styled.p`
   margin: 0;
-  font-size: clamp(1rem, 1.5vw, 1.2rem);
+  font-size: clamp(0.9rem, 2vw, 1.2rem);
   color: var(--text-secondary);
   line-height: 1.6;
+
+  @media (max-width: 480px) {
+    font-size: clamp(0.85rem, 3vw, 1rem);
+    line-height: 1.5;
+  }
 `;
 
 const ContentGrid = styled.div`
@@ -61,10 +74,15 @@ const ContentGrid = styled.div`
 const FormWrapper = styled.form`
   background: #ffffff;
   border: 1px solid rgba(0, 0, 0, 0.08);
-  border-radius: 32px;
-  padding: clamp(2rem, 4vw, 3rem);
+  border-radius: clamp(24px, 4vw, 32px);
+  padding: clamp(1.5rem, 3vw, 3rem);
   box-shadow: 0 10px 40px rgba(0, 0, 0, 0.08);
   transition: transform 0.3s ease, box-shadow 0.3s ease;
+
+  @media (max-width: 480px) {
+    padding: 1.25rem;
+    border-radius: 20px;
+  }
 
   &:hover {
     box-shadow: 0 15px 50px rgba(0, 0, 0, 0.12);
@@ -72,10 +90,14 @@ const FormWrapper = styled.form`
 `;
 
 const FormTitle = styled.h3`
-  font-size: 1.5rem;
+  font-size: clamp(1.25rem, 3vw, 1.5rem);
   font-weight: 700;
-  margin: 0 0 1.5rem;
+  margin: 0 0 clamp(1rem, 2vw, 1.5rem);
   color: var(--text-primary);
+
+  @media (max-width: 480px) {
+    font-size: clamp(1.1rem, 4vw, 1.3rem);
+  }
 `;
 
 const FormGroup = styled.div`
@@ -106,14 +128,19 @@ const Label = styled.label`
 
 const sharedField = `
   width: 100%;
-  border-radius: 14px;
+  border-radius: clamp(12px, 2vw, 14px);
   border: 1.5px solid rgba(0, 0, 0, 0.1);
   background: #ffffff;
   color: var(--text-primary);
-  padding: 0.95rem 1.25rem;
-  font-size: 1rem;
+  padding: clamp(0.85rem, 2vw, 0.95rem) clamp(1rem, 2vw, 1.25rem);
+  font-size: clamp(0.9rem, 2vw, 1rem);
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   font-family: inherit;
+
+  @media (max-width: 480px) {
+    padding: 0.8rem 0.9rem;
+    font-size: 0.9rem;
+  }
 
   &:focus {
     outline: none;
@@ -162,8 +189,8 @@ const SubmitButton = styled.button`
   width: 100%;
   border: none;
   border-radius: 999px;
-  padding: 1rem 2rem;
-  font-size: 1.05rem;
+  padding: clamp(0.9rem, 2vw, 1rem) clamp(1.5rem, 3vw, 2rem);
+  font-size: clamp(0.95rem, 2vw, 1.05rem);
   font-weight: 600;
   letter-spacing: 0.02em;
   background: linear-gradient(120deg, #6366f1, #a855f7, #ec4899);
@@ -174,6 +201,11 @@ const SubmitButton = styled.button`
   margin-top: 0.5rem;
   position: relative;
   overflow: hidden;
+
+  @media (max-width: 480px) {
+    padding: 0.85rem 1.25rem;
+    font-size: 0.9rem;
+  }
 
   &::before {
     content: '';
@@ -221,12 +253,12 @@ const FormStatus = styled.div`
 const ContactCard = styled.div`
   background: #ffffff;
   border: 1px solid rgba(0, 0, 0, 0.08);
-  border-radius: 32px;
-  padding: clamp(2rem, 4vw, 3rem);
+  border-radius: clamp(24px, 4vw, 32px);
+  padding: clamp(1.5rem, 3vw, 3rem);
   box-shadow: 0 10px 40px rgba(0, 0, 0, 0.08);
   display: flex;
   flex-direction: column;
-  gap: 2rem;
+  gap: clamp(1.5rem, 2.5vw, 2rem);
   height: fit-content;
   position: sticky;
   top: 2rem;
@@ -234,31 +266,52 @@ const ContactCard = styled.div`
   @media (max-width: 900px) {
     position: static;
   }
+
+  @media (max-width: 480px) {
+    padding: 1.25rem;
+    border-radius: 20px;
+    gap: 1.25rem;
+  }
 `;
 
 const ContactCardTitle = styled.h3`
-  font-size: 1.5rem;
+  font-size: clamp(1.25rem, 3vw, 1.5rem);
   font-weight: 700;
-  margin: 0 0 0.5rem;
+  margin: 0 0 clamp(0.4rem, 1vw, 0.5rem);
   color: var(--text-primary);
+
+  @media (max-width: 480px) {
+    font-size: clamp(1.1rem, 4vw, 1.3rem);
+  }
 `;
 
 const ContactCardSubtitle = styled.p`
-  margin: 0 0 1.5rem;
+  margin: 0 0 clamp(1rem, 2vw, 1.5rem);
   color: var(--text-secondary);
-  font-size: 0.95rem;
+  font-size: clamp(0.85rem, 2vw, 0.95rem);
   line-height: 1.6;
+
+  @media (max-width: 480px) {
+    font-size: clamp(0.8rem, 3vw, 0.9rem);
+    line-height: 1.5;
+  }
 `;
 
 const ContactItem = styled.div`
   display: flex;
   align-items: flex-start;
-  gap: 1rem;
-  padding: 1.25rem;
-  border-radius: 18px;
+  gap: clamp(0.75rem, 1.5vw, 1rem);
+  padding: clamp(1rem, 2vw, 1.25rem);
+  border-radius: clamp(16px, 2.5vw, 18px);
   background: #f8fafc;
   transition: all 0.3s ease;
   border: 1px solid transparent;
+
+  @media (max-width: 480px) {
+    padding: 0.875rem;
+    gap: 0.75rem;
+    border-radius: 14px;
+  }
 
   &:hover {
     background: #f1f5f9;
@@ -268,9 +321,9 @@ const ContactItem = styled.div`
 `;
 
 const IconWrapper = styled.div`
-  width: 48px;
-  height: 48px;
-  border-radius: 14px;
+  width: clamp(40px, 6vw, 48px);
+  height: clamp(40px, 6vw, 48px);
+  border-radius: clamp(12px, 2vw, 14px);
   background: linear-gradient(135deg, #6366f1, #8b5cf6);
   display: flex;
   align-items: center;
@@ -279,8 +332,14 @@ const IconWrapper = styled.div`
   flex-shrink: 0;
   box-shadow: 0 4px 12px rgba(99, 102, 241, 0.25);
 
+  @media (max-width: 480px) {
+    width: 40px;
+    height: 40px;
+    border-radius: 12px;
+  }
+
   svg {
-    font-size: 1.25rem;
+    font-size: clamp(1rem, 2vw, 1.25rem);
   }
 `;
 

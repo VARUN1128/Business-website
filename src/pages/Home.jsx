@@ -43,7 +43,17 @@ const HeroSection = styled.section`
   overflow: hidden;
   background: #000;
   isolation: isolate;
-  padding: clamp(2rem, 5vw, 4rem);
+  padding: clamp(1.5rem, 4vw, 4rem) clamp(1rem, 3vw, 2rem);
+
+  @media (max-width: 768px) {
+    min-height: 75vh;
+    padding: 1.25rem 1rem;
+  }
+
+  @media (max-width: 480px) {
+    padding: 1rem 0.75rem;
+    min-height: 70vh;
+  }
 `;
 
 const HeroVideo = styled.video`
@@ -59,7 +69,7 @@ const HeroVideo = styled.video`
 const HeroOverlay = styled.div`
   position: absolute;
   inset: 0;
-  background: linear-gradient(120deg, rgba(255, 255, 255, 0.6), rgba(255, 255, 255, 0.25));
+  background: linear-gradient(120deg, rgba(0, 0, 0, 0.35), rgba(0, 0, 0, 0.2));
   z-index: 1;
 `;
 
@@ -67,44 +77,98 @@ const HeroGrid = styled.div`
   position: relative;
   z-index: 2;
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-  gap: clamp(2rem, 4vw, 3rem);
+  grid-template-columns: 1fr;
+  gap: clamp(1.5rem, 3vw, 3rem);
   align-items: center;
+  justify-items: start;
   width: min(1400px, 100%);
   margin: 0 auto;
-  padding: clamp(2rem, 4vw, 3.5rem);
+  padding: clamp(1.5rem, 3vw, 3.5rem) clamp(1rem, 2vw, 2rem);
+
+  @media (min-width: 768px) {
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  }
+
+  @media (max-width: 768px) {
+    padding: 1rem 0.75rem;
+    gap: 1.25rem;
+    align-items: center;
+    justify-items: center;
+    min-height: calc(70vh - 2rem);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+
+  @media (max-width: 480px) {
+    padding: 0.75rem 0.5rem;
+    gap: 1rem;
+    min-height: calc(70vh - 1.5rem);
+  }
 `;
 
 const HeroContent = styled.div`
-  color: #0f172a;
+  color: rgba(255, 255, 255, 0.95);
   max-width: 620px;
+  text-align: left;
+  
+  @media (max-width: 768px) {
+    text-align: center;
+    max-width: 100%;
+  }
 `;
 
 const HeroBadge = styled.span`
   display: inline-flex;
   align-items: center;
   gap: 0.35rem;
-  padding: 0.35rem 0.9rem;
+  padding: clamp(0.3rem, 1vw, 0.35rem) clamp(0.7rem, 1.5vw, 0.9rem);
   border-radius: 999px;
   border: 1px solid rgba(0, 0, 0, 0.1);
   background: rgba(255, 255, 255, 0.9);
-  font-size: 0.8rem;
+  font-size: clamp(0.7rem, 1.5vw, 0.8rem);
   letter-spacing: 0.2em;
   text-transform: uppercase;
-  margin-bottom: 1.5rem;
+  margin-bottom: clamp(0.75rem, 2vw, 1.5rem);
   color: var(--text-primary);
+
+  @media (max-width: 480px) {
+    margin-bottom: 0.75rem;
+    font-size: 0.7rem;
+    padding: 0.3rem 0.7rem;
+  }
 `;
 
 const HeroTitle = styled.h1`
-  font-size: clamp(2.8rem, 5vw, 4rem);
-  margin: 0 0 1.25rem;
+  font-size: clamp(2rem, 6vw, 4rem);
+  margin: 0 0 clamp(1rem, 2vw, 1.25rem);
   line-height: 1.15;
+  color: rgba(255, 255, 255, 0.95);
+  font-weight: 700;
+  text-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+
+  @media (max-width: 480px) {
+    font-size: clamp(1.75rem, 8vw, 2.2rem);
+    line-height: 1.2;
+  }
 `;
 
 const HeroParagraph = styled.p`
-  font-size: clamp(1rem, 1.4vw, 1.2rem);
-  color: var(--text-secondary);
-  margin-bottom: 2rem;
+  font-size: clamp(0.9rem, 2vw, 1.2rem);
+  color: rgba(255, 255, 255, 0.9);
+  margin-bottom: clamp(1rem, 2.5vw, 2rem);
+  line-height: 1.6;
+  text-shadow: 0 1px 4px rgba(0, 0, 0, 0.1);
+
+  @media (max-width: 768px) {
+    margin-bottom: 1.25rem;
+  }
+
+  @media (max-width: 480px) {
+    font-size: clamp(0.85rem, 3vw, 1rem);
+    line-height: 1.5;
+    margin-bottom: 1rem;
+  }
 `;
 
 const HeroActions = styled.div`
@@ -271,7 +335,11 @@ const FormColumn = styled.div`
 const Section = styled.section`
   width: min(1200px, 100%);
   margin: 0 auto;
-  padding: clamp(3rem, 6vw, 5rem) clamp(1.5rem, 4vw, 2.5rem);
+  padding: clamp(2rem, 5vw, 5rem) clamp(1rem, 3vw, 2.5rem);
+
+  @media (max-width: 480px) {
+    padding: 1.5rem 0.75rem;
+  }
 `;
 
 const SectionHeader = styled.div`
@@ -280,14 +348,27 @@ const SectionHeader = styled.div`
 `;
 
 const SectionTitle = styled.h2`
-  font-size: clamp(2rem, 4vw, 3rem);
-  margin: 0 0 1rem;
+  font-size: clamp(1.75rem, 5vw, 3rem);
+  margin: 0 0 clamp(0.75rem, 1.5vw, 1rem);
+  line-height: 1.2;
+
+  @media (max-width: 480px) {
+    font-size: clamp(1.5rem, 6vw, 2rem);
+  }
 `;
 
 const SectionLead = styled.p`
   margin: 0 auto;
   max-width: 640px;
   color: var(--text-muted);
+  font-size: clamp(0.9rem, 2vw, 1.1rem);
+  line-height: 1.6;
+  padding: 0 clamp(0.5rem, 2vw, 0);
+
+  @media (max-width: 480px) {
+    font-size: clamp(0.85rem, 3vw, 0.95rem);
+    line-height: 1.5;
+  }
 
   strong {
     color: var(--text-primary);
@@ -296,10 +377,10 @@ const SectionLead = styled.p`
 `;
 
 const AboutCard = styled.div`
-  margin-top: clamp(2rem, 4vw, 3rem);
-  padding: clamp(2.5rem, 5vw, 4rem) clamp(2rem, 4vw, 3rem);
+  margin-top: clamp(1.5rem, 3vw, 3rem);
+  padding: clamp(1.5rem, 4vw, 4rem) clamp(1.25rem, 3vw, 3rem);
   background: linear-gradient(135deg, #ffffff 0%, #f8fafc 100%);
-  border-radius: 32px;
+  border-radius: clamp(24px, 4vw, 32px);
   border: 1px solid rgba(0, 0, 0, 0.06);
   box-shadow: 0 15px 50px rgba(0, 0, 0, 0.08);
   position: relative;
@@ -307,6 +388,12 @@ const AboutCard = styled.div`
   max-width: 900px;
   margin-left: auto;
   margin-right: auto;
+
+  @media (max-width: 480px) {
+    padding: 1.5rem 1rem;
+    border-radius: 20px;
+    margin-top: 1.5rem;
+  }
 
   &::before {
     content: '';
@@ -338,35 +425,68 @@ const AboutText = styled.p`
   margin: 0;
   color: var(--text-secondary);
   line-height: 1.8;
-  font-size: clamp(1rem, 1.3vw, 1.1rem);
+  font-size: clamp(0.9rem, 2vw, 1.1rem);
   flex: 1;
+
+  @media (max-width: 480px) {
+    font-size: clamp(0.85rem, 3vw, 0.95rem);
+    line-height: 1.6;
+  }
 `;
 
 const AboutLink = styled(Link)`
   display: inline-flex;
   align-items: center;
+  justify-content: center;
   gap: 0.5rem;
-  padding: 0.85rem 2rem;
+  padding: clamp(0.65rem, 1.5vw, 0.75rem) clamp(1.25rem, 2.5vw, 1.75rem);
   border-radius: 999px;
   background: linear-gradient(120deg, #6366f1, #a855f7, #ec4899);
   color: white;
   font-weight: 600;
+  font-size: clamp(0.9rem, 1.8vw, 1rem);
   text-decoration: none;
-  box-shadow: 0 10px 30px rgba(99, 102, 241, 0.3);
+  text-align: center;
+  box-shadow: 0 8px 24px rgba(99, 102, 241, 0.25);
   transition: all 0.3s ease;
   white-space: nowrap;
 
+  @media (max-width: 768px) {
+    padding: 0.6rem 1rem;
+    font-size: 0.9rem;
+    gap: 0.4rem;
+  }
+
+  @media (max-width: 480px) {
+    padding: 0.55rem 0.9rem;
+    font-size: 0.85rem;
+    gap: 0.35rem;
+  }
+
   &:hover {
     transform: translateY(-2px);
-    box-shadow: 0 15px 40px rgba(236, 72, 153, 0.4);
+    box-shadow: 0 12px 32px rgba(99, 102, 241, 0.35);
     background: linear-gradient(120deg, #818cf8, #a855f7, #f472b6);
   }
 `;
 
 const ServiceGrid = styled.div`
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-  gap: clamp(1.5rem, 3vw, 2.5rem);
+  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+  gap: clamp(1rem, 2.5vw, 2.5rem);
+
+  @media (max-width: 480px) {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 0.75rem;
+  }
+
+  @media (min-width: 640px) {
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  }
+
+  @media (min-width: 1024px) {
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  }
 
   @media (max-width: 640px) {
     grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
@@ -380,16 +500,22 @@ const ServiceGrid = styled.div`
 const ServiceCard = styled.button`
   background: #ffffff;
   border: 1px solid rgba(0, 0, 0, 0.08);
-  border-radius: 22px;
-  padding: 1.25rem;
+  border-radius: clamp(18px, 3vw, 22px);
+  padding: clamp(1rem, 2vw, 1.25rem);
   text-align: left;
   cursor: pointer;
   color: var(--text-primary);
   transition: transform 0.25s ease, border-color 0.25s ease;
   display: flex;
   flex-direction: column;
-  gap: 1rem;
+  gap: clamp(0.75rem, 1.5vw, 1rem);
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+
+  @media (max-width: 480px) {
+    padding: 0.875rem;
+    gap: 0.625rem;
+    border-radius: 16px;
+  }
 
   &:hover {
     transform: translateY(-4px);
@@ -399,15 +525,21 @@ const ServiceCard = styled.button`
 
   img {
     width: 100%;
-    height: 160px;
+    height: clamp(120px, 25vw, 160px);
     object-fit: contain;
-    border-radius: 16px;
+    border-radius: clamp(12px, 2vw, 16px);
     background: #f8fafc;
     padding: 0.75rem;
   }
 
   span {
     font-weight: 600;
+    font-size: clamp(0.9rem, 2vw, 1.1rem);
+    line-height: 1.3;
+
+    @media (max-width: 480px) {
+      font-size: clamp(0.8rem, 3vw, 0.95rem);
+    }
   }
 `;
 
@@ -430,18 +562,26 @@ const Pill = styled.span`
 
 const VideoGrid = styled.div`
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-  gap: clamp(1.5rem, 3vw, 2.5rem);
+  grid-template-columns: 1fr;
+  gap: clamp(1rem, 2.5vw, 2.5rem);
+
+  @media (min-width: 640px) {
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  }
 
   @media (min-width: 1024px) {
     grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  @media (max-width: 480px) {
+    gap: 1rem;
   }
 `;
 
 const VideoCard = styled.button`
   border: none;
   background: #ffffff;
-  border-radius: 22px;
+  border-radius: clamp(18px, 3vw, 22px);
   padding: 0;
   text-align: left;
   overflow: hidden;
@@ -449,6 +589,10 @@ const VideoCard = styled.button`
   border: 1px solid rgba(0, 0, 0, 0.08);
   box-shadow: var(--shadow-md);
   transition: transform 0.25s ease, border-color 0.25s ease;
+
+  @media (max-width: 480px) {
+    border-radius: 16px;
+  }
 
   &:hover {
     transform: translateY(-4px);
@@ -465,8 +609,8 @@ const VideoCard = styled.button`
 
   h3 {
     margin: 0;
-    padding: 1.25rem 1.5rem;
-    font-size: 1.1rem;
+    padding: clamp(1rem, 2vw, 1.25rem) clamp(1rem, 2.5vw, 1.5rem);
+    font-size: clamp(0.95rem, 2vw, 1.1rem);
     color: var(--accent-3);
   }
 `;
@@ -487,17 +631,23 @@ const ChooseGrid = styled.div`
 `;
 
 const ChooseCard = styled.div`
-  padding: clamp(2rem, 3vw, 2.5rem);
-  border-radius: 24px;
+  padding: clamp(1.5rem, 3vw, 2.5rem);
+  border-radius: clamp(20px, 3vw, 24px);
   background: #ffffff;
   border: 1px solid rgba(0, 0, 0, 0.08);
   box-shadow: 0 8px 32px rgba(0, 0, 0, 0.08), 0 2px 8px rgba(0, 0, 0, 0.04);
   display: flex;
   flex-direction: column;
-  gap: 1.25rem;
+  gap: clamp(1rem, 2vw, 1.25rem);
   transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
   position: relative;
   overflow: hidden;
+
+  @media (max-width: 480px) {
+    padding: 1.25rem;
+    border-radius: 18px;
+    gap: 0.875rem;
+  }
 
   &::before {
     content: '';
@@ -523,11 +673,15 @@ const ChooseCard = styled.div`
   }
 
   span {
-    font-size: 3rem;
+    font-size: clamp(1.75rem, 4vw, 3rem);
     line-height: 1;
     display: inline-block;
     transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
     filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.1));
+
+    @media (max-width: 480px) {
+      font-size: clamp(1.5rem, 5vw, 2rem);
+    }
   }
 
   &:hover span {
@@ -536,32 +690,50 @@ const ChooseCard = styled.div`
 
   h3 {
     margin: 0;
-    font-size: clamp(1.25rem, 2vw, 1.4rem);
+    font-size: clamp(1.1rem, 2.5vw, 1.4rem);
     font-weight: 700;
     color: var(--text-primary);
     line-height: 1.3;
+
+    @media (max-width: 480px) {
+      font-size: clamp(1rem, 4vw, 1.2rem);
+    }
   }
 
   p {
     margin: 0;
     color: var(--text-secondary);
-    font-size: clamp(0.9rem, 1.2vw, 1rem);
+    font-size: clamp(0.85rem, 1.8vw, 1rem);
     line-height: 1.6;
+
+    @media (max-width: 480px) {
+      font-size: clamp(0.8rem, 3vw, 0.9rem);
+      line-height: 1.5;
+    }
   }
 `;
 
 const PartnerSection = styled.section`
   width: min(1200px, 100%);
   margin: 0 auto;
-  padding: clamp(3rem, 6vw, 5rem) clamp(1.5rem, 4vw, 2.5rem);
+  padding: clamp(2rem, 5vw, 5rem) clamp(1rem, 3vw, 2.5rem);
+
+  @media (max-width: 480px) {
+    padding: 1.5rem 0.75rem;
+  }
 `;
 
 const PartnerHeading = styled.h2`
   text-align: center;
-  font-size: clamp(2rem, 3vw, 2.6rem);
+  font-size: clamp(1.75rem, 4vw, 2.6rem);
   font-weight: 700;
-  margin-bottom: clamp(2rem, 4vw, 3rem);
+  margin-bottom: clamp(1.5rem, 3vw, 3rem);
   color: var(--text-primary);
+
+  @media (max-width: 480px) {
+    font-size: clamp(1.5rem, 5vw, 2rem);
+    margin-bottom: 1.5rem;
+  }
 `;
 
 const PartnerScroller = styled.div`

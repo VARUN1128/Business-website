@@ -25,13 +25,18 @@ const slideLeft = keyframes`
 const Page = styled.main`
   display: flex;
   flex-direction: column;
-  gap: clamp(3rem, 6vw, 4.5rem);
-  padding: clamp(2rem, 5vw, 4rem) 0;
+  gap: clamp(2rem, 5vw, 4.5rem);
+  padding: clamp(1.5rem, 4vw, 4rem) clamp(1rem, 3vw, 2rem) 0;
+
+  @media (max-width: 480px) {
+    padding: 1.5rem 0.75rem 0;
+    gap: 1.5rem;
+  }
 `;
 
 const HeroCard = styled.section`
-  border-radius: 32px;
-  padding: clamp(3rem, 6vw, 5rem) clamp(2.5rem, 5vw, 4rem);
+  border-radius: clamp(24px, 4vw, 32px);
+  padding: clamp(2rem, 5vw, 5rem) clamp(1.5rem, 4vw, 4rem);
   background: linear-gradient(135deg, #ffffff 0%, #f8fafc 100%);
   border: 1px solid rgba(0, 0, 0, 0.06);
   box-shadow: 0 20px 60px rgba(0, 0, 0, 0.08), 0 4px 20px rgba(0, 0, 0, 0.04);
@@ -40,6 +45,11 @@ const HeroCard = styled.section`
   text-align: center;
   position: relative;
   overflow: hidden;
+
+  @media (max-width: 480px) {
+    padding: 1.5rem 1rem;
+    border-radius: 20px;
+  }
 
   &::before {
     content: '';
@@ -54,8 +64,8 @@ const HeroCard = styled.section`
 `;
 
 const Title = styled.h1`
-  font-size: clamp(2.5rem, 5vw, 3.8rem);
-  margin: 0 0 1.5rem;
+  font-size: clamp(2rem, 6vw, 3.8rem);
+  margin: 0 0 clamp(1rem, 2vw, 1.5rem);
   font-weight: 700;
   line-height: 1.2;
   background: linear-gradient(120deg, #0f172a, #475569);
@@ -63,14 +73,24 @@ const Title = styled.h1`
   background-clip: text;
   color: transparent;
   letter-spacing: -0.02em;
+
+  @media (max-width: 480px) {
+    font-size: clamp(1.75rem, 7vw, 2.5rem);
+  }
 `;
 
 const Paragraph = styled.p`
-  margin: 0 auto 1.5rem;
+  margin: 0 auto clamp(1rem, 2vw, 1.5rem);
   max-width: 800px;
   color: var(--text-secondary);
   line-height: 1.8;
-  font-size: clamp(1rem, 1.4vw, 1.15rem);
+  font-size: clamp(0.9rem, 2vw, 1.15rem);
+  padding: 0 clamp(0.5rem, 2vw, 0);
+
+  @media (max-width: 480px) {
+    font-size: clamp(0.85rem, 3vw, 0.95rem);
+    line-height: 1.6;
+  }
 
   strong {
     color: var(--text-primary);
@@ -94,18 +114,24 @@ const ValuesGrid = styled.div`
 `;
 
 const ValueCard = styled.div`
-  padding: clamp(1.5rem, 3vw, 2rem) clamp(1.5rem, 3vw, 2.25rem);
-  border-radius: 20px;
+  padding: clamp(1.25rem, 2.5vw, 2rem) clamp(1.25rem, 2.5vw, 2.25rem);
+  border-radius: clamp(18px, 2.5vw, 20px);
   background: #ffffff;
   border: 2px solid rgba(99, 102, 241, 0.1);
   box-shadow: 0 8px 24px rgba(0, 0, 0, 0.06);
   text-align: left;
   font-weight: 600;
-  font-size: clamp(0.95rem, 1.2vw, 1.1rem);
+  font-size: clamp(0.9rem, 2vw, 1.1rem);
   color: var(--text-primary);
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   position: relative;
   overflow: hidden;
+
+  @media (max-width: 480px) {
+    padding: 1rem;
+    border-radius: 16px;
+    font-size: clamp(0.85rem, 3vw, 0.95rem);
+  }
 
   &::before {
     content: '';

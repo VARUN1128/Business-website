@@ -32,8 +32,13 @@ const scrollLeft = keyframes`
 const Page = styled.main`
   display: flex;
   flex-direction: column;
-  gap: clamp(3rem, 6vw, 5rem);
-  padding: clamp(2rem, 5vw, 4rem) 0;
+  gap: clamp(2rem, 5vw, 5rem);
+  padding: clamp(1.5rem, 4vw, 4rem) clamp(1rem, 3vw, 2rem) 0;
+
+  @media (max-width: 480px) {
+    padding: 1.5rem 0.75rem 0;
+    gap: 1.5rem;
+  }
 `;
 
 const Section = styled.section`
@@ -46,14 +51,27 @@ const SectionHeader = styled.div`
 `;
 
 const Title = styled.h2`
-  font-size: clamp(2.2rem, 4vw, 3.2rem);
-  margin: 0 0 1rem;
+  font-size: clamp(1.75rem, 5vw, 3.2rem);
+  margin: 0 0 clamp(0.75rem, 1.5vw, 1rem);
+  line-height: 1.2;
+
+  @media (max-width: 480px) {
+    font-size: clamp(1.5rem, 6vw, 2rem);
+  }
 `;
 
 const Lead = styled.p`
   margin: 0 auto;
   max-width: 720px;
   color: var(--text-muted);
+  font-size: clamp(0.9rem, 2vw, 1.1rem);
+  line-height: 1.6;
+  padding: 0 clamp(0.5rem, 2vw, 0);
+
+  @media (max-width: 480px) {
+    font-size: clamp(0.85rem, 3vw, 0.95rem);
+    line-height: 1.5;
+  }
 `;
 
 const TreeContainer = styled.div`
@@ -74,17 +92,24 @@ const TreeContainer = styled.div`
 
 const RootNode = styled.div`
   position: relative;
-  padding: clamp(1.5rem, 3vw, 2rem) clamp(2.5rem, 5vw, 4rem);
+  padding: clamp(1.25rem, 2.5vw, 2rem) clamp(1.5rem, 4vw, 4rem);
   background: linear-gradient(135deg, #6366f1, #8b5cf6, #ec4899);
-  border-radius: 24px;
+  border-radius: clamp(20px, 3vw, 24px);
   color: white;
-  font-size: clamp(1.5rem, 3vw, 2rem);
+  font-size: clamp(1.25rem, 4vw, 2rem);
   font-weight: 700;
   box-shadow: 0 15px 50px rgba(99, 102, 241, 0.35);
-  margin-bottom: clamp(4rem, 7vw, 6rem);
+  margin-bottom: clamp(2.5rem, 5vw, 6rem);
   z-index: 3;
   text-align: center;
   letter-spacing: -0.02em;
+
+  @media (max-width: 480px) {
+    padding: 1rem 1.25rem;
+    border-radius: 18px;
+    font-size: clamp(1.1rem, 5vw, 1.5rem);
+    margin-bottom: 2rem;
+  }
 `;
 
 const VerticalLine = styled.div`
@@ -163,17 +188,23 @@ const HorizontalConnector = styled.div`
 
 const ServiceCard = styled.div`
   position: relative;
-  padding: clamp(2rem, 3vw, 2.5rem);
-  border-radius: 28px;
+  padding: clamp(1.5rem, 2.5vw, 2.5rem);
+  border-radius: clamp(22px, 3vw, 28px);
   border: 2px solid rgba(99, 102, 241, 0.15);
   background: #ffffff;
   box-shadow: 0 10px 40px rgba(0, 0, 0, 0.08);
   display: flex;
   flex-direction: column;
-  gap: 1.25rem;
+  gap: clamp(1rem, 1.8vw, 1.25rem);
   text-align: left;
   transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
   z-index: 2;
+
+  @media (max-width: 480px) {
+    padding: 1.25rem;
+    border-radius: 20px;
+    gap: 0.875rem;
+  }
 
   &::before {
     content: '';
@@ -194,28 +225,44 @@ const ServiceCard = styled.div`
   }
 
   img {
-    width: 64px;
-    height: 64px;
+    width: clamp(48px, 8vw, 64px);
+    height: clamp(48px, 8vw, 64px);
     object-fit: contain;
-    border-radius: 16px;
+    border-radius: clamp(14px, 2vw, 16px);
     background: linear-gradient(135deg, rgba(99, 102, 241, 0.1), rgba(139, 92, 246, 0.1));
-    padding: 0.75rem;
+    padding: clamp(0.5rem, 1vw, 0.75rem);
     box-shadow: 0 4px 12px rgba(99, 102, 241, 0.15);
+
+    @media (max-width: 480px) {
+      width: 48px;
+      height: 48px;
+      border-radius: 12px;
+      padding: 0.5rem;
+    }
   }
 
   h3 {
     margin: 0;
-    font-size: clamp(1.25rem, 2vw, 1.5rem);
+    font-size: clamp(1.1rem, 2.5vw, 1.5rem);
     font-weight: 700;
     color: var(--text-primary);
     line-height: 1.3;
+
+    @media (max-width: 480px) {
+      font-size: clamp(1rem, 4vw, 1.2rem);
+    }
   }
 
   p {
     margin: 0;
     color: var(--text-secondary);
     line-height: 1.7;
-    font-size: clamp(0.95rem, 1.3vw, 1.05rem);
+    font-size: clamp(0.85rem, 1.8vw, 1.05rem);
+
+    @media (max-width: 480px) {
+      font-size: clamp(0.8rem, 3vw, 0.9rem);
+      line-height: 1.5;
+    }
   }
 `;
 

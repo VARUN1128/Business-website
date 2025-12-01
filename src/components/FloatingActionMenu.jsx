@@ -7,12 +7,17 @@ import { IoChatbubbleEllipses, IoClose } from 'react-icons/io5';
 
 const FABContainer = styled.div`
   position: fixed;
-  bottom: 2rem;
-  right: 2rem;
+  bottom: clamp(1.5rem, 4vw, 2rem);
+  right: clamp(1.5rem, 4vw, 2rem);
   z-index: 1000;
   display: flex;
   flex-direction: column;
   align-items: center;
+
+  @media (max-width: 480px) {
+    bottom: 1.25rem;
+    right: 1.25rem;
+  }
 `;
 
 // NEW: A wrapper for the secondary action buttons
@@ -54,25 +59,40 @@ const ActionButton = styled.a`
 `;
 
 const MainButton = styled.div`
-  background-color: #7b68ee; /* Purple color */
+  background: linear-gradient(135deg, #6366f1, #8b5cf6, #ec4899);
   color: white;
-  width: 60px;
-  height: 60px;
+  width: clamp(56px, 8vw, 64px);
+  height: clamp(56px, 8vw, 64px);
   border-radius: 50%;
   display: flex;
   align-items: center;
   justify-content: center;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+  box-shadow: 0 8px 24px rgba(99, 102, 241, 0.4), 0 4px 12px rgba(236, 72, 153, 0.3);
   cursor: pointer;
-  transition: transform 0.3s ease;
-  z-index: 2; /* Keep it on top */
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  z-index: 2;
+  border: 2px solid rgba(255, 255, 255, 0.2);
+
+  @media (max-width: 480px) {
+    width: 56px;
+    height: 56px;
+  }
 
   &:hover {
     transform: scale(1.1);
+    box-shadow: 0 12px 32px rgba(99, 102, 241, 0.5), 0 6px 16px rgba(236, 72, 153, 0.4);
+  }
+
+  &:active {
+    transform: scale(0.95);
   }
 
   svg {
-    font-size: 2rem;
+    font-size: clamp(1.5rem, 3vw, 1.75rem);
+    
+    @media (max-width: 480px) {
+      font-size: 1.5rem;
+    }
   }
 `;
 
