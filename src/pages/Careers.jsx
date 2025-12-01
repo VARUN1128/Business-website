@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import styled, { keyframes } from 'styled-components';
 import AOS from 'aos';
 import 'aos/dist/aos.css';
@@ -45,8 +45,8 @@ const Section = styled.section`
   text-align: center;
   padding: clamp(1.75rem, 4vw, 3.25rem);
   border-radius: 30px;
-  background: rgba(8, 12, 33, 0.88);
-  border: 1px solid rgba(255, 255, 255, 0.08);
+  background: #ffffff;
+  border: 1px solid rgba(0, 0, 0, 0.08);
   box-shadow: var(--shadow-md);
 `;
 
@@ -54,7 +54,7 @@ const SectionTitle = styled.h2`
   font-size: clamp(2rem, 3.5vw, 2.8rem);
   font-weight: 700;
   margin-bottom: 1rem;
-  color: #f8fafc;
+  color: var(--text-primary);
 `;
 
 const SectionParagraph = styled.p`
@@ -73,7 +73,7 @@ const ListContainer = styled.div`
 
   h3 {
     font-size: 1.2rem;
-    color: #f8fafc;
+    color: var(--text-primary);
     margin-bottom: 1rem;
   }
 `;
@@ -138,10 +138,10 @@ const PromotionContainer = styled.div`
   display: grid;
   grid-template-columns: 1fr;
   gap: 2rem;
-  background-color: rgba(15, 23, 42, 0.6);
+  background-color: #f8fafc;
   border-radius: 22px;
   padding: clamp(1.5rem, 4vw, 2.5rem);
-  border: 1px solid rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(0, 0, 0, 0.08);
 
   @media (min-width: 768px) {
     grid-template-columns: 1fr 1fr;
@@ -169,7 +169,7 @@ const OpportunityItem = styled.div`
     font-size: 1.05rem;
     font-weight: 700;
     margin: 0 0 0.25rem 0;
-    color: #f8fafc;
+    color: var(--text-primary);
   }
 
   p {
@@ -197,13 +197,14 @@ const PromotionList = styled.ul`
 
   li {
     padding: 0.9rem 0.5rem;
-    background-color: rgba(15, 23, 42, 0.75);
-    border: 1px solid rgba(255, 255, 255, 0.08);
+    background-color: #ffffff;
+    border: 1px solid rgba(0, 0, 0, 0.08);
     margin-bottom: 0.75rem;
     border-radius: 10px;
     font-weight: 600;
-    color: #f8fafc;
+    color: var(--text-primary);
     text-align: center;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
   }
 `;
 
@@ -219,10 +220,10 @@ const GallerySection = styled(Section)`
 const CertificateImageWrapper = styled.div`
   width: 100%;
   padding: 0.5rem;
-  background-color: rgba(15, 23, 42, 0.85);
+  background-color: #ffffff;
   border-radius: 16px;
-  border: 1px solid rgba(255, 255, 255, 0.06);
-  box-shadow: 0 10px 30px rgba(2, 6, 23, 0.45);
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
   transition: transform 0.3s ease, box-shadow 0.3s ease;
   display: flex;
   align-items: center;
@@ -289,7 +290,11 @@ const ScrollerTrack = styled.div`
   display: flex;
   width: max-content;
   gap: 1.5rem;
-  animation: ${scrollGallery} 40s linear infinite;
+  cursor: ${props => (props.$isDragging ? 'grabbing' : 'grab')};
+  user-select: none;
+  animation: ${props => (props.$isPaused ? 'none' : scrollGallery)} 40s linear infinite;
+  transform: ${props => (props.$isPaused ? `translateX(${props.$dragOffset}px)` : 'translateX(0)')};
+  transition: ${props => (props.$isPaused ? 'transform 0.1s ease-out' : 'none')};
 
   img {
     height: 180px;
@@ -297,6 +302,7 @@ const ScrollerTrack = styled.div`
     object-fit: cover;
     border-radius: 12px;
     box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+    pointer-events: none;
   }
 `;
 
@@ -331,6 +337,88 @@ const opportunities = [
 const certificates = [ cert1, cert2, cert3, cert4, cert5 ];
 const galleryImages = [ t1, t2, t3, t4, t5, t6, t7, t8, t9, t10 ];
 const duplicatedGallery = [...galleryImages, ...galleryImages];
+
+// --- Draggable Scroller Component ---
+const DraggableScroller = ({ children }) => {
+  const [isDragging, setIsDragging] = useState(false);
+  const [isPaused, setIsPaused] = useState(false);
+  const [dragOffset, setDragOffset] = useState(0);
+  const [startX, setStartX] = useState(0);
+  const [scrollLeft, setScrollLeft] = useState(0);
+  const trackRef = useRef(null);
+
+  const handleMouseDown = (e) => {
+    setIsDragging(true);
+    setIsPaused(true);
+    setStartX(e.pageX - trackRef.current.offsetLeft);
+    setScrollLeft(dragOffset);
+  };
+
+  const handleMouseMove = (e) => {
+    if (!isDragging) return;
+    e.preventDefault();
+    const x = e.pageX - trackRef.current.offsetLeft;
+    const walk = (x - startX) * 1.5;
+    setDragOffset(scrollLeft + walk);
+  };
+
+  const handleMouseUp = () => {
+    setIsDragging(false);
+    setTimeout(() => {
+      setIsPaused(false);
+      setDragOffset(0);
+    }, 100);
+  };
+
+  const handleMouseLeave = () => {
+    if (isDragging) {
+      handleMouseUp();
+    }
+  };
+
+  const handleTouchStart = (e) => {
+    setIsDragging(true);
+    setIsPaused(true);
+    setStartX(e.touches[0].pageX - trackRef.current.offsetLeft);
+    setScrollLeft(dragOffset);
+  };
+
+  const handleTouchMove = (e) => {
+    if (!isDragging) return;
+    const x = e.touches[0].pageX - trackRef.current.offsetLeft;
+    const walk = (x - startX) * 1.5;
+    setDragOffset(scrollLeft + walk);
+  };
+
+  const handleTouchEnd = () => {
+    setIsDragging(false);
+    setTimeout(() => {
+      setIsPaused(false);
+      setDragOffset(0);
+    }, 100);
+  };
+
+  return (
+    <Scroller 
+      onMouseDown={handleMouseDown}
+      onMouseMove={handleMouseMove}
+      onMouseUp={handleMouseUp}
+      onMouseLeave={handleMouseLeave}
+      onTouchStart={handleTouchStart}
+      onTouchMove={handleTouchMove}
+      onTouchEnd={handleTouchEnd}
+    >
+      <ScrollerTrack
+        ref={trackRef}
+        $isDragging={isDragging}
+        $isPaused={isPaused}
+        $dragOffset={dragOffset}
+      >
+        {children}
+      </ScrollerTrack>
+    </Scroller>
+  );
+};
 
 // --- Main Component ---
 const CareersPage = () => {
@@ -401,13 +489,11 @@ const CareersPage = () => {
 
       <GallerySection data-aos="fade-up">
         <SectionTitle>Gallery</SectionTitle>
-        <Scroller>
-          <ScrollerTrack>
-            {duplicatedGallery.map((img, index) => (
-              <img key={index} src={img} alt={`Gallery image ${index + 1}`} />
-            ))}
-          </ScrollerTrack>
-        </Scroller>
+        <DraggableScroller>
+          {duplicatedGallery.map((img, index) => (
+            <img key={index} src={img} alt={`Gallery image ${index + 1}`} />
+          ))}
+        </DraggableScroller>
       </GallerySection>
     </PageWrapper>
   );

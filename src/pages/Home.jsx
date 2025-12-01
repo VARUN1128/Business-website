@@ -1,10 +1,9 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import { Link } from 'react-router-dom';
-import styled from 'styled-components';
+import styled, { keyframes } from 'styled-components';
 import AOS from 'aos';
 import 'aos/dist/aos.css';
 
-import HeroForm from '../components/HeroForm';
 import Query from '../components/Query';
 import heroVideo from '../assets/gbs.mp4';
 import gaImg from '../assets/GA.png';
@@ -15,6 +14,19 @@ import digitalVideo from '../assets/digital.mp4';
 import webVideo from '../assets/web.mp4';
 import backendVideo from '../assets/backend.mp4';
 import staffingVideo from '../assets/staffing.mp4';
+import p1 from '../assets/p1.jpg';
+import p2 from '../assets/p2.jpeg';
+import p3 from '../assets/p3.png';
+import p4 from '../assets/p4.jpeg';
+import p5 from '../assets/p5.jpg';
+import p6 from '../assets/p6.png';
+import p7 from '../assets/p7.png';
+import p8 from '../assets/p8.jpg';
+
+const slideLeft = keyframes`
+  from { transform: translateX(0); }
+  to { transform: translateX(-50%); }
+`;
 
 const PageWrapper = styled.div`
   width: 100%;
@@ -40,14 +52,14 @@ const HeroVideo = styled.video`
   width: 100%;
   height: 100%;
   object-fit: cover;
-  filter: brightness(0.45) saturate(1.1);
+  filter: brightness(0.75) saturate(1.1);
   z-index: 0;
 `;
 
 const HeroOverlay = styled.div`
   position: absolute;
   inset: 0;
-  background: linear-gradient(120deg, rgba(2, 6, 23, 0.85), rgba(3, 7, 30, 0.4));
+  background: linear-gradient(120deg, rgba(255, 255, 255, 0.6), rgba(255, 255, 255, 0.25));
   z-index: 1;
 `;
 
@@ -64,7 +76,7 @@ const HeroGrid = styled.div`
 `;
 
 const HeroContent = styled.div`
-  color: #f8fafc;
+  color: #0f172a;
   max-width: 620px;
 `;
 
@@ -74,12 +86,13 @@ const HeroBadge = styled.span`
   gap: 0.35rem;
   padding: 0.35rem 0.9rem;
   border-radius: 999px;
-  border: 1px solid rgba(255, 255, 255, 0.25);
-  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  background: rgba(255, 255, 255, 0.9);
   font-size: 0.8rem;
   letter-spacing: 0.2em;
   text-transform: uppercase;
   margin-bottom: 1.5rem;
+  color: var(--text-primary);
 `;
 
 const HeroTitle = styled.h1`
@@ -90,7 +103,7 @@ const HeroTitle = styled.h1`
 
 const HeroParagraph = styled.p`
   font-size: clamp(1rem, 1.4vw, 1.2rem);
-  color: rgba(248, 250, 252, 0.85);
+  color: var(--text-secondary);
   margin-bottom: 2rem;
 `;
 
@@ -108,26 +121,60 @@ const ActionButton = styled(Link)`
   letter-spacing: 0.01em;
   border: 1px solid transparent;
   transition: transform 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
-  color: ${props => (props.$variant === 'secondary' ? '#f8fafc' : '#fff')};
+  color: ${props => (props.$variant === 'secondary' ? '#0f172a' : '#fff')};
   background: ${props =>
     props.$variant === 'secondary'
-      ? 'rgba(255, 255, 255, 0.08)'
+      ? '#ffffff'
       : 'linear-gradient(120deg, #6366f1, #a855f7, #ec4899)'};
-  border-color: ${props => (props.$variant === 'secondary' ? 'rgba(255, 255, 255, 0.3)' : 'transparent')};
+  border-color: ${props => (props.$variant === 'secondary' ? 'rgba(0, 0, 0, 0.12)' : 'transparent')};
   box-shadow: ${props =>
     props.$variant === 'secondary'
-      ? 'inset 0 1px 0 rgba(255, 255, 255, 0.15)'
+      ? '0 2px 8px rgba(0, 0, 0, 0.06)'
       : '0 20px 45px rgba(99, 102, 241, 0.35)'};
 
   &:hover {
     transform: translateY(-2px);
     box-shadow: ${props =>
       props.$variant === 'secondary'
-        ? 'inset 0 1px 0 rgba(255, 255, 255, 0.3)'
+        ? '0 4px 12px rgba(0, 0, 0, 0.1)'
         : '0 30px 60px rgba(236, 72, 153, 0.4)'};
     background: ${props =>
       props.$variant === 'secondary'
-        ? 'rgba(255, 255, 255, 0.15)'
+        ? '#f8fafc'
+        : 'linear-gradient(120deg, #818cf8, #a855f7, #f472b6)'};
+  }
+`;
+
+const ActionButtonAsButton = styled.button`
+  border-radius: 999px;
+  padding: 0.85rem 1.8rem;
+  font-weight: 600;
+  letter-spacing: 0.01em;
+  border: 1px solid transparent;
+  transition: transform 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
+  cursor: pointer;
+  font-size: inherit;
+  font-family: inherit;
+  color: ${props => (props.$variant === 'secondary' ? '#0f172a' : '#fff')};
+  background: ${props =>
+    props.$variant === 'secondary'
+      ? '#ffffff'
+      : 'linear-gradient(120deg, #6366f1, #a855f7, #ec4899)'};
+  border-color: ${props => (props.$variant === 'secondary' ? 'rgba(0, 0, 0, 0.12)' : 'transparent')};
+  box-shadow: ${props =>
+    props.$variant === 'secondary'
+      ? '0 2px 8px rgba(0, 0, 0, 0.06)'
+      : '0 20px 45px rgba(99, 102, 241, 0.35)'};
+
+  &:hover {
+    transform: translateY(-2px);
+    box-shadow: ${props =>
+      props.$variant === 'secondary'
+        ? '0 4px 12px rgba(0, 0, 0, 0.1)'
+        : '0 30px 60px rgba(236, 72, 153, 0.4)'};
+    background: ${props =>
+      props.$variant === 'secondary'
+        ? '#f8fafc'
         : 'linear-gradient(120deg, #818cf8, #a855f7, #f472b6)'};
   }
 `;
@@ -142,13 +189,14 @@ const MetricsGrid = styled.div`
 const MetricCard = styled.div`
   padding: 1rem 1.2rem;
   border-radius: 18px;
-  background: rgba(15, 23, 42, 0.65);
-  border: 1px solid rgba(255, 255, 255, 0.08);
+  background: rgba(255, 255, 255, 0.9);
+  border: 1px solid rgba(0, 0, 0, 0.06);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
 `;
 
 const MetricLabel = styled.p`
   margin: 0 0 0.4rem;
-  color: rgba(248, 250, 252, 0.7);
+  color: var(--text-muted);
   font-size: 0.9rem;
 `;
 
@@ -200,8 +248,8 @@ const ServiceGrid = styled.div`
 `;
 
 const ServiceCard = styled.button`
-  background: rgba(8, 12, 33, 0.85);
-  border: 1px solid rgba(255, 255, 255, 0.08);
+  background: #ffffff;
+  border: 1px solid rgba(0, 0, 0, 0.08);
   border-radius: 22px;
   padding: 1.25rem;
   text-align: left;
@@ -211,11 +259,12 @@ const ServiceCard = styled.button`
   display: flex;
   flex-direction: column;
   gap: 1rem;
-  box-shadow: 0 25px 50px rgba(2, 6, 23, 0.45);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
 
   &:hover {
     transform: translateY(-4px);
-    border-color: rgba(124, 58, 237, 0.5);
+    border-color: rgba(99, 102, 241, 0.3);
+    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.12);
   }
 
   img {
@@ -223,7 +272,7 @@ const ServiceCard = styled.button`
     height: 160px;
     object-fit: contain;
     border-radius: 16px;
-    background: rgba(15, 23, 42, 0.4);
+    background: #f8fafc;
     padding: 0.75rem;
   }
 
@@ -243,8 +292,8 @@ const TrustedPills = styled.div`
 const Pill = styled.span`
   padding: 0.4rem 0.9rem;
   border-radius: 999px;
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  background: #f8fafc;
   font-size: 0.85rem;
   color: var(--text-secondary);
 `;
@@ -261,19 +310,20 @@ const VideoGrid = styled.div`
 
 const VideoCard = styled.button`
   border: none;
-  background: rgba(8, 12, 33, 0.85);
+  background: #ffffff;
   border-radius: 22px;
   padding: 0;
   text-align: left;
   overflow: hidden;
   cursor: pointer;
-  border: 1px solid rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(0, 0, 0, 0.08);
   box-shadow: var(--shadow-md);
   transition: transform 0.25s ease, border-color 0.25s ease;
 
   &:hover {
     transform: translateY(-4px);
-    border-color: rgba(14, 165, 233, 0.5);
+    border-color: rgba(59, 130, 246, 0.3);
+    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.12);
   }
 
   video {
@@ -293,36 +343,152 @@ const VideoCard = styled.button`
 
 const ChooseGrid = styled.div`
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-  gap: 1.5rem;
+  grid-template-columns: repeat(3, 1fr);
+  gap: clamp(1.5rem, 3vw, 2.5rem);
+  margin-top: clamp(2rem, 4vw, 3rem);
 
-  @media (min-width: 1024px) {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
+  @media (max-width: 1024px) {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  @media (max-width: 640px) {
+    grid-template-columns: 1fr;
   }
 `;
 
 const ChooseCard = styled.div`
-  padding: 1.5rem;
-  border-radius: 22px;
-  background: rgba(8, 12, 33, 0.75);
-  border: 1px solid rgba(255, 255, 255, 0.08);
-  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.05);
+  padding: clamp(2rem, 3vw, 2.5rem);
+  border-radius: 24px;
+  background: #ffffff;
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.08), 0 2px 8px rgba(0, 0, 0, 0.04);
   display: flex;
   flex-direction: column;
-  gap: 0.75rem;
+  gap: 1.25rem;
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  position: relative;
+  overflow: hidden;
+
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 4px;
+    background: linear-gradient(90deg, #6366f1, #8b5cf6, #ec4899);
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 0.4s ease;
+  }
+
+  &:hover {
+    transform: translateY(-12px);
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.15), 0 8px 24px rgba(99, 102, 241, 0.1);
+    border-color: rgba(99, 102, 241, 0.25);
+  }
+
+  &:hover::before {
+    transform: scaleX(1);
+  }
 
   span {
-    font-size: 1.8rem;
+    font-size: 3rem;
+    line-height: 1;
+    display: inline-block;
+    transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+    filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.1));
+  }
+
+  &:hover span {
+    transform: scale(1.15) rotate(8deg);
   }
 
   h3 {
     margin: 0;
-    font-size: 1.1rem;
+    font-size: clamp(1.25rem, 2vw, 1.4rem);
+    font-weight: 700;
+    color: var(--text-primary);
+    line-height: 1.3;
   }
 
   p {
     margin: 0;
-    color: var(--text-muted);
+    color: var(--text-secondary);
+    font-size: clamp(0.9rem, 1.2vw, 1rem);
+    line-height: 1.6;
+  }
+`;
+
+const PartnerSection = styled.section`
+  width: min(1200px, 100%);
+  margin: 0 auto;
+  padding: clamp(3rem, 6vw, 5rem) clamp(1.5rem, 4vw, 2.5rem);
+`;
+
+const PartnerHeading = styled.h2`
+  text-align: center;
+  font-size: clamp(2rem, 3vw, 2.6rem);
+  font-weight: 700;
+  margin-bottom: clamp(2rem, 4vw, 3rem);
+  color: var(--text-primary);
+`;
+
+const PartnerScroller = styled.div`
+  overflow: hidden;
+  position: relative;
+  border-radius: 24px;
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  background: #f8fafc;
+  padding: 2rem 0;
+  margin-bottom: clamp(2rem, 4vw, 3rem);
+
+  &::after,
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    width: 140px;
+    pointer-events: none;
+    z-index: 2;
+  }
+
+  &::before {
+    left: 0;
+    background: linear-gradient(90deg, #f8fafc, transparent);
+  }
+
+  &::after {
+    right: 0;
+    background: linear-gradient(270deg, #f8fafc, transparent);
+  }
+`;
+
+const PartnerTrack = styled.div`
+  display: flex;
+  width: max-content;
+  gap: 3rem;
+  cursor: ${props => (props.$isDragging ? 'grabbing' : 'grab')};
+  user-select: none;
+  animation: ${props => (props.$isPaused ? 'none' : slideLeft)} 40s linear infinite;
+  transform: ${props => (props.$isPaused ? `translateX(${props.$dragOffset}px)` : 'translateX(0)')};
+  transition: ${props => (props.$isPaused ? 'transform 0.1s ease-out' : 'none')};
+
+  img {
+    height: 70px;
+    width: auto;
+    object-fit: contain;
+    filter: grayscale(0.2);
+    opacity: 0.9;
+    transition: transform 0.3s ease, opacity 0.3s ease;
+    pointer-events: none;
+  }
+
+  img:hover {
+    transform: translateY(-4px);
+    opacity: 1;
+    filter: grayscale(0);
   }
 `;
 
@@ -345,7 +511,7 @@ const ContactGrid = styled.div`
 const MapCard = styled.div`
   border-radius: 24px;
   overflow: hidden;
-  border: 1px solid rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(0, 0, 0, 0.08);
   box-shadow: var(--shadow-md);
 
   iframe {
@@ -359,8 +525,9 @@ const MapCard = styled.div`
 const ContactCard = styled.div`
   border-radius: 24px;
   padding: clamp(1.5rem, 4vw, 2.5rem);
-  background: rgba(8, 12, 33, 0.9);
-  border: 1px solid rgba(255, 255, 255, 0.08);
+  background: #ffffff;
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  box-shadow: var(--shadow-md);
   display: flex;
   flex-direction: column;
   gap: 1.25rem;
@@ -372,7 +539,7 @@ const ContactCard = styled.div`
   }
 
   strong {
-    color: white;
+    color: var(--text-primary);
   }
 
   a {
@@ -394,6 +561,91 @@ const chooseUsData = [
   { icon: '💡', title: 'Innovative Solutions', text: 'From custom web development to automated backend systems, we leverage modern tech to solve your biggest challenges.' },
 ];
 
+const partnerLogos = [p1, p2, p3, p4, p5, p6, p7, p8];
+const duplicatedPartnerLogos = [...partnerLogos, ...partnerLogos];
+
+// --- Draggable Scroller Component ---
+const DraggablePartnerScroller = ({ children }) => {
+  const [isDragging, setIsDragging] = useState(false);
+  const [isPaused, setIsPaused] = useState(false);
+  const [dragOffset, setDragOffset] = useState(0);
+  const [startX, setStartX] = useState(0);
+  const [scrollLeft, setScrollLeft] = useState(0);
+  const trackRef = useRef(null);
+
+  const handleMouseDown = (e) => {
+    setIsDragging(true);
+    setIsPaused(true);
+    setStartX(e.pageX - trackRef.current.offsetLeft);
+    setScrollLeft(dragOffset);
+  };
+
+  const handleMouseMove = (e) => {
+    if (!isDragging) return;
+    e.preventDefault();
+    const x = e.pageX - trackRef.current.offsetLeft;
+    const walk = (x - startX) * 1.5;
+    setDragOffset(scrollLeft + walk);
+  };
+
+  const handleMouseUp = () => {
+    setIsDragging(false);
+    setTimeout(() => {
+      setIsPaused(false);
+      setDragOffset(0);
+    }, 100);
+  };
+
+  const handleMouseLeave = () => {
+    if (isDragging) {
+      handleMouseUp();
+    }
+  };
+
+  const handleTouchStart = (e) => {
+    setIsDragging(true);
+    setIsPaused(true);
+    setStartX(e.touches[0].pageX - trackRef.current.offsetLeft);
+    setScrollLeft(dragOffset);
+  };
+
+  const handleTouchMove = (e) => {
+    if (!isDragging) return;
+    const x = e.touches[0].pageX - trackRef.current.offsetLeft;
+    const walk = (x - startX) * 1.5;
+    setDragOffset(scrollLeft + walk);
+  };
+
+  const handleTouchEnd = () => {
+    setIsDragging(false);
+    setTimeout(() => {
+      setIsPaused(false);
+      setDragOffset(0);
+    }, 100);
+  };
+
+  return (
+    <PartnerScroller 
+      onMouseDown={handleMouseDown}
+      onMouseMove={handleMouseMove}
+      onMouseUp={handleMouseUp}
+      onMouseLeave={handleMouseLeave}
+      onTouchStart={handleTouchStart}
+      onTouchMove={handleTouchMove}
+      onTouchEnd={handleTouchEnd}
+    >
+      <PartnerTrack
+        ref={trackRef}
+        $isDragging={isDragging}
+        $isPaused={isPaused}
+        $dragOffset={dragOffset}
+      >
+        {children}
+      </PartnerTrack>
+    </PartnerScroller>
+  );
+};
+
 const videoServicesData = [
   { video: digitalVideo, title: 'Digital Marketing' },
   { video: webVideo, title: 'Web Development' },
@@ -402,14 +654,11 @@ const videoServicesData = [
 ];
 
 export default function Home() {
-  const [isFormVisible, setIsFormVisible] = useState(false);
   const [isQueryOpen, setIsQueryOpen] = useState(false);
   const [defaultService, setDefaultService] = useState('');
 
   useEffect(() => {
     AOS.init({ duration: 900, once: true });
-    const timer = setTimeout(() => setIsFormVisible(true), 2500);
-    return () => clearTimeout(timer);
   }, []);
 
   const openQuery = (serviceName) => {
@@ -436,27 +685,9 @@ export default function Home() {
             <HeroActions>
               <ActionButton to="/services" $variant="primary">Explore Services</ActionButton>
               <ActionButton to="/careers" $variant="secondary">Apply to Join Us</ActionButton>
+              <ActionButtonAsButton onClick={() => setIsQueryOpen(true)} $variant="primary">Get a Free Quote</ActionButtonAsButton>
             </HeroActions>
-
-            <MetricsGrid>
-              <MetricCard>
-                <MetricLabel>Marketing & Media</MetricLabel>
-                <MetricValue>Google Ads · SMM · GMB</MetricValue>
-              </MetricCard>
-              <MetricCard>
-                <MetricLabel>Technology</MetricLabel>
-                <MetricValue>Web · Backend · Automation</MetricValue>
-              </MetricCard>
-              <MetricCard>
-                <MetricLabel>People Ops</MetricLabel>
-                <MetricValue>Staffing · Consulting</MetricValue>
-              </MetricCard>
-            </MetricsGrid>
           </HeroContent>
-
-          <FormColumn data-aos="fade-up" data-aos-delay="150">
-            {isFormVisible && <HeroForm />}
-          </FormColumn>
         </HeroGrid>
       </HeroSection>
 
@@ -465,11 +696,6 @@ export default function Home() {
           <div className="eyebrow">Capabilities</div>
           <SectionTitle>Our Core Services</SectionTitle>
           <SectionLead>Tap into a multi-disciplinary team that blends creative, performance, engineering, and operations — all under one roof.</SectionLead>
-          <TrustedPills>
-            {coreServicesData.map(service => (
-              <Pill key={service.tag}>{service.tag}</Pill>
-            ))}
-          </TrustedPills>
         </SectionHeader>
 
         <ServiceGrid>
@@ -516,7 +742,12 @@ export default function Home() {
         </SectionHeader>
         <ChooseGrid>
           {chooseUsData.map((item, index) => (
-            <ChooseCard key={item.title} data-aos="fade-up" data-aos-delay={index * 120}>
+            <ChooseCard 
+              key={item.title} 
+              data-aos="fade-up" 
+              data-aos-delay={index * 150}
+              data-aos-duration="800"
+            >
               <span>{item.icon}</span>
               <h3>{item.title}</h3>
               <p>{item.text}</p>
@@ -524,6 +755,18 @@ export default function Home() {
           ))}
         </ChooseGrid>
       </Section>
+
+      <PartnerSection data-aos="fade-up">
+        <SectionHeader>
+          <div className="eyebrow">Partnerships</div>
+          <PartnerHeading>Trusted by Industry Leaders</PartnerHeading>
+        </SectionHeader>
+        <DraggablePartnerScroller>
+          {duplicatedPartnerLogos.map((logo, index) => (
+            <img src={logo} alt={`Partner ${index + 1}`} key={index} loading="lazy" />
+          ))}
+        </DraggablePartnerScroller>
+      </PartnerSection>
 
       <ContactSection>
         <SectionHeader>

@@ -2,77 +2,134 @@ import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import AOS from 'aos';
 import 'aos/dist/aos.css';
+import { FaMapMarkerAlt, FaPhoneAlt, FaEnvelope, FaWhatsapp } from 'react-icons/fa';
 
 const PageWrapper = styled.main`
-  display: flex;
-  justify-content: center;
-  padding: clamp(2rem, 5vw, 4rem) 0;
+  width: 100%;
+  padding: clamp(3rem, 6vw, 5rem) clamp(1.5rem, 4vw, 3rem);
+  background: linear-gradient(to bottom, #ffffff 0%, #f8fafc 100%);
 `;
 
 const Section = styled.section`
-  width: min(1000px, 100%);
+  width: min(1200px, 100%);
+  margin: 0 auto;
   display: flex;
   flex-direction: column;
-  gap: clamp(2rem, 5vw, 3rem);
+  gap: clamp(3rem, 6vw, 5rem);
 `;
 
 const Header = styled.div`
   text-align: center;
+  max-width: 800px;
+  margin: 0 auto;
 `;
 
-const Title = styled.h2`
-  font-size: clamp(2.3rem, 4vw, 3rem);
-  margin: 0 0 0.75rem;
+const Eyebrow = styled.div`
+  font-size: 0.875rem;
+  text-transform: uppercase;
+  letter-spacing: 0.2em;
+  color: var(--accent-2);
+  font-weight: 600;
+  margin-bottom: 1rem;
+`;
+
+const Title = styled.h1`
+  font-size: clamp(2.5rem, 5vw, 3.5rem);
+  margin: 0 0 1rem;
+  font-weight: 700;
+  line-height: 1.2;
+  color: var(--text-primary);
 `;
 
 const Subtitle = styled.p`
   margin: 0;
-  color: var(--text-muted);
+  font-size: clamp(1rem, 1.5vw, 1.2rem);
+  color: var(--text-secondary);
+  line-height: 1.6;
 `;
 
 const ContentGrid = styled.div`
   display: grid;
-  grid-template-columns: minmax(0, 1fr);
-  gap: clamp(1.5rem, 4vw, 2.5rem);
+  grid-template-columns: 1fr;
+  gap: clamp(2rem, 4vw, 3rem);
 
-  @media (min-width: 720px) {
-    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  @media (min-width: 900px) {
+    grid-template-columns: 1.2fr 1fr;
   }
 `;
 
 const FormWrapper = styled.form`
-  background: rgba(8, 12, 33, 0.9);
-  border: 1px solid rgba(255, 255, 255, 0.08);
-  border-radius: 28px;
-  padding: clamp(1.5rem, 4vw, 2.5rem);
-  box-shadow: var(--shadow-md);
+  background: #ffffff;
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  border-radius: 32px;
+  padding: clamp(2rem, 4vw, 3rem);
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.08);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+
+  &:hover {
+    box-shadow: 0 15px 50px rgba(0, 0, 0, 0.12);
+  }
+`;
+
+const FormTitle = styled.h3`
+  font-size: 1.5rem;
+  font-weight: 700;
+  margin: 0 0 1.5rem;
+  color: var(--text-primary);
 `;
 
 const FormGroup = styled.div`
-  margin-bottom: 1.2rem;
+  margin-bottom: 1.5rem;
   display: flex;
   flex-direction: column;
-  gap: 0.4rem;
+  gap: 0.5rem;
+
+  &:last-of-type {
+    margin-bottom: 0;
+  }
 `;
 
 const Label = styled.label`
   font-weight: 600;
-  color: var(--text-secondary);
+  font-size: 0.95rem;
+  color: var(--text-primary);
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+
+  &::after {
+    content: ${props => (props.required ? '"*"' : '""')};
+    color: #ef4444;
+    font-weight: 700;
+  }
 `;
 
 const sharedField = `
   width: 100%;
-  border-radius: 16px;
-  border: 1px solid rgba(255, 255, 255, 0.12);
-  background: rgba(15, 23, 42, 0.7);
+  border-radius: 14px;
+  border: 1.5px solid rgba(0, 0, 0, 0.1);
+  background: #ffffff;
   color: var(--text-primary);
-  padding: 0.85rem 1rem;
-  transition: border-color 0.2s ease, background 0.2s ease;
+  padding: 0.95rem 1.25rem;
+  font-size: 1rem;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  font-family: inherit;
 
   &:focus {
     outline: none;
     border-color: var(--accent);
-    background: rgba(15, 23, 42, 0.95);
+    background: #ffffff;
+    box-shadow: 0 0 0 4px rgba(99, 102, 241, 0.1);
+    transform: translateY(-1px);
+  }
+
+  &::placeholder {
+    color: var(--text-muted);
+    opacity: 0.6;
+  }
+
+  &:hover:not(:focus) {
+    border-color: rgba(0, 0, 0, 0.15);
   }
 `;
 
@@ -82,59 +139,183 @@ const Input = styled.input`
 
 const Textarea = styled.textarea`
   ${sharedField}
-  min-height: 120px;
+  min-height: 140px;
   resize: vertical;
+  line-height: 1.6;
 `;
 
 const Select = styled.select`
   ${sharedField}
+  cursor: pointer;
+  appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%23666' d='M6 9L1 4h10z'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 1rem center;
+  padding-right: 2.5rem;
+
+  &:invalid {
+    color: var(--text-muted);
+  }
 `;
 
 const SubmitButton = styled.button`
   width: 100%;
   border: none;
   border-radius: 999px;
-  padding: 0.95rem 1.2rem;
+  padding: 1rem 2rem;
+  font-size: 1.05rem;
   font-weight: 600;
   letter-spacing: 0.02em;
   background: linear-gradient(120deg, #6366f1, #a855f7, #ec4899);
   color: white;
   cursor: pointer;
-  box-shadow: 0 25px 45px rgba(99, 102, 241, 0.35);
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  box-shadow: 0 10px 30px rgba(99, 102, 241, 0.3);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  margin-top: 0.5rem;
+  position: relative;
+  overflow: hidden;
+
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+    transition: left 0.5s ease;
+  }
 
   &:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 35px 60px rgba(236, 72, 153, 0.35);
+    transform: translateY(-3px);
+    box-shadow: 0 15px 40px rgba(236, 72, 153, 0.4);
+    background: linear-gradient(120deg, #818cf8, #a855f7, #f472b6);
+  }
+
+  &:hover::before {
+    left: 100%;
+  }
+
+  &:active {
+    transform: translateY(-1px);
   }
 `;
 
-const FormStatus = styled.p`
-  margin-top: 0.75rem;
-  font-weight: 600;
-  color: ${props => (props.success ? '#10b981' : '#f87171')};
+const FormStatus = styled.div`
+  margin-top: 1rem;
+  padding: 0.85rem 1rem;
+  border-radius: 12px;
+  font-weight: 500;
+  font-size: 0.95rem;
+  text-align: center;
+  background: ${props => (props.success ? 'rgba(16, 185, 129, 0.1)' : 'rgba(239, 68, 68, 0.1)')};
+  color: ${props => (props.success ? '#10b981' : '#ef4444')};
+  border: 1px solid ${props => (props.success ? 'rgba(16, 185, 129, 0.2)' : 'rgba(239, 68, 68, 0.2)')};
   min-height: 1.25rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s ease;
 `;
 
 const ContactCard = styled.div`
-  background: rgba(8, 12, 33, 0.75);
-  border: 1px solid rgba(255, 255, 255, 0.08);
-  border-radius: 28px;
-  padding: clamp(1.5rem, 4vw, 2.5rem);
-  box-shadow: var(--shadow-md);
+  background: #ffffff;
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  border-radius: 32px;
+  padding: clamp(2rem, 4vw, 3rem);
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.08);
   display: flex;
   flex-direction: column;
-  gap: 1rem;
+  gap: 2rem;
+  height: fit-content;
+  position: sticky;
+  top: 2rem;
 
-  p {
-    margin: 0;
-    color: var(--text-secondary);
-    line-height: 1.7;
+  @media (max-width: 900px) {
+    position: static;
+  }
+`;
+
+const ContactCardTitle = styled.h3`
+  font-size: 1.5rem;
+  font-weight: 700;
+  margin: 0 0 0.5rem;
+  color: var(--text-primary);
+`;
+
+const ContactCardSubtitle = styled.p`
+  margin: 0 0 1.5rem;
+  color: var(--text-secondary);
+  font-size: 0.95rem;
+  line-height: 1.6;
+`;
+
+const ContactItem = styled.div`
+  display: flex;
+  align-items: flex-start;
+  gap: 1rem;
+  padding: 1.25rem;
+  border-radius: 18px;
+  background: #f8fafc;
+  transition: all 0.3s ease;
+  border: 1px solid transparent;
+
+  &:hover {
+    background: #f1f5f9;
+    border-color: rgba(99, 102, 241, 0.2);
+    transform: translateX(4px);
+  }
+`;
+
+const IconWrapper = styled.div`
+  width: 48px;
+  height: 48px;
+  border-radius: 14px;
+  background: linear-gradient(135deg, #6366f1, #8b5cf6);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  flex-shrink: 0;
+  box-shadow: 0 4px 12px rgba(99, 102, 241, 0.25);
+
+  svg {
+    font-size: 1.25rem;
+  }
+`;
+
+const ContactInfo = styled.div`
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+`;
+
+const ContactLabel = styled.span`
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--text-muted);
+`;
+
+const ContactValue = styled.a`
+  color: var(--text-primary);
+  font-size: 1rem;
+  font-weight: 500;
+  text-decoration: none;
+  transition: color 0.2s ease;
+  line-height: 1.6;
+  word-break: break-word;
+
+  &:hover {
+    color: var(--accent);
   }
 
-  a {
-    color: var(--accent-2);
-    font-weight: 600;
+  &.address {
+    color: var(--text-secondary);
+    cursor: default;
+    line-height: 1.7;
   }
 `;
 
@@ -169,13 +350,16 @@ const ContactPage = () => {
       body: data,
     })
     .then(() => {
-      setStatus({ message: '✅ Submitted successfully!', success: true });
+      setStatus({ message: '✅ Submitted successfully! We\'ll get back to you soon.', success: true });
       form.reset();
       setFormData({ name: '', email: '', whatsapp: '', service: '', message: '' });
+      setTimeout(() => {
+        setStatus({ message: '', success: false });
+      }, 5000);
     })
     .catch((err) => {
       console.error("Submission failed:", err);
-      setStatus({ message: '❌ Something went wrong.', success: false });
+      setStatus({ message: '❌ Something went wrong. Please try again.', success: false });
     });
   };
 
@@ -183,31 +367,65 @@ const ContactPage = () => {
     <PageWrapper>
       <Section>
         <Header data-aos="fade-up">
-          <div className="eyebrow">Contact Us</div>
+          <Eyebrow>Contact Us</Eyebrow>
           <Title>Reach out for projects, partnerships, or recruitment</Title>
           <Subtitle>Reach out to us with your queries, or request a service below.</Subtitle>
         </Header>
 
         <ContentGrid>
-          <FormWrapper id="contactForm" onSubmit={handleSubmit} data-aos="zoom-in">
+          <FormWrapper id="contactForm" onSubmit={handleSubmit} data-aos="fade-right">
+            <FormTitle>Send us a message</FormTitle>
+            
             <FormGroup>
-              <Label htmlFor="name">Full Name*</Label>
-              <Input type="text" id="name" name="name" value={formData.name} onChange={handleChange} required />
+              <Label htmlFor="name" required>Full Name</Label>
+              <Input 
+                type="text" 
+                id="name" 
+                name="name" 
+                value={formData.name} 
+                onChange={handleChange} 
+                placeholder="John Doe"
+                required 
+                autoComplete="name"
+              />
             </FormGroup>
 
             <FormGroup>
-              <Label htmlFor="email">Email*</Label>
-              <Input type="email" id="email" name="email" value={formData.email} onChange={handleChange} required />
+              <Label htmlFor="email" required>Email</Label>
+              <Input 
+                type="email" 
+                id="email" 
+                name="email" 
+                value={formData.email} 
+                onChange={handleChange} 
+                placeholder="john@example.com"
+                required 
+                autoComplete="email"
+              />
             </FormGroup>
 
             <FormGroup>
               <Label htmlFor="whatsapp">WhatsApp (optional)</Label>
-              <Input type="text" id="whatsapp" name="whatsapp" value={formData.whatsapp} onChange={handleChange} placeholder="+91..." />
+              <Input 
+                type="tel" 
+                id="whatsapp" 
+                name="whatsapp" 
+                value={formData.whatsapp} 
+                onChange={handleChange} 
+                placeholder="+91 98765 43210"
+                autoComplete="tel"
+              />
             </FormGroup>
 
             <FormGroup>
-              <Label htmlFor="service">Service Interested In*</Label>
-              <Select id="service" name="service" value={formData.service} onChange={handleChange} required>
+              <Label htmlFor="service" required>Service Interested In</Label>
+              <Select 
+                id="service" 
+                name="service" 
+                value={formData.service} 
+                onChange={handleChange} 
+                required
+              >
                 <option value="">-- Select a Service --</option>
                 <option value="Digital Marketing">Digital Marketing</option>
                 <option value="Web Development">Web Development</option>
@@ -220,27 +438,76 @@ const ContactPage = () => {
 
             <FormGroup>
               <Label htmlFor="message">Your Message</Label>
-              <Textarea id="message" name="message" value={formData.message} onChange={handleChange} rows="4" />
+              <Textarea 
+                id="message" 
+                name="message" 
+                value={formData.message} 
+                onChange={handleChange} 
+                rows="5"
+                placeholder="Tell us about your project or inquiry..."
+              />
             </FormGroup>
 
             <SubmitButton type="submit">Submit</SubmitButton>
-            <FormStatus success={status.success}>{status.message}</FormStatus>
+            {status.message && (
+              <FormStatus success={status.success}>{status.message}</FormStatus>
+            )}
           </FormWrapper>
 
           <ContactCard data-aos="fade-left" data-aos-delay="150">
-            <p>
-              <strong>Location</strong><br />
-              Richmond Circle, 301, 3rd Floor, Andree Capitol Building Behind Axis Bank, Doule Road, Kengal Hanumanthaiah Rd, Shanti Nagar, Bengaluru, Karnataka 560027
-            </p>
-            <p>
-              <strong>Phone:</strong> +91 9071861881
-            </p>
-            <p>
-              <strong>Email:</strong> <a href="mailto:hrdlegacy@gmail.com">hrdlegacy@gmail.com</a>
-            </p>
-            <p>
-              <strong>WhatsApp:</strong> <a href="https://wa.me/918310312791" target="_blank" rel="noopener noreferrer">Chat Now</a>
-            </p>
+            <div>
+              <ContactCardTitle>Get in touch</ContactCardTitle>
+              <ContactCardSubtitle>We're here to help. Reach out through any of these channels.</ContactCardSubtitle>
+            </div>
+
+            <ContactItem>
+              <IconWrapper>
+                <FaMapMarkerAlt />
+              </IconWrapper>
+              <ContactInfo>
+                <ContactLabel>Location</ContactLabel>
+                <ContactValue 
+                  href="https://maps.google.com/?q=Richmond+Circle,+301,+3rd+Floor,+Andree+Capitol+Building+Behind+Axis+Bank,+Doule+Road,+Kengal+Hanumanthaiah+Rd,+Shanti+Nagar,+Bengaluru,+Karnataka+560027" 
+                  target="_blank" 
+                  rel="noopener noreferrer"
+                  className="address"
+                >
+                  Richmond Circle, 301, 3rd Floor, Andree Capitol Building Behind Axis Bank, Doule Road, Kengal Hanumanthaiah Rd, Shanti Nagar, Bengaluru, Karnataka 560027
+                </ContactValue>
+              </ContactInfo>
+            </ContactItem>
+
+            <ContactItem>
+              <IconWrapper>
+                <FaPhoneAlt />
+              </IconWrapper>
+              <ContactInfo>
+                <ContactLabel>Phone</ContactLabel>
+                <ContactValue href="tel:+919071861881">+91 9071861881</ContactValue>
+              </ContactInfo>
+            </ContactItem>
+
+            <ContactItem>
+              <IconWrapper>
+                <FaEnvelope />
+              </IconWrapper>
+              <ContactInfo>
+                <ContactLabel>Email</ContactLabel>
+                <ContactValue href="mailto:hrdlegacy@gmail.com">hrdlegacy@gmail.com</ContactValue>
+              </ContactInfo>
+            </ContactItem>
+
+            <ContactItem>
+              <IconWrapper>
+                <FaWhatsapp />
+              </IconWrapper>
+              <ContactInfo>
+                <ContactLabel>WhatsApp</ContactLabel>
+                <ContactValue href="https://wa.me/918310312791" target="_blank" rel="noopener noreferrer">
+                  Chat Now →
+                </ContactValue>
+              </ContactInfo>
+            </ContactItem>
           </ContactCard>
         </ContentGrid>
       </Section>
@@ -249,4 +516,3 @@ const ContactPage = () => {
 };
 
 export default ContactPage;
-

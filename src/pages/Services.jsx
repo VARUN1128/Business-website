@@ -56,45 +56,163 @@ const Lead = styled.p`
   color: var(--text-muted);
 `;
 
-const ServiceGrid = styled.div`
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-  gap: clamp(1.5rem, 3vw, 2.5rem);
+const TreeContainer = styled.div`
+  position: relative;
+  width: 100%;
+  min-height: 700px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: clamp(2rem, 4vw, 4rem) 0;
+  overflow-x: auto;
 
-  @media (max-width: 640px) {
-    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  @media (max-width: 768px) {
+    min-height: auto;
+    padding: 2rem 0;
+  }
+`;
+
+const RootNode = styled.div`
+  position: relative;
+  padding: clamp(1.5rem, 3vw, 2rem) clamp(2.5rem, 5vw, 4rem);
+  background: linear-gradient(135deg, #6366f1, #8b5cf6, #ec4899);
+  border-radius: 24px;
+  color: white;
+  font-size: clamp(1.5rem, 3vw, 2rem);
+  font-weight: 700;
+  box-shadow: 0 15px 50px rgba(99, 102, 241, 0.35);
+  margin-bottom: clamp(4rem, 7vw, 6rem);
+  z-index: 3;
+  text-align: center;
+  letter-spacing: -0.02em;
+`;
+
+const VerticalLine = styled.div`
+  position: absolute;
+  width: 3px;
+  height: clamp(4rem, 7vw, 6rem);
+  background: linear-gradient(180deg, rgba(99, 102, 241, 0.4), rgba(99, 102, 241, 0.1));
+  top: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 2;
+`;
+
+const TreeBranch = styled.div`
+  position: relative;
+  width: 100%;
+  max-width: 1400px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: clamp(3rem, 5vw, 4rem);
+`;
+
+const ServiceRow = styled.div`
+  position: relative;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: clamp(2rem, 4vw, 3rem);
+  width: 100%;
+  z-index: 2;
+
+  @media (max-width: 1024px) {
+    grid-template-columns: repeat(2, 1fr);
   }
 
-  @media (min-width: 1024px) {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
+  @media (max-width: 640px) {
+    grid-template-columns: 1fr;
+  }
+`;
+
+const HorizontalConnector = styled.div`
+  position: absolute;
+  height: 3px;
+  width: ${props => props.width || '100%'};
+  background: linear-gradient(90deg, 
+    rgba(99, 102, 241, 0.1) 0%, 
+    rgba(99, 102, 241, 0.3) 50%, 
+    rgba(99, 102, 241, 0.1) 100%
+  );
+  top: ${props => props.top || '-2rem'};
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 1;
+
+  &::before,
+  &::after {
+    content: '';
+    position: absolute;
+    width: 3px;
+    height: ${props => props.branchHeight || '2rem'};
+    background: linear-gradient(180deg, rgba(99, 102, 241, 0.3), transparent);
+    top: 0;
+  }
+
+  &::before {
+    left: 0;
+  }
+
+  &::after {
+    right: 0;
   }
 `;
 
 const ServiceCard = styled.div`
-  padding: 1.75rem;
-  border-radius: 24px;
-  border: 1px solid rgba(255, 255, 255, 0.08);
-  background: rgba(8, 12, 33, 0.85);
-  box-shadow: var(--shadow-md);
+  position: relative;
+  padding: clamp(2rem, 3vw, 2.5rem);
+  border-radius: 28px;
+  border: 2px solid rgba(99, 102, 241, 0.15);
+  background: #ffffff;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.08);
   display: flex;
   flex-direction: column;
-  gap: 0.75rem;
+  gap: 1.25rem;
   text-align: left;
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  z-index: 2;
+
+  &::before {
+    content: '';
+    position: absolute;
+    top: -2.5rem;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 3px;
+    height: 2.5rem;
+    background: linear-gradient(180deg, rgba(99, 102, 241, 0.4), rgba(99, 102, 241, 0.1));
+    z-index: 1;
+  }
+
+  &:hover {
+    transform: translateY(-10px) scale(1.02);
+    box-shadow: 0 20px 60px rgba(99, 102, 241, 0.25);
+    border-color: rgba(99, 102, 241, 0.5);
+  }
 
   img {
-    width: 52px;
-    height: 52px;
+    width: 64px;
+    height: 64px;
     object-fit: contain;
+    border-radius: 16px;
+    background: linear-gradient(135deg, rgba(99, 102, 241, 0.1), rgba(139, 92, 246, 0.1));
+    padding: 0.75rem;
+    box-shadow: 0 4px 12px rgba(99, 102, 241, 0.15);
   }
 
   h3 {
     margin: 0;
+    font-size: clamp(1.25rem, 2vw, 1.5rem);
+    font-weight: 700;
+    color: var(--text-primary);
+    line-height: 1.3;
   }
 
   p {
     margin: 0;
-    color: var(--text-muted);
-    line-height: 1.6;
+    color: var(--text-secondary);
+    line-height: 1.7;
+    font-size: clamp(0.95rem, 1.3vw, 1.05rem);
   }
 `;
 
@@ -111,8 +229,8 @@ const MediaGrid = styled.div`
 const MediaCard = styled.a`
   border-radius: 22px;
   overflow: hidden;
-  border: 1px solid rgba(255, 255, 255, 0.08);
-  background: rgba(8, 12, 33, 0.8);
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  background: #ffffff;
   box-shadow: var(--shadow-lg);
   transition: transform 0.25s ease;
 
@@ -130,27 +248,44 @@ const MediaCard = styled.a`
 
 const SquareGrid = styled.div`
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-  gap: 1.5rem;
+  grid-template-columns: repeat(3, 1fr);
+  gap: clamp(1.5rem, 3vw, 2.5rem);
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  justify-items: center;
 
-  @media (max-width: 540px) {
-    grid-template-columns: minmax(0, 1fr);
+  @media (max-width: 900px) {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  @media (max-width: 640px) {
+    grid-template-columns: 1fr;
   }
 `;
 
 const SquareCard = styled.div`
-  width: min(260px, 100%);
+  width: 100%;
+  max-width: 380px;
   aspect-ratio: 1 / 1;
-  border-radius: 22px;
+  border-radius: 24px;
   overflow: hidden;
-  border: 1px solid rgba(255, 255, 255, 0.08);
-  background: rgba(8, 12, 33, 0.8);
-  box-shadow: var(--shadow-md);
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  background: #ffffff;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.08);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+
+  &:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 15px 50px rgba(0, 0, 0, 0.12);
+    border-color: rgba(99, 102, 241, 0.2);
+  }
 
   img {
     width: 100%;
     height: 100%;
     object-fit: cover;
+    display: block;
   }
 `;
 
@@ -180,9 +315,9 @@ const TourFrame = styled.div`
 const SliderWrapper = styled.div`
   position: relative;
   border-radius: 28px;
-  border: 1px solid rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(0, 0, 0, 0.08);
   overflow: hidden;
-  background: rgba(8, 12, 33, 0.75);
+  background: #f8fafc;
 
   &::before,
   &::after {
@@ -197,12 +332,12 @@ const SliderWrapper = styled.div`
 
   &::before {
     left: 0;
-    background: linear-gradient(90deg, rgba(8, 12, 33, 0.95), transparent);
+    background: linear-gradient(90deg, #f8fafc, transparent);
   }
 
   &::after {
     right: 0;
-    background: linear-gradient(270deg, rgba(8, 12, 33, 0.95), transparent);
+    background: linear-gradient(270deg, #f8fafc, transparent);
   }
 `;
 
@@ -258,21 +393,44 @@ const ServicesPage = () => {
   return (
     <Page>
       <Section>
-        <SectionHeader>
-          <div className="eyebrow">Expert Pods</div>
-          <Title>Our Services</Title>
-          <Lead>Strategy, execution, and measurement fused together so your marketing, technology, and delivery teams stay in sync.</Lead>
-        </SectionHeader>
-
-        <ServiceGrid>
-          {services.map((service, index) => (
-            <ServiceCard key={service.title} data-aos="fade-up" data-aos-delay={index * 80}>
-              <img src={service.icon} alt={`${service.title} Icon`} loading="lazy" />
-              <h3>{service.title}</h3>
-              <p>{service.desc}</p>
-            </ServiceCard>
-          ))}
-        </ServiceGrid>
+        <TreeContainer>
+          <RootNode data-aos="fade-down">
+            Our Services
+            <VerticalLine />
+          </RootNode>
+          
+          <TreeBranch>
+            <ServiceRow>
+              <HorizontalConnector top="-2.5rem" width="85%" branchHeight="2.5rem" />
+              {services.slice(0, 3).map((service, index) => (
+                <ServiceCard 
+                  key={service.title} 
+                  data-aos="fade-up" 
+                  data-aos-delay={index * 120}
+                >
+                  <img src={service.icon} alt={`${service.title} Icon`} loading="lazy" />
+                  <h3>{service.title}</h3>
+                  <p>{service.desc}</p>
+                </ServiceCard>
+              ))}
+            </ServiceRow>
+            
+            <ServiceRow>
+              <HorizontalConnector top="-2.5rem" width="60%" branchHeight="2.5rem" />
+              {services.slice(3).map((service, index) => (
+                <ServiceCard 
+                  key={service.title} 
+                  data-aos="fade-up" 
+                  data-aos-delay={(index + 3) * 120}
+                >
+                  <img src={service.icon} alt={`${service.title} Icon`} loading="lazy" />
+                  <h3>{service.title}</h3>
+                  <p>{service.desc}</p>
+                </ServiceCard>
+              ))}
+            </ServiceRow>
+          </TreeBranch>
+        </TreeContainer>
       </Section>
 
       <Section>

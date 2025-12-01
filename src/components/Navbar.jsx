@@ -12,9 +12,9 @@ const NavHeader = styled.header`
   width: 100%;
   z-index: 100;
   backdrop-filter: blur(22px);
-  background: rgba(4, 7, 26, 0.85);
-  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
-  box-shadow: 0 12px 40px rgba(2, 6, 23, 0.45);
+  background: rgba(255, 255, 255, 0.95);
+  border-bottom: 1px solid rgba(0, 0, 0, 0.06);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.06);
 `;
 
 const NavContainer = styled.nav`
@@ -38,12 +38,12 @@ const LogoBadge = styled.div`
   width: 54px;
   height: 54px;
   border-radius: 18px;
-  border: 1px solid rgba(255, 255, 255, 0.18);
-  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  background: #ffffff;
   display: grid;
   place-items: center;
   overflow: hidden;
-  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.08);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
 
   img {
     width: 92%;
@@ -95,11 +95,11 @@ const StyledNavLink = styled(NavLink)`
   padding: 0.35rem 0;
 
   &:hover {
-    color: white;
+    color: var(--text-primary);
   }
 
   &.active {
-    color: white;
+    color: var(--text-primary);
   }
 
   &.active::after {
@@ -118,14 +118,15 @@ const MenuToggle = styled.button`
   display: inline-flex;
   padding: 0.55rem;
   border-radius: 999px;
-  border: 1px solid rgba(255, 255, 255, 0.15);
-  background: rgba(255, 255, 255, 0.05);
-  color: white;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  background: #ffffff;
+  color: var(--text-primary);
   cursor: pointer;
   transition: background 0.2s ease, transform 0.2s ease;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
 
   &:hover {
-    background: rgba(255, 255, 255, 0.12);
+    background: #f8fafc;
   }
 
   svg {
@@ -141,12 +142,12 @@ const MenuToggle = styled.button`
 const MobileMenu = styled.div`
   position: fixed;
   inset: auto 0 0 0;
-  background: rgba(5, 9, 28, 0.98);
-  border-top: 1px solid rgba(255, 255, 255, 0.08);
+  background: #ffffff;
+  border-top: 1px solid rgba(0, 0, 0, 0.08);
   padding: 1.75rem clamp(1rem, 6vw, 2rem) 2.5rem;
   transform: translateY(${props => (props.open ? '0%' : '100%')});
   transition: transform 0.35s ease;
-  box-shadow: 0 -20px 50px rgba(2, 6, 23, 0.75);
+  box-shadow: 0 -10px 40px rgba(0, 0, 0, 0.15);
   z-index: 120;
 
   ${breakpointMd} {
@@ -168,17 +169,17 @@ const MobileLink = styled(NavLink)`
   font-weight: 600;
   color: var(--text-secondary);
   padding: 0.85rem 0;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+  border-bottom: 1px solid rgba(0, 0, 0, 0.05);
 
   &.active {
-    color: white;
+    color: var(--text-primary);
   }
 `;
 
 const MenuBackdrop = styled.button`
   position: fixed;
   inset: 0;
-  background: rgba(3, 6, 23, 0.65);
+  background: rgba(0, 0, 0, 0.4);
   border: none;
   padding: 0;
   margin: 0;

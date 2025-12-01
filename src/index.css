@@ -1,24 +1,24 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Playfair+Display:wght@600;700&family=Space+Grotesk:wght@500&display=swap');
 
 :root {
-  color-scheme: dark;
-  --page-bg: #030617;
-  --page-gradient: radial-gradient(circle at top, rgba(80, 106, 255, 0.18), transparent 45%), radial-gradient(circle at 20% 20%, rgba(16, 185, 129, 0.15), transparent 35%), #030617;
-  --surface: rgba(8, 14, 35, 0.9);
-  --surface-muted: rgba(18, 24, 55, 0.8);
-  --surface-light: #0f1729;
-  --border-color: rgba(255, 255, 255, 0.08);
-  --text-primary: #f8fafc;
-  --text-secondary: #cbd5f5;
-  --text-muted: rgba(203, 213, 245, 0.7);
-  --accent: #7c3aed;
-  --accent-2: #22d3ee;
+  color-scheme: light;
+  --page-bg: #ffffff;
+  --page-gradient: linear-gradient(to bottom, #f8fafc 0%, #ffffff 100%);
+  --surface: #ffffff;
+  --surface-muted: #f8fafc;
+  --surface-light: #f1f5f9;
+  --border-color: rgba(0, 0, 0, 0.08);
+  --text-primary: #0f172a;
+  --text-secondary: #475569;
+  --text-muted: #64748b;
+  --accent: #6366f1;
+  --accent-2: #3b82f6;
   --accent-3: #f97316;
   --success: #10b981;
   --radius-sm: 12px;
   --radius-lg: 24px;
-  --shadow-lg: 0 30px 80px rgba(0, 0, 0, 0.35);
-  --shadow-md: 0 15px 40px rgba(2, 6, 23, 0.45);
+  --shadow-lg: 0 20px 60px rgba(0, 0, 0, 0.12);
+  --shadow-md: 0 10px 30px rgba(0, 0, 0, 0.08);
   font-synthesis: none;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
@@ -58,8 +58,8 @@ button, input, textarea, select {
 }
 
 ::selection {
-  background: rgba(124, 58, 237, 0.35);
-  color: white;
+  background: rgba(99, 102, 241, 0.2);
+  color: #0f172a;
 }
 
 .visually-hidden {
@@ -135,14 +135,14 @@ button, input, textarea, select {
 }
 
 .btn-secondary {
-  border-color: rgba(255, 255, 255, 0.25);
+  border-color: rgba(0, 0, 0, 0.12);
   color: var(--text-primary);
-  background: rgba(255, 255, 255, 0.06);
+  background: #ffffff;
 }
 
 .btn-secondary:hover {
-  border-color: rgba(255, 255, 255, 0.5);
-  background: rgba(255, 255, 255, 0.12);
+  border-color: rgba(0, 0, 0, 0.2);
+  background: #f8fafc;
   transform: translateY(-2px);
 }
 

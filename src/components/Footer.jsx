@@ -2,53 +2,73 @@
 
 import React from 'react';
 import styled from 'styled-components';
+import { Link } from 'react-router-dom';
 import mainLogo from '../assets/main_logo1.png';
 
 const FooterShell = styled.footer`
-  background: rgba(3, 6, 23, 0.9);
-  padding: clamp(3rem, 6vw, 4.5rem) clamp(1.5rem, 4vw, 3rem) 2rem;
-  border-top: 1px solid rgba(255, 255, 255, 0.08);
-  margin-top: clamp(3rem, 8vw, 6rem);
+  background: linear-gradient(to bottom, #ffffff 0%, #f8fafc 100%);
+  padding: clamp(4rem, 8vw, 6rem) clamp(1.5rem, 5vw, 4rem) clamp(2rem, 4vw, 3rem);
+  border-top: 1px solid rgba(0, 0, 0, 0.06);
+  margin-top: clamp(4rem, 10vw, 8rem);
   position: relative;
   overflow: hidden;
 `;
 
-const Glow = styled.div`
-  position: absolute;
-  inset: auto auto -8rem -6rem;
-  width: 28rem;
-  height: 28rem;
-  border-radius: 50%;
-  background: rgba(124, 58, 237, 0.25);
-  filter: blur(120px);
-  pointer-events: none;
-`;
-
-const FooterGrid = styled.div`
-  position: relative;
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-  gap: clamp(1.5rem, 4vw, 3rem);
-  width: min(1200px, 100%);
+const FooterContainer = styled.div`
+  width: min(1280px, 100%);
   margin: 0 auto;
+  position: relative;
   z-index: 2;
 `;
 
-const BrandCard = styled.div`
+const FooterTop = styled.div`
+  display: grid;
+  grid-template-columns: 2fr 1fr 1fr;
+  gap: clamp(2rem, 5vw, 4rem);
+  margin-bottom: clamp(3rem, 6vw, 5rem);
+  padding-bottom: clamp(2.5rem, 5vw, 4rem);
+  border-bottom: 1px solid rgba(0, 0, 0, 0.06);
+
+  @media (max-width: 1024px) {
+    grid-template-columns: repeat(2, 1fr);
+    gap: clamp(2rem, 4vw, 3rem);
+  }
+
+  @media (max-width: 640px) {
+    grid-template-columns: 1fr;
+    gap: 2.5rem;
+  }
+`;
+
+const BrandSection = styled.div`
   display: flex;
   flex-direction: column;
+  gap: 1.5rem;
+  max-width: 380px;
+`;
+
+const LogoContainer = styled.div`
+  display: flex;
+  align-items: center;
   gap: 1rem;
 `;
 
 const LogoBadge = styled.div`
   width: 56px;
   height: 56px;
-  border-radius: 18px;
-  border: 1px solid rgba(255, 255, 255, 0.2);
-  background: rgba(255, 255, 255, 0.04);
+  border-radius: 16px;
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  background: linear-gradient(135deg, #ffffff 0%, #f8fafc 100%);
   display: grid;
   place-items: center;
   overflow: hidden;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+
+  &:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
+  }
 
   img {
     width: 90%;
@@ -57,25 +77,51 @@ const LogoBadge = styled.div`
   }
 `;
 
-const BrandTitle = styled.h4`
+const BrandInfo = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+`;
+
+const BrandTitle = styled.h3`
   margin: 0;
-  font-size: 1.3rem;
+  font-size: 1.5rem;
   font-weight: 700;
+  background: linear-gradient(120deg, #6366f1, #8b5cf6, #ec4899);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  letter-spacing: -0.02em;
 `;
 
-const BrandCopy = styled.p`
+const BrandTagline = styled.p`
   margin: 0;
+  font-size: 0.9rem;
   color: var(--text-muted);
-  max-width: 320px;
-  line-height: 1.7;
+  font-weight: 500;
 `;
 
-const FooterHeading = styled.h5`
-  margin: 0 0 1rem;
-  font-size: 0.9rem;
-  letter-spacing: 0.18em;
+const BrandDescription = styled.p`
+  margin: 0;
+  color: var(--text-secondary);
+  line-height: 1.7;
+  font-size: 0.95rem;
+`;
+
+const Column = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+`;
+
+const ColumnTitle = styled.h4`
+  margin: 0;
+  font-size: 0.875rem;
+  font-weight: 700;
+  letter-spacing: 0.05em;
   text-transform: uppercase;
-  color: var(--accent-2);
+  color: var(--text-primary);
+  margin-bottom: 0.25rem;
 `;
 
 const LinkList = styled.ul`
@@ -84,124 +130,220 @@ const LinkList = styled.ul`
   padding: 0;
   display: flex;
   flex-direction: column;
-  gap: 0.6rem;
+  gap: 0.75rem;
 `;
 
-const FooterLink = styled.a`
+const FooterLink = styled(Link)`
   color: var(--text-secondary);
+  font-size: 0.95rem;
   font-weight: 500;
-  transition: color 0.2s ease;
+  text-decoration: none;
+  transition: color 0.2s ease, transform 0.2s ease;
+  display: inline-block;
+  width: fit-content;
 
   &:hover {
-    color: white;
+    color: var(--accent);
+    transform: translateX(4px);
+  }
+
+  &.external {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
   }
 `;
 
-const ContactList = styled.div`
+const ContactItem = styled.div`
   display: flex;
   flex-direction: column;
-  gap: 0.8rem;
-  color: var(--text-secondary);
+  gap: 0.5rem;
+  margin-bottom: 1rem;
 
-  strong {
-    color: white;
+  &:last-child {
+    margin-bottom: 0;
+  }
+`;
+
+const ContactRow = styled.div`
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  gap: 2rem;
+  flex-wrap: wrap;
+  margin-bottom: 1rem;
+
+  &:last-child {
+    margin-bottom: 0;
+  }
+
+  @media (max-width: 640px) {
+    flex-direction: column;
+    gap: 1rem;
+  }
+`;
+
+const ContactPair = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  flex: 1;
+  min-width: 200px;
+`;
+
+const ContactLabel = styled.span`
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--text-muted);
+  margin-bottom: 0.25rem;
+`;
+
+const ContactValue = styled.a`
+  color: var(--text-secondary);
+  font-size: 0.95rem;
+  font-weight: 500;
+  text-decoration: none;
+  transition: color 0.2s ease;
+  line-height: 1.6;
+
+  &:hover {
+    color: var(--accent);
+  }
+
+  &.address {
+    color: var(--text-secondary);
+    line-height: 1.7;
+    max-width: 280px;
+  }
+`;
+
+const FooterBottom = styled.div`
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1.5rem;
+  padding-top: 2rem;
+`;
+
+const Copyright = styled.p`
+  margin: 0;
+  color: var(--text-muted);
+  font-size: 0.875rem;
+  font-weight: 500;
+`;
+
+const LegalLinks = styled.div`
+  display: flex;
+  gap: 2rem;
+  flex-wrap: wrap;
+`;
+
+const LegalLink = styled.a`
+  color: var(--text-muted);
+  font-size: 0.875rem;
+  font-weight: 500;
+  text-decoration: none;
+  transition: color 0.2s ease;
+  position: relative;
+
+  &:hover {
+    color: var(--text-primary);
+  }
+
+  &::after {
+    content: '';
+    position: absolute;
+    bottom: -2px;
+    left: 0;
+    width: 0;
+    height: 1px;
+    background: var(--accent);
+    transition: width 0.2s ease;
+  }
+
+  &:hover::after {
+    width: 100%;
   }
 `;
 
 const Divider = styled.div`
-  width: min(1200px, 100%);
-  margin: clamp(2rem, 4vw, 3rem) auto 1.5rem;
+  width: 100%;
   height: 1px;
-  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
-`;
-
-const FooterBottom = styled.div`
-  width: min(1200px, 100%);
-  margin: 0 auto;
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: space-between;
-  gap: 1rem;
-  color: var(--text-muted);
-  font-size: 0.9rem;
-  position: relative;
-  z-index: 2;
-`;
-
-const InlineLinks = styled.div`
-  display: flex;
-  gap: 1rem;
-  flex-wrap: wrap;
-`;
-
-const MetaText = styled.span`
-  color: var(--text-muted);
-  font-weight: 500;
+  background: linear-gradient(90deg, transparent, rgba(0, 0, 0, 0.08), transparent);
+  margin: 2.5rem 0;
 `;
 
 export default function Footer() {
+  const currentYear = new Date().getFullYear();
+
   const navLinks = [
-    { href: '/', label: 'Home' },
-    { href: '/about', label: 'About' },
-    { href: '/services', label: 'Services' },
-    { href: '/careers', label: 'Careers' },
-    { href: '/contact', label: 'Contact' },
+    { to: '/', label: 'Home' },
+    { to: '/about', label: 'About Us' },
+    { to: '/services', label: 'Services' },
+    { to: '/careers', label: 'Careers' },
+    { to: '/contact', label: 'Contact' },
+  ];
+
+  const serviceLinks = [
+    { to: '/services', label: 'Digital Marketing' },
+    { to: '/services', label: 'Web Development' },
+    { to: '/services', label: 'Backend Solutions' },
+    { to: '/services', label: 'Staffing Services' },
   ];
 
   return (
     <FooterShell>
-      <Glow />
-      <FooterGrid>
-        <BrandCard>
-          <LogoBadge>
-            <img src={mainLogo} alt="G Business Support logo" loading="lazy" />
-          </LogoBadge>
-          <BrandTitle>G Business Support</BrandTitle>
-          <BrandCopy>
-            Powering marketing, technology, and staffing for growth-focused businesses with a single, dependable partner.
-          </BrandCopy>
-        </BrandCard>
+      <FooterContainer>
+        <FooterTop>
+          <BrandSection>
+            <LogoContainer>
+              <LogoBadge>
+                <img src={mainLogo} alt="G Business Support logo" loading="lazy" />
+              </LogoBadge>
+              <BrandInfo>
+                <BrandTitle>G Business Support</BrandTitle>
+                <BrandTagline>Marketing · Tech · Staffing</BrandTagline>
+              </BrandInfo>
+            </LogoContainer>
+            <BrandDescription>
+              Powering marketing, technology, and staffing for growth-focused businesses with a single, dependable partner.
+            </BrandDescription>
+          </BrandSection>
 
-        <div>
-          <FooterHeading>Navigate</FooterHeading>
-          <LinkList>
-            {navLinks.map(link => (
-              <li key={link.label}>
-                <FooterLink href={link.href}>{link.label}</FooterLink>
-              </li>
-            ))}
-          </LinkList>
-        </div>
+          <Column>
+            <ColumnTitle>Company</ColumnTitle>
+            <LinkList>
+              {navLinks.map(link => (
+                <li key={link.label}>
+                  <FooterLink to={link.to}>{link.label}</FooterLink>
+                </li>
+              ))}
+            </LinkList>
+          </Column>
 
-        <div>
-          <FooterHeading>Reach Us</FooterHeading>
-          <ContactList>
-            <p>
-              <strong>Address:</strong><br />
-              Richmond Circle, 301, 3rd Floor, Andree Capitol Building Behind Axis Bank, Doule Road, Kengal Hanumanthaiah Rd, Shanti Nagar, Bengaluru, Karnataka 560027
-            </p>
-            <p>
-              <strong>Phone:</strong> <FooterLink href="tel:+919071861881">+91 9071861881</FooterLink>
-            </p>
-            <p>
-              <strong>Email:</strong> <FooterLink href="mailto:hrdlegacy@gmail.com">hrdlegacy@gmail.com</FooterLink>
-            </p>
-            <p>
-              <strong>WhatsApp:</strong> <FooterLink href="https://wa.me/918310312791" target="_blank" rel="noopener noreferrer">Chat Now</FooterLink>
-            </p>
-          </ContactList>
-        </div>
-      </FooterGrid>
+          <Column>
+            <ColumnTitle>Services</ColumnTitle>
+            <LinkList>
+              {serviceLinks.map(link => (
+                <li key={link.label}>
+                  <FooterLink to={link.to}>{link.label}</FooterLink>
+                </li>
+              ))}
+            </LinkList>
+          </Column>
+        </FooterTop>
 
-      <Divider />
-
-      <FooterBottom>
-        <span>© {new Date().getFullYear()} G Business Support. All rights reserved.</span>
-        <InlineLinks>
-          <MetaText>Privacy-first operations</MetaText>
-          <MetaText>Transparent terms</MetaText>
-        </InlineLinks>
-      </FooterBottom>
+        <FooterBottom>
+          <Copyright>© {currentYear} G Business Support. All rights reserved.</Copyright>
+          <LegalLinks>
+            <LegalLink href="/privacy">Privacy Policy</LegalLink>
+            <LegalLink href="/terms">Terms of Service</LegalLink>
+          </LegalLinks>
+        </FooterBottom>
+      </FooterContainer>
     </FooterShell>
   );
 }

@@ -7,7 +7,7 @@ import { IoClose } from 'react-icons/io5';
 const Backdrop = styled.div`
   position: fixed;
   inset: 0;
-  background: rgba(15, 23, 42, 0.55); /* slate-900/55 */
+  background: rgba(0, 0, 0, 0.4);
   backdrop-filter: blur(2px);
   opacity: ${props => (props.isOpen ? 1 : 0)};
   pointer-events: ${props => (props.isOpen ? 'auto' : 'none')};

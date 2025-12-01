@@ -4,14 +4,13 @@ import React, { useState } from 'react';
 import styled from 'styled-components';
 
 const FormContainer = styled.div`
-  background: rgba(3, 6, 23, 0.9);
-  border: 1px solid rgba(255, 255, 255, 0.08);
+  background: #ffffff;
+  border: 1px solid rgba(0, 0, 0, 0.08);
   border-radius: 26px;
   padding: clamp(1.5rem, 3vw, 2.75rem);
   width: min(360px, 100%);
-  color: #f8fafc;
+  color: var(--text-primary);
   box-shadow: var(--shadow-lg);
-  backdrop-filter: blur(18px);
 `;
 
 const FormTitle = styled.h3`
@@ -44,20 +43,21 @@ const InputGroup = styled.label`
 const sharedFieldStyles = `
   width: 100%;
   border-radius: 14px;
-  border: 1px solid rgba(255, 255, 255, 0.15);
-  background: rgba(15, 23, 42, 0.6);
+  border: 1px solid rgba(0, 0, 0, 0.12);
+  background: #ffffff;
   padding: 0.85rem 1rem;
-  color: #f8fafc;
+  color: var(--text-primary);
   transition: border-color 0.2s ease, background 0.2s ease;
 
   &:focus {
     outline: none;
-    border-color: #8b5cf6;
-    background: rgba(15, 23, 42, 0.9);
+    border-color: #6366f1;
+    background: #ffffff;
+    box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.1);
   }
 
   &::placeholder {
-    color: rgba(248, 250, 252, 0.45);
+    color: var(--text-muted);
   }
 `;
 
@@ -67,7 +67,7 @@ const Input = styled.input`
 
 const Select = styled.select`
   ${sharedFieldStyles}
-  color: ${props => (props.value === '' ? 'rgba(248, 250, 252, 0.45)' : '#f8fafc')};
+  color: ${props => (props.value === '' ? 'var(--text-muted)' : 'var(--text-primary)')};
 `;
 
 const SubmitButton = styled.button`
