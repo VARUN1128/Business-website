@@ -40,12 +40,15 @@ const PageWrapper = styled.div`
 
 const HeroSection = styled.section`
   position: relative;
+  z-index: 0;
+  pointer-events: auto;
+  -webkit-transform: translate3d(0, 0, 0);
+  transform: translate3d(0, 0, 0);
   min-height: 100vh;
   width: 100%;
   border-radius: 0;
   overflow: hidden;
   background: #000;
-  isolation: isolate;
   padding: clamp(1.5rem, 4vw, 4rem) clamp(1rem, 3vw, 2rem);
 
   @media (max-width: 768px) {
@@ -66,19 +69,24 @@ const HeroVideo = styled.video`
   height: 100%;
   object-fit: cover;
   filter: brightness(0.75) saturate(1.1);
-  z-index: 0;
+  z-index: -1 !important;
+  pointer-events: none !important;
+  touch-action: none !important;
 `;
 
 const HeroOverlay = styled.div`
   position: absolute;
   inset: 0;
   background: linear-gradient(120deg, rgba(0, 0, 0, 0.35), rgba(0, 0, 0, 0.2));
-  z-index: 1;
+  z-index: -1 !important;
+  pointer-events: none !important;
+  touch-action: none !important;
 `;
 
 const HeroGrid = styled.div`
   position: relative;
-  z-index: 2;
+  z-index: 9999;
+  transform: translateZ(0);
   display: grid;
   grid-template-columns: 1fr;
   gap: clamp(1.5rem, 3vw, 3rem);
@@ -87,6 +95,8 @@ const HeroGrid = styled.div`
   width: min(1400px, 100%);
   margin: 0 auto;
   padding: clamp(1.5rem, 3vw, 3.5rem) clamp(1rem, 2vw, 2rem);
+  pointer-events: auto;
+  isolation: isolate;
 
   @media (min-width: 768px) {
     grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
@@ -114,6 +124,9 @@ const HeroContent = styled.div`
   color: rgba(255, 255, 255, 0.95);
   max-width: 620px;
   text-align: left;
+  position: relative;
+  z-index: 100;
+  pointer-events: auto !important;
   
   @media (max-width: 768px) {
     text-align: center;
@@ -180,6 +193,9 @@ const HeroActions = styled.div`
   gap: clamp(0.4rem, 1.5vw, 0.8rem);
   width: 100%;
   justify-content: center;
+  position: relative;
+  z-index: 101;
+  pointer-events: auto !important;
 
   @media (max-width: 640px) {
     gap: 0.4rem;
@@ -221,17 +237,28 @@ const ActionButton = styled(Link)`
   align-items: center;
   justify-content: center;
   line-height: 1.2;
+  position: relative;
+  z-index: 102;
+  touch-action: manipulation;
+  -webkit-tap-highlight-color: rgba(99, 102, 241, 0.3);
+  cursor: pointer;
+  user-select: none;
+  pointer-events: auto;
+  -webkit-touch-callout: none;
+  will-change: transform;
 
   @media (max-width: 640px) {
     flex: 1 1 calc(33.333% - 0.27rem);
     max-width: calc(33.333% - 0.27rem);
     padding: 0.65rem 0.5rem;
     font-size: 0.7rem;
+    min-height: 44px;
   }
 
   @media (max-width: 480px) {
     padding: 0.6rem 0.4rem;
     font-size: 0.65rem;
+    min-height: 44px;
   }
 
   &:hover {
@@ -244,6 +271,10 @@ const ActionButton = styled(Link)`
       props.$variant === 'secondary'
         ? '#f8fafc'
         : 'linear-gradient(120deg, #818cf8, #a855f7, #f472b6)'};
+  }
+
+  &:active {
+    transform: translateY(0);
   }
 `;
 
@@ -277,17 +308,27 @@ const ActionButtonAsButton = styled.button`
   align-items: center;
   justify-content: center;
   line-height: 1.2;
+  position: relative;
+  z-index: 102;
+  touch-action: manipulation;
+  -webkit-tap-highlight-color: rgba(99, 102, 241, 0.3);
+  user-select: none;
+  pointer-events: auto;
+  -webkit-touch-callout: none;
+  will-change: transform;
 
   @media (max-width: 640px) {
     flex: 1 1 calc(33.333% - 0.27rem);
     max-width: calc(33.333% - 0.27rem);
     padding: 0.65rem 0.5rem;
     font-size: 0.7rem;
+    min-height: 44px;
   }
 
   @media (max-width: 480px) {
     padding: 0.6rem 0.4rem;
     font-size: 0.65rem;
+    min-height: 44px;
   }
 
   &:hover {
@@ -300,6 +341,10 @@ const ActionButtonAsButton = styled.button`
       props.$variant === 'secondary'
         ? '#f8fafc'
         : 'linear-gradient(120deg, #818cf8, #a855f7, #f472b6)'};
+  }
+
+  &:active {
+    transform: translateY(0);
   }
 `;
 
@@ -1049,6 +1094,21 @@ export default function Home() {
       <StructuredData type="home" />
       <PageWrapper>
         <HeroSection>
+        <HeroGrid>
+          <HeroContent data-aos="fade-up">
+            <HeroBadge>Trusted Growth Partner</HeroBadge>
+            <HeroTitle>Powering Growth for Businesses in a Digital-First World</HeroTitle>
+            <HeroParagraph>
+              Smarter Advertising. Seamless Support. One team to manage your marketing, development, and backend needs.
+            </HeroParagraph>
+            <HeroActions>
+              <ActionButton to="/services" $variant="primary">Explore Services</ActionButton>
+              <ActionButton to="/careers" $variant="secondary">Apply to Join Us</ActionButton>
+              <ActionButtonAsButton onClick={() => setIsQueryOpen(true)} $variant="primary">Get a Free Quote</ActionButtonAsButton>
+            </HeroActions>
+          </HeroContent>
+        </HeroGrid>
+        
         <HeroVideo 
           autoPlay 
           loop 
@@ -1064,21 +1124,6 @@ export default function Home() {
           Your browser does not support the video tag.
         </HeroVideo>
         <HeroOverlay />
-
-        <HeroGrid>
-          <HeroContent data-aos="fade-up">
-            <HeroBadge>Trusted Growth Partner</HeroBadge>
-            <HeroTitle>Powering Growth for Businesses in a Digital-First World</HeroTitle>
-            <HeroParagraph>
-              Smarter Advertising. Seamless Support. One team to manage your marketing, development, and backend needs.
-            </HeroParagraph>
-            <HeroActions>
-              <ActionButton to="/services" $variant="primary">Explore Services</ActionButton>
-              <ActionButton to="/careers" $variant="secondary">Apply to Join Us</ActionButton>
-              <ActionButtonAsButton onClick={() => setIsQueryOpen(true)} $variant="primary">Get a Free Quote</ActionButtonAsButton>
-            </HeroActions>
-          </HeroContent>
-        </HeroGrid>
       </HeroSection>
 
       <Section>

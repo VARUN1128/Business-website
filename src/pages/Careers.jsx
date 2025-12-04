@@ -14,16 +14,6 @@ import cert4 from '../assets/c4.png';
 import cert5 from '../assets/c5.png';
 
 // Gallery Images
-import t1 from '../assets/t1.jpg';
-import t2 from '../assets/t2.jpg';
-import t3 from '../assets/t3.jpg';
-import t4 from '../assets/t4.jpg';
-import t5 from '../assets/t5.jpg';
-import t6 from '../assets/t6.jpg';
-import t7 from '../assets/t7.jpg';
-import t8 from '../assets/t8.jpeg';
-import t9 from '../assets/t9.jpg';
-import t10 from '../assets/t10.jpg';
 import g1 from '../assets/g1.jpg';
 import g2 from '../assets/g2.jpg';
 import g3 from '../assets/g3.jpg';
@@ -345,7 +335,7 @@ const opportunities = [
 ];
 
 const certificates = [ cert1, cert2, cert3, cert4, cert5 ];
-const galleryImages = [ t1, t2, t3, t4, t5, t6, t7, t8, t9, t10, g1, g2, g3, g4, g5, g6, g7, g8 ];
+const galleryImages = [ g1, g2, g3, g4, g5, g6, g7, g8 ];
 const duplicatedGallery = [...galleryImages, ...galleryImages];
 
 // --- Draggable Scroller Component ---

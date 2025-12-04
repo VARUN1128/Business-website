@@ -203,18 +203,18 @@ const Scroller = styled.div`
 const ScrollerTrack = styled.div`
   display: flex;
   width: max-content;
-  gap: ${props => props.gap};
+  gap: ${props => props.$gap};
   cursor: ${props => (props.$isDragging ? 'grabbing' : 'grab')};
   user-select: none;
-  animation: ${props => (props.$isPaused ? 'none' : slideLeft)} ${props => props.duration} linear infinite;
+  animation: ${props => (props.$isPaused ? 'none' : slideLeft)} ${props => props.$duration} linear infinite;
   transform: ${props => (props.$isPaused ? `translateX(${props.$dragOffset}px)` : 'translateX(0)')};
   transition: ${props => (props.$isPaused ? 'transform 0.1s ease-out' : 'none')};
 
   img {
-    height: ${props => props.imgHeight};
+    height: ${props => props.$imgHeight};
     width: auto;
     object-fit: contain;
-    border-radius: ${props => props.radius || '0'};
+    border-radius: ${props => props.$radius || '0'};
     filter: grayscale(0.2);
     opacity: 0.9;
     transition: transform 0.3s ease, opacity 0.3s ease;
@@ -312,10 +312,10 @@ const DraggableScroller = ({ duration, imgHeight, gap, radius, children }) => {
     >
       <ScrollerTrack
         ref={trackRef}
-        duration={duration}
-        imgHeight={imgHeight}
-        gap={gap}
-        radius={radius}
+        $duration={duration}
+        $imgHeight={imgHeight}
+        $gap={gap}
+        $radius={radius}
         $isDragging={isDragging}
         $isPaused={isPaused}
         $dragOffset={dragOffset}

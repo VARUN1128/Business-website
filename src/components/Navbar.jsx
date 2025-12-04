@@ -132,7 +132,9 @@ const MenuBackdrop = styled.div`
   opacity: ${props => (props.$isOpen ? 1 : 0)};
   visibility: ${props => (props.$isOpen ? 'visible' : 'hidden')};
   transition: opacity 0.3s ease, visibility 0.3s ease;
-  pointer-events: ${props => (props.$isOpen ? 'auto' : 'none')};
+  pointer-events: ${props => (props.$isOpen ? 'auto' : 'none')} !important;
+  height: ${props => (props.$isOpen ? '100vh' : '0')};
+  overflow: ${props => (props.$isOpen ? 'visible' : 'hidden')};
 `;
 
 // Mobile Menu Container - Slides in from right
@@ -144,12 +146,23 @@ const MobileMenu = styled.nav`
   height: 100vh;
   background: #ffffff;
   box-shadow: -4px 0 24px rgba(0, 0, 0, 0.15);
-  z-index: 999;
-  transform: translateX(${props => (props.$isOpen ? '0' : '100%')});
-  transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  z-index: ${props => (props.$isOpen ? 999 : -1)};
+  transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.3s ease, visibility 0.3s ease, z-index 0s ${props => (props.$isOpen ? '0s' : '0.3s')};
   overflow-y: auto;
   display: flex;
   flex-direction: column;
+  
+  ${props => props.$isOpen ? `
+    pointer-events: auto;
+    opacity: 1;
+    visibility: visible;
+    transform: translateX(0);
+  ` : `
+    pointer-events: none !important;
+    opacity: 0;
+    visibility: hidden;
+    transform: translateX(100%);
+  `}
 
   ${breakpointMd} {
     display: none;
@@ -313,6 +326,19 @@ export default function Navbar() {
     setIsMenuOpen(prev => !prev);
   };
 
+  // Remove focus from menu items when menu closes to fix aria-hidden warning
+  useEffect(() => {
+    if (!isMenuOpen) {
+      const menuElement = document.getElementById('mobile-menu');
+      if (menuElement) {
+        const focusedElement = menuElement.querySelector(':focus');
+        if (focusedElement && focusedElement instanceof HTMLElement) {
+          focusedElement.blur();
+        }
+      }
+    }
+  }, [isMenuOpen]);
+
   // Close menu on Escape key
   useEffect(() => {
     const handleEscape = (e) => {
@@ -377,6 +403,7 @@ export default function Navbar() {
         $isOpen={isMenuOpen}
         aria-label="Mobile navigation"
         aria-hidden={!isMenuOpen}
+        {...(!isMenuOpen && { inert: true })}
       >
         <MobileMenuHeader>
           <MobileMenuTitle>Menu</MobileMenuTitle>

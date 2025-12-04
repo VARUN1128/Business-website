@@ -187,3 +187,48 @@ button, input, textarea, select {
     width: 100%;
   }
 }
+
+/* Fix AOS wrappers blocking touch events on mobile */
+.aos-init,
+.aos-animate {
+  pointer-events: none !important;
+}
+
+/* Ensure AOS elements allow pointer events on interactive children */
+[data-aos] {
+  pointer-events: none !important;
+}
+
+[data-aos] > *,
+[data-aos] button,
+[data-aos] a,
+[data-aos] [role="button"],
+[data-aos] [type="button"] {
+  pointer-events: auto !important;
+}
+
+/* Fix eyebrow elements - ensure they don't block */
+.eyebrow {
+  position: relative !important;
+  pointer-events: none !important;
+  z-index: auto !important;
+}
+
+/* Ensure Query modal backdrop doesn't block when closed */
+[data-query-backdrop] {
+  pointer-events: none !important;
+}
+
+/* Force hero section content to be interactive - override AOS blocking */
+section[class*="Hero"] [data-aos],
+section[class*="Hero"] .aos-init,
+section[class*="Hero"] .aos-animate {
+  pointer-events: none !important;
+}
+
+section[class*="Hero"] [data-aos] > *,
+section[class*="Hero"] [data-aos] button,
+section[class*="Hero"] [data-aos] a,
+section[class*="Hero"] [data-aos] [role="button"] {
+  pointer-events: auto !important;
+}

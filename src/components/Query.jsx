@@ -10,19 +10,21 @@ const Backdrop = styled.div`
   background: rgba(0, 0, 0, 0.4);
   backdrop-filter: blur(2px);
   opacity: ${props => (props.$isOpen ? 1 : 0)};
-  pointer-events: ${props => (props.$isOpen ? 'auto' : 'none')};
+  pointer-events: ${props => (props.$isOpen ? 'auto' : 'none')} !important;
   transition: opacity 220ms ease-in-out;
-  z-index: 1000;
+  z-index: ${props => (props.$isOpen ? 1000 : -1)};
+  visibility: ${props => (props.$isOpen ? 'visible' : 'hidden')};
+  display: ${props => (props.$isOpen ? 'block' : 'none')};
 `;
 
 // Centered modal container
 const ModalContainer = styled.div`
   position: fixed;
   inset: 0;
-  display: grid;
+  display: ${props => (props.$isOpen ? 'grid' : 'none')};
   place-items: center;
-  z-index: 1001;
-  pointer-events: none; /* container itself shouldn't catch clicks */
+  z-index: ${props => (props.$isOpen ? 1001 : -1)};
+  pointer-events: none !important; /* container itself shouldn't catch clicks */
 `;
 
 // The query box
@@ -217,7 +219,7 @@ export default function Query({
   return (
     <>
       <Backdrop $isOpen={isOpen} onClick={onClose} />
-      <ModalContainer>
+      <ModalContainer $isOpen={isOpen}>
         <ModalCard $isOpen={isOpen} onClick={stop} aria-modal="true" role="dialog">
           <Header>
             <Title>Quick Query</Title>
